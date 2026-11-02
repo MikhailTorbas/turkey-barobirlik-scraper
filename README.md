@@ -2,7 +2,7 @@
 
 Private team source for the TBB directory scraper. Runs four local browser slots on one exclusively assigned bar, with retained-form searches, two-profile detail overlap, durable queue ownership, automatic discovery refill and checkpoint/resume.
 
-**Giovanni:** start with [GIOVANNI.md](GIOVANNI.md). Keep your existing Istanbul queue. This repository contains code, synthetic test fixtures and instructions; it deliberately contains **no collected contacts, production checkpoints or credentials**. Cloning code does not download or recreate your saved progress.
+**Team:** see [TEAM.md](TEAM.md). Elena starts with [ELENA.md](ELENA.md); Pari with [PARI.md](PARI.md). **Giovanni:** start with [GIOVANNI.md](GIOVANNI.md). Keep your existing Istanbul queue. This repository contains code, synthetic test fixtures and instructions; it deliberately contains **no collected contacts, production checkpoints or credentials**. Cloning code does not download or recreate your saved progress.
 
 ## Install
 
@@ -35,6 +35,10 @@ export TBB_SOLVER_FILE=/absolute/private/capsolver.local.json
 chmod 600 "$TBB_CONNECTION_FILE" "$TBB_SOLVER_FILE"
 ```
 
+## New colleagues: fresh queue
+
+Follow the named handovers above. `prepare_queue.py --directory /absolute/new/queue --baro 35 --owner Elena` initializes a new four-slot single-bar queue offline. It refuses existing destinations and queues inside this checkout. Resume existing queues rather than initializing again. Use only the IDs assigned in TEAM.md.
+
 ## Existing queue: upgrade and continue
 
 Stop the old runner before upgrading. Keep the entire queue, including ownership/discovery/worker checkpoints, state, solver ledgers and WAL files. Write into a **new directory outside this repository**:
@@ -62,7 +66,7 @@ Repeat the **same command, directory and run ID** to resume that allowance. For 
 
 ## Limits and operational rules
 
-- Michael owns Ankara **6**; Giovanni owns Istanbul **34**. New colleagues need separate bar/queue assignments. Never run duplicate copies of a queue or an older overlapping allocation concurrently.
+- Michael owns Ankara **6**; Giovanni Istanbul **34**; Elena İzmir **35**; Pari Bursa **16**. See TEAM.md for exclusive assignments. Never run duplicate copies of a queue or an older overlapping allocation concurrently.
 - Discovery temporarily uses one of four slots; the other three can keep checking details. There is no fifth discovery browser. At sufficient backlog, all four process details.
 - `--uncapped` removes the **application** ceiling and exact-cap requirement. It does not remove provider dashboard caps, fund an account, purchase top-ups or change subscriptions. Provider limits still apply. Account-wide usage telemetry failures are logged and retried without stopping healthy uncapped collection; real auth/funding errors remain explicit. Capped mode is available with `--credit-cap` and without `--uncapped`.
 - Solver ceilings are **lifetime attempts per existing ledger**, not additional attempts. Keep them funded and choose allowances for the approved duration; do not delete ledgers or loop-restart blocked work.

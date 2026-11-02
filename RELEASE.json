@@ -1,8 +1,9 @@
 {
   "release_date": "2026-11-02",
   "core_sha256": "6dd6a6096251aacecf0d69f56bdd0930c466d510c0c3200699becac6415e2f52",
-  "tests_expected": 156,
+  "tests_expected": 158,
   "fixtures": "synthetic names, contacts and identifiers",
   "runtime_data_included": false,
-  "national_completeness_claim": false
+  "national_completeness_claim": false,
+  "fresh_queue_setup": "Offline exclusive single-bar initialization; Elena 35, Pari 16"
 }
