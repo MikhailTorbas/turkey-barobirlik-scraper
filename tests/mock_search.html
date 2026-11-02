@@ -1,0 +1,13 @@
+<!DOCTYPE html><html lang="tr"><head><meta charset="utf-8"/><title>Local Form Mock - NOT Barobirlik</title></head><body>
+<div><input placeholder="Adı" id="adi"><input placeholder="Soyadı" id="soyadi"></div>
+<select id="baro" name="baro"><option value="">Baro Seçiniz</option><option value="06">ANKARA BAROSU</option></select>
+<button id="search" onclick="submitSearch()">AVUKAT ARA</button>
+<div id="results"></div>
+<script>
+function submitSearch(){
+ const sn=document.querySelector('#soyadi').value;
+ const gn=document.querySelector('#adi').value;
+ const name=sn || gn;
+ document.querySelector('#results').innerHTML=`<p>Toplam 1 sonuç bulundu</p><table><thead><tr><th>Adı</th><th>Soyadı</th><th>Baro Sicil Numarası</th><th>E-posta</th></tr></thead><tbody><tr><td>Ayşe</td><td>${name}YILMAZ</td><td>1</td><td>ayse@example.org</td></tr></tbody></table>`;
+}
+</script></body></html>

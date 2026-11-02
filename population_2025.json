@@ -1,0 +1,340 @@
+{
+  "as_of": "2025-12-31",
+  "published_at": "2026-01-16",
+  "source_url": "https://www.barobirlik.org.tr/Haberler/2025-avukat-sayilari-31122025-86223",
+  "definition": "TBB published bar-registered lawyer counts; trainee counts excluded; no active/practising subset specified.",
+  "bars": [
+    {
+      "bar_association": "ADANA BAROSU",
+      "count": 5020
+    },
+    {
+      "bar_association": "ADIYAMAN BAROSU",
+      "count": 644
+    },
+    {
+      "bar_association": "AFYONKARAHİSAR BAROSU",
+      "count": 856
+    },
+    {
+      "bar_association": "AĞRI BAROSU",
+      "count": 281
+    },
+    {
+      "bar_association": "AKSARAY BAROSU",
+      "count": 558
+    },
+    {
+      "bar_association": "AMASYA BAROSU",
+      "count": 420
+    },
+    {
+      "bar_association": "ANKARA BAROSU",
+      "count": 26206
+    },
+    {
+      "bar_association": "ANKARA 2 NOLU BAROSU",
+      "count": 3078
+    },
+    {
+      "bar_association": "ANTALYA BAROSU",
+      "count": 8038
+    },
+    {
+      "bar_association": "ARDAHAN BAROSU",
+      "count": 55
+    },
+    {
+      "bar_association": "ARTVİN BAROSU",
+      "count": 158
+    },
+    {
+      "bar_association": "AYDIN BAROSU",
+      "count": 1924
+    },
+    {
+      "bar_association": "BALIKESİR BAROSU",
+      "count": 1878
+    },
+    {
+      "bar_association": "BARTIN BAROSU",
+      "count": 184
+    },
+    {
+      "bar_association": "BATMAN BAROSU",
+      "count": 717
+    },
+    {
+      "bar_association": "BAYBURT BAROSU",
+      "count": 59
+    },
+    {
+      "bar_association": "BİLECİK BAROSU",
+      "count": 192
+    },
+    {
+      "bar_association": "BİNGÖL BAROSU",
+      "count": 240
+    },
+    {
+      "bar_association": "BİTLİS BAROSU",
+      "count": 226
+    },
+    {
+      "bar_association": "BOLU BAROSU",
+      "count": 371
+    },
+    {
+      "bar_association": "BURDUR BAROSU",
+      "count": 396
+    },
+    {
+      "bar_association": "BURSA BAROSU",
+      "count": 6544
+    },
+    {
+      "bar_association": "ÇANAKKALE BAROSU",
+      "count": 930
+    },
+    {
+      "bar_association": "ÇANKIRI BAROSU",
+      "count": 163
+    },
+    {
+      "bar_association": "ÇORUM BAROSU",
+      "count": 667
+    },
+    {
+      "bar_association": "DENİZLİ BAROSU",
+      "count": 2286
+    },
+    {
+      "bar_association": "DİYARBAKIR BAROSU",
+      "count": 2596
+    },
+    {
+      "bar_association": "DÜZCE BAROSU",
+      "count": 420
+    },
+    {
+      "bar_association": "EDİRNE BAROSU",
+      "count": 665
+    },
+    {
+      "bar_association": "ELAZIĞ BAROSU",
+      "count": 770
+    },
+    {
+      "bar_association": "ERZİNCAN BAROSU",
+      "count": 312
+    },
+    {
+      "bar_association": "ERZURUM BAROSU",
+      "count": 1083
+    },
+    {
+      "bar_association": "ESKİŞEHİR BAROSU",
+      "count": 1991
+    },
+    {
+      "bar_association": "GAZİANTEP BAROSU",
+      "count": 3664
+    },
+    {
+      "bar_association": "GİRESUN BAROSU",
+      "count": 507
+    },
+    {
+      "bar_association": "GÜMÜŞHANE BAROSU",
+      "count": 94
+    },
+    {
+      "bar_association": "HAKKARİ BAROSU",
+      "count": 219
+    },
+    {
+      "bar_association": "HATAY BAROSU",
+      "count": 2088
+    },
+    {
+      "bar_association": "IĞDIR BAROSU",
+      "count": 179
+    },
+    {
+      "bar_association": "ISPARTA BAROSU",
+      "count": 711
+    },
+    {
+      "bar_association": "İSTANBUL BAROSU",
+      "count": 67463
+    },
+    {
+      "bar_association": "İSTANBUL 2 NOLU BAROSU",
+      "count": 3979
+    },
+    {
+      "bar_association": "İZMİR BAROSU",
+      "count": 14300
+    },
+    {
+      "bar_association": "KAHRAMANMARAŞ BAROSU",
+      "count": 1632
+    },
+    {
+      "bar_association": "KARABÜK BAROSU",
+      "count": 275
+    },
+    {
+      "bar_association": "KARAMAN BAROSU",
+      "count": 333
+    },
+    {
+      "bar_association": "KARS BAROSU",
+      "count": 203
+    },
+    {
+      "bar_association": "KASTAMONU BAROSU",
+      "count": 380
+    },
+    {
+      "bar_association": "KAYSERİ BAROSU",
+      "count": 3254
+    },
+    {
+      "bar_association": "KIRIKKALE BAROSU",
+      "count": 421
+    },
+    {
+      "bar_association": "KIRKLARELİ BAROSU",
+      "count": 436
+    },
+    {
+      "bar_association": "KIRŞEHİR BAROSU",
+      "count": 345
+    },
+    {
+      "bar_association": "KİLİS BAROSU",
+      "count": 183
+    },
+    {
+      "bar_association": "KOCAELİ BAROSU",
+      "count": 3182
+    },
+    {
+      "bar_association": "KONYA BAROSU",
+      "count": 4239
+    },
+    {
+      "bar_association": "KÜTAHYA BAROSU",
+      "count": 593
+    },
+    {
+      "bar_association": "MALATYA BAROSU",
+      "count": 1143
+    },
+    {
+      "bar_association": "MANİSA BAROSU",
+      "count": 1876
+    },
+    {
+      "bar_association": "MARDİN BAROSU",
+      "count": 848
+    },
+    {
+      "bar_association": "MERSİN BAROSU",
+      "count": 3915
+    },
+    {
+      "bar_association": "MUĞLA BAROSU",
+      "count": 2487
+    },
+    {
+      "bar_association": "MUŞ BAROSU",
+      "count": 207
+    },
+    {
+      "bar_association": "NEVŞEHİR BAROSU",
+      "count": 400
+    },
+    {
+      "bar_association": "NİĞDE BAROSU",
+      "count": 419
+    },
+    {
+      "bar_association": "ORDU BAROSU",
+      "count": 925
+    },
+    {
+      "bar_association": "OSMANİYE BAROSU",
+      "count": 917
+    },
+    {
+      "bar_association": "RİZE BAROSU",
+      "count": 307
+    },
+    {
+      "bar_association": "SAKARYA BAROSU",
+      "count": 1558
+    },
+    {
+      "bar_association": "SAMSUN BAROSU",
+      "count": 2385
+    },
+    {
+      "bar_association": "SİİRT BAROSU",
+      "count": 266
+    },
+    {
+      "bar_association": "SİNOP BAROSU",
+      "count": 200
+    },
+    {
+      "bar_association": "SİVAS BAROSU",
+      "count": 821
+    },
+    {
+      "bar_association": "ŞANLIURFA BAROSU",
+      "count": 2412
+    },
+    {
+      "bar_association": "ŞIRNAK BAROSU",
+      "count": 413
+    },
+    {
+      "bar_association": "TEKİRDAĞ BAROSU",
+      "count": 1448
+    },
+    {
+      "bar_association": "TOKAT BAROSU",
+      "count": 733
+    },
+    {
+      "bar_association": "TRABZON BAROSU",
+      "count": 1128
+    },
+    {
+      "bar_association": "TUNCELİ BAROSU",
+      "count": 74
+    },
+    {
+      "bar_association": "UŞAK BAROSU",
+      "count": 628
+    },
+    {
+      "bar_association": "VAN BAROSU",
+      "count": 1064
+    },
+    {
+      "bar_association": "YALOVA BAROSU",
+      "count": 442
+    },
+    {
+      "bar_association": "YOZGAT BAROSU",
+      "count": 384
+    },
+    {
+      "bar_association": "ZONGULDAK BAROSU",
+      "count": 670
+    }
+  ]
+}

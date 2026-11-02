@@ -1,0 +1,34 @@
+# Private configuration and credentials
+.env
+.env.*
+!.env.example
+*.local.json
+*.local.*
+*credentials*
+*.pem
+*.key
+# Collected data and durable runtime queues stay outside this repository
+*.sqlite*
+*.db
+*.csv
+*.jsonl
+*.log
+*.lock
+!requirements.lock.txt
+*.zip
+*.tmp
+queue/
+queues/
+data/
+outputs/
+reports/
+diagnostics/
+mac_pilot/
+# Local tooling
+.venv/
+venv/
+__pycache__/
+*.pyc
+.DS_Store
+.pytest_cache/
+browsers/
