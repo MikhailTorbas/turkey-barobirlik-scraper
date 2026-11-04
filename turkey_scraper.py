@@ -27,7 +27,7 @@ from urllib.parse import urlparse, parse_qsl, urlencode, urlunparse
 import uuid
 
 from bs4 import BeautifulSoup
-from turnstile_solver import (CapSolver, SolverError, SolverBudgetExceeded,
+from turnstile_solver import (CapSolver, SolverError, SolverBudgetExceeded, SolverTransportError,
     CAPTURE_SCRIPT, DISCOVER_SCRIPT, APPLY_SCRIPT)
 
 URL = 'https://www.barobirlik.org.tr/AvukatArama'
@@ -766,6 +766,10 @@ class DirectoryBrowser:
             self.page.evaluate(APPLY_SCRIPT, {'widget': widget, 'token': token})
         except SolverBudgetExceeded as error:
             self.args._solver_terminal = True
+            raise VerificationRequired(str(error)) from None
+        except SolverTransportError as error:
+            # A transient provider outage can use the existing bounded access
+            # cooldown/retry path. Pending tasks and reserved attempts persist.
             raise VerificationRequired(str(error)) from None
         except SolverError as error:
             self.args._solver_terminal = True

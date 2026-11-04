@@ -64,6 +64,10 @@ On Linux omit `caffeinate -is`. This command starts paid collection. It is an ei
 
 Repeat the **same command, directory and run ID** to resume that allowance. For an explicit increase of solver limits or change to uncapped mode within an existing unconsumed allowance, add `--amend-budgets` once. This records the amendment and preserves elapsed time; it does not reset attempts or grant more time.
 
+After investigating a `three_phases_without_progress` stop, an explicitly authorized recovery adds `--recover-stopped repair-2026-11-04` to the same launch command. The ID is recorded once: reusing it cannot repeatedly release new stops. Old failure states are saved in `operator_recoveries`; elapsed runtime, completed jobs, ownership and solver attempts remain intact. Solver-limit stops require an approved budget amendment instead. Never delete state/ledgers or repeatedly invent recovery IDs to bypass a persistent access problem.
+
+Discovery backpressure excludes jobs stranded on stopped workers. Reports distinguish `runnable_ready` from `stranded_ready`, show recent throughput over up to five minutes alongside the lifetime average, and identify zero-browser waiting states. An unexplained inability to launch runnable work stops as `scheduler_no_launch` after two minutes; this is a fault to inspect, not completion.
+
 ## Limits and operational rules
 
 - Michael owns Ankara **6**; Giovanni Istanbul **34**; Elena İzmir **35**; Pari Bursa **16**. See TEAM.md for exclusive assignments. Never run duplicate copies of a queue or an older overlapping allocation concurrently.

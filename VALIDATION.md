@@ -13,3 +13,5 @@ For publication, DOM fixtures and linked test assertions use synthetic names, co
 The team handover update passed **158 tests**, including local Chromium tests. New offline tests cover fresh İzmir/Bursa discovery seeds, bar isolation, first-job dispatch and refusal to overwrite existing queues. No paid provider requests were made by these tests.
 
 National completeness, unlimited managed-challenge access and larger multi-machine concurrency are not established by these tests. See README.md for the operating constraints.
+
+The 4 November controller/solver fixes passed **164 tests**, including local Chromium. Regression coverage reproduces 800 pending jobs stranded on stopped workers and verifies discovery/healthy-worker progress; recorded recovery cannot be reapplied using the same ID. Solver tests verify polling retry uses the same task, uncertain creates are not retried, and HTTP error descriptions/credentials are not exposed. Original queues are backed up before live recovery.

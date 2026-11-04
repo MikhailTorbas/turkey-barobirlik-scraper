@@ -12,4 +12,6 @@ Keep official bar/registration identities. Never fabricate email repairs or merg
 
 Only a new explicitly authorized run ID grants a new runtime allowance. Identical run IDs/configuration resume remaining time. Budget amendments must be explicit and recorded; never delete elapsed time, solver attempts or no-progress stops to evade limits.
 
+After diagnosis and explicit coordinator authorization, use `--recover-stopped UNIQUE_REPAIR_ID` once to release no-progress stops with preserved history. Reusing that ID is idempotent and cannot reset a new stop. Do not automatically rotate repair IDs. Review recent throughput and stranded backlog; a live controller with zero active browsers is not proof of collection.
+
 Use local/mock tests for code changes. Do not run paid live tests through CI. Record the exact build, setup and source checks that actually ran, including optional browser-test skips. Preserve data before changes, test relevant behavior, and do not silently change the measured production build mid-run.

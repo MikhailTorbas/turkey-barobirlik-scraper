@@ -175,6 +175,24 @@ def amend_state(state,config,allowed=False):
     state['config']=config
 
 
+def recover_stopped(state,recovery_id):
+    """Explicit, idempotent operator recovery; keep prior failures and budgets."""
+    if not recovery_id:return False
+    if not re.fullmatch(r'[A-Za-z0-9_-]{1,48}',recovery_id):
+        raise ValueError('Invalid recovery ID')
+    history=state.setdefault('operator_recoveries',[])
+    if any(item['id']==recovery_id for item in history):return False
+    recovered={}
+    for role,data in state['roles'].items():
+        if data.get('stop_reason')!='three_phases_without_progress':continue
+        recovered[role]=dict(data)
+        data.pop('stop_reason')
+        data.update(no_progress=0,retry_after=0)
+    history.append({'id':recovery_id,'at_unix':time.time(),'before':recovered,
+                    'elapsed_seconds':state['elapsed_seconds']})
+    return True
+
+
 def export_idle(root,workers):
     for i in workers:
         folder=root/f'worker-{i:02d}';db=t.Database(folder/'checkpoint.sqlite3')
@@ -218,7 +236,11 @@ def supervise(root,registry,plan,args,endpoint):
             # historical observations but never subtract across scopes.
             state.setdefault('counter_history',[]).append({'initial_key_credits':state['initial_key_credits'],'ending_at_mode_change':None})
             state['initial_key_credits']=latest['used_credits']
+    if recover_stopped(state,getattr(args,'recover_stopped','')):
+        # Persist authorization/history before any paid child can be launched.
+        atomic(state_path,state)
     started=time.monotonic();prior=state['elapsed_seconds'];active={};stop=False;reason='time_limit_reached';next_budget=0;unreadable=0;next_start=0;next_report=0
+    idle_since=None
     old_handlers={}
     def interrupt(signum,frame):
         nonlocal stop,reason
@@ -228,13 +250,23 @@ def supervise(root,registry,plan,args,endpoint):
         with (root/f'refill-events-{tag}.jsonl').open('a') as f:f.write(json.dumps({'at_unix':time.time(),**data})+'\n')
     def report(status):
         snap=snapshot(root);elapsed=min(args.seconds,prior+time.monotonic()-started);new=snap['done']-state['initial_done']
+        runnable=sum(v['ready'] for role,v in snap['workers'].items() if not state['roles'][role].get('stop_reason'))
+        samples=state.setdefault('recent_progress_samples',[])
+        if samples and snap['done']>samples[-1][1]:state['last_completion_elapsed_seconds']=elapsed
+        samples.append([elapsed,snap['done']])
+        while len(samples)>2 and samples[1][0]<=elapsed-300:samples.pop(0)
+        window=elapsed-samples[0][0]
+        recent=(snap['done']-samples[0][1])*60/window if window>0 else None
         state['elapsed_seconds']=elapsed;atomic(state_path,state)
         data={'status':status,'elapsed_seconds':round(elapsed,2),'remaining_seconds':round(max(0,args.seconds-elapsed),2),
               'new_completed_profiles':new,'profiles_per_minute':round(new*60/elapsed,3) if elapsed else 0,
+              'recent_profiles_per_minute':round(recent,3) if recent is not None else None,
+              'recent_window_seconds':round(window,2),
               'provider_budget':latest,'shared_key_credit_delta':credit_delta(),
               'usage_monitor_status':telemetry_error or 'available',
               'billing_note':'Shared company counter. Never add concurrent Mac deltas. Billing can lag.',
-              'active_slots':len(active),'roles':state['roles'],'slot_seconds':state['slot_seconds'],**snap}
+              'active_slots':len(active),'roles':state['roles'],'slot_seconds':state['slot_seconds'],
+              'runnable_ready':runnable,'stranded_ready':snap['ready']-runnable,**snap}
         atomic(report_path,data);return data
     def credit_delta():
         before=state['initial_key_credits'];after=latest.get('used_credits')
@@ -243,6 +275,10 @@ def supervise(root,registry,plan,args,endpoint):
     def finish(slot,entry,planned=False):
         entry['log'].close();snap=snapshot(root,False);role=entry['role'];s=state['roles'][role]
         progress=(snap['discovery_progress']-entry['before']) if role=='discovery' else snap['workers'][role]['done']-entry['before']
+        folder=root/('discovery' if role=='discovery' else f'worker-{int(role):02d}')
+        with read_db(folder/'checkpoint.sqlite3') as db:
+            status=db.execute("SELECT value FROM metadata WHERE key='run_status'").fetchone()
+        s['last_worker_status']=json.loads(status[0]) if status else 'unknown'
         if not planned:
             s['no_progress']=0 if progress else s['no_progress']+1
             s['retry_after']=time.time()+(60*2**(s['no_progress']-1) if s['no_progress'] else 0)
@@ -280,7 +316,10 @@ def supervise(root,registry,plan,args,endpoint):
             snap=snapshot(root,False);dstate=state['roles']['discovery']
             if all(state['roles'][str(i)].get('stop_reason') for i in range(1,5)):
                 reason='all_detail_workers_safely_stopped';break
-            need_discovery=not producer and unowned+snap['ready']<800 and discovery_available(root) and not dstate.get('stop_reason')
+            # Jobs owned by stopped workers cannot feed healthy slots. Counting
+            # them as buffer caused all healthy workers to idle forever at 800.
+            runnable_ready=sum(v['ready'] for role,v in snap['workers'].items() if not state['roles'][role].get('stop_reason'))
+            need_discovery=not producer and unowned+runnable_ready<800 and discovery_available(root) and not dstate.get('stop_reason')
             for i in idle:
                 if elapsed<next_start:break
                 role='discovery' if need_discovery and time.time()>=dstate['retry_after'] else str(i)
@@ -301,12 +340,22 @@ def supervise(root,registry,plan,args,endpoint):
                            'before':snap['discovery_progress'] if role=='discovery' else snap['workers'][role]['done']}
                 next_start=elapsed+5
                 if role=='discovery':need_discovery=False
-            if elapsed>=next_report:report('running');next_report=elapsed+15
+            if elapsed>=next_report:
+                report('running' if active else 'waiting_for_work_or_recovery');next_report=elapsed+15
             if not active:
                 detail_possible=any(snap['workers'][str(i)]['ready'] and not state['roles'][str(i)].get('stop_reason') for i in range(1,5))
                 producer_possible=discovery_available(root) and not dstate.get('stop_reason')
                 if not detail_possible and not producer_possible:
                     reason='work_exhausted_or_recovery_limit';break
+                # A zero-browser scheduling fault must not look healthy for hours.
+                waiting=elapsed<next_start or any(
+                    not s.get('stop_reason') and time.time()<s.get('retry_after',0)
+                    for s in state['roles'].values())
+                if waiting:idle_since=None
+                elif idle_since is None:idle_since=time.monotonic()
+                elif time.monotonic()-idle_since>=120:
+                    reason='scheduler_no_launch';break
+            else:idle_since=None
             time.sleep(2)
     except Exception:
         reason='controller_error';raise
@@ -342,6 +391,7 @@ def cli():
     p.add_argument('--solver-tasks',type=int,default=250);p.add_argument('--discovery-solver-tasks',type=int,default=100)
     p.add_argument('--shutdown-grace',type=int,default=90)
     p.add_argument('--run-id',default='eight-hour-refill')
+    p.add_argument('--recover-stopped',default='',metavar='RECOVERY_ID',help='Explicitly release no-progress stops once per recorded recovery ID; preserves runtime, budgets and failure history')
     p.add_argument('--connection-file',default=os.getenv('TBB_CONNECTION_FILE',''));p.add_argument('--solver-file',default=os.getenv('TBB_SOLVER_FILE',''))
     return run(p.parse_args())
 

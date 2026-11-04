@@ -6,6 +6,7 @@ import re
 from pathlib import Path
 import time
 from urllib.request import Request, urlopen
+from urllib.error import HTTPError
 
 
 class SolverError(RuntimeError):
@@ -16,6 +17,11 @@ class SolverBudgetExceeded(SolverError):
     pass
 
 
+class SolverTransportError(SolverError):
+    """Sanitized transient transport failure; polling may retry the same task."""
+    pass
+
+
 def post_json(method, body, timeout):
     request = Request('https://api.capsolver.com/' + method,
                       data=json.dumps(body).encode(),
@@ -23,9 +29,19 @@ def post_json(method, body, timeout):
     try:
         with urlopen(request, timeout=timeout) as response:
             return json.load(response)
+    except HTTPError as error:
+        # Decode structured provider errors even for non-2xx responses. Return
+        # only to call(), which sanitizes codes and never prints descriptions.
+        try:
+            payload=json.loads(error.read(65536))
+            if isinstance(payload,dict) and payload.get('errorId'):return payload
+        except Exception:pass
+        if error.code in (408,429,500,502,503,504):
+            raise SolverTransportError('CapSolver temporary HTTP '+str(error.code)) from None
+        raise SolverError('CapSolver HTTP '+str(error.code)) from None
     except Exception:
         # Provider responses / transport errors may contain submitted secrets.
-        raise SolverError('CapSolver transport or response failure') from None
+        raise SolverTransportError('CapSolver transport or response failure') from None
 
 
 class CapSolver:
@@ -48,7 +64,17 @@ class CapSolver:
         remaining = deadline - self.clock()
         if remaining <= 0:
             raise SolverError('CapSolver deadline exceeded')
-        response = self.transport(method, {'clientKey': self.key, **payload}, min(20, remaining))
+        for attempt in range(3):
+            remaining=deadline-self.clock()
+            if remaining<=0:raise SolverError('CapSolver deadline exceeded')
+            try:
+                response = self.transport(method, {'clientKey': self.key, **payload}, min(20, remaining))
+                break
+            except SolverTransportError:
+                # Never repeat createTask: a lost response may already be billed.
+                # Polling an existing task is safe and preserves the task ledger.
+                if method!='getTaskResult' or attempt==2:raise
+                self.sleep(min(2**attempt,max(0,deadline-self.clock())))
         if not isinstance(response, dict):
             raise SolverError('Malformed CapSolver response')
         if response.get('errorId') or response.get('status') == 'failed':
