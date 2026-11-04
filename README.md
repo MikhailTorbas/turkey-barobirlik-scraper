@@ -95,3 +95,11 @@ Shared account/key credit observations include other simultaneous users and dela
 ## Validation
 
 See [VALIDATION.md](VALIDATION.md) and `RELEASE.json`. This source release includes the November operational fixes. No repository workflow or install command starts production scraping automatically.
+
+## Tail-stage recovery and live refill
+
+The controller reads committed discovery rows through read-only SQLite WAL snapshots while the discovery child is alive. It writes only idle worker checkpoints and reserves every identity in the existing ownership registry. New jobs need not wait for an entire discovery phase to exit. Uncommitted producer rows are never dispatched. Empty healthy slots can request discovery even when another worker holds a large backlog.
+
+A request that fails while its sibling completes, with the original listing/form still alive and online, is deferred to bounded exact-registration recovery. It is not treated as browser expiry, a blank email or a completed profile. Full disconnects, verification responses and all-failed batches still use bounded session/access recovery. Exact-recovery attempt history survives pause/resume.
+
+For queues with a saved independently sourced official roster, `--roster-lookups 30` prioritizes at most 30 missing roster identities per discovery phase, using the existing runtime and solver limits. This is optional (default 0), and policy changes are recorded in state. Roster candidates are dated observations, not proof of current TBB membership. Actual exact responses alone determine whether the site lists them; no missing profile is fabricated. Ordinary discovery remains queued afterward.

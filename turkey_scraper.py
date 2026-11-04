@@ -339,6 +339,13 @@ class ListingIdentityMissing(ExtractionError):
         super().__init__('Detail identity absent or ambiguous in current listing: ' + ', '.join(sorted(self.registrations)))
 
 
+class DetailRequestDeferred(ExtractionError):
+    """A failed individual request beside a successful sibling in a live form."""
+    def __init__(self,registrations):
+        self.registrations=set(registrations)
+        super().__init__('Individual detail request deferred; verified browser retained')
+
+
 class VerificationRequired(RuntimeError):
     pass
 
@@ -1346,6 +1353,21 @@ def process_details(driver, db, q, args, dest):
                 # A valid sibling was never submitted; process it now rather
                 # than incorrectly failing both records or retrying stale data.
                 return extract_remaining()
+            except DetailRequestDeferred as error:
+                # A good sibling and live original form establish a request-
+                # specific failure. Do not repeatedly poison otherwise good
+                # batches or pretend the entire browser has expired.
+                if not pending or {db.record(k)['bar_registration_number'] for k in pending}!=error.registrations:
+                    raise ExtractionError('Deferred request did not identify remaining batch jobs') from error
+                for key in list(pending):
+                    record=db.record(key)
+                    record['_lookup_registration']=record['bar_registration_number']
+                    record['_individual_transport_deferrals']=(record.get('_individual_transport_deferrals') or 0)+1
+                    db.upsert(record)
+                    db.detail_state(key,'pending','Individual request interrupted; queued bounded exact-registration recovery')
+                    db.event('detail_transport_deferred',key)
+                    pending.pop(key)
+                return
             except VerificationRequired:
                 if pending and getattr(driver, 'supports_form_recovery', False) is True and driver.recover_form(query):
                     return extract_remaining()

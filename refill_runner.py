@@ -129,6 +129,7 @@ def command(root,role,worker,bar,seconds,args):
     if not getattr(args,'uncapped',False):cmd+=['--provider-credit-cap',str(args.credit_cap)]
     if role=='discovery':cmd+=['--no-details','--primary-field','both','--max-searches','30']
     else:cmd+=['--resume-details-only','--max-details','240']
+    if role=='discovery' and getattr(args,'roster_lookups',0):cmd+=['--max-roster-lookups',str(args.roster_lookups)]
     return cmd,folder
 
 
@@ -141,6 +142,7 @@ def run(args):
     root=Path(args.directory).resolve();plan=json.loads((root/'refill-plan.json').read_text())
     if not re.fullmatch(r'[A-Za-z0-9_-]{1,48}',args.run_id) or min(args.seconds,args.credit_cap,args.solver_tasks,args.discovery_solver_tasks)<1:
         raise ValueError('Invalid runtime, budget or run ID')
+    if not 0<=getattr(args,'roster_lookups',0)<=100:raise ValueError('Roster lookups must be 0..100 per discovery phase')
     endpoint=json.loads(Path(args.connection_file).read_text())['cdp_endpoint']
     json.loads(Path(args.solver_file).read_text())['capsolver_api_key']
     # Persistent lease covers both queue writers and every child directory.
@@ -239,8 +241,13 @@ def supervise(root,registry,plan,args,endpoint):
     if recover_stopped(state,getattr(args,'recover_stopped','')):
         # Persist authorization/history before any paid child can be launched.
         atomic(state_path,state)
+    policy={'version':'2026-11-04-streaming','roster_lookups':getattr(args,'roster_lookups',0)}
+    if state.get('operating_policy')!=policy:
+        state.setdefault('operating_policy_changes',[]).append({'at_unix':time.time(),'before':state.get('operating_policy'),'after':policy})
+        state['operating_policy']=policy
+        atomic(state_path,state)
     started=time.monotonic();prior=state['elapsed_seconds'];active={};stop=False;reason='time_limit_reached';next_budget=0;unreadable=0;next_start=0;next_report=0
-    idle_since=None
+    idle_since=None;next_dispatch=0;unowned=0
     old_handlers={}
     def interrupt(signum,frame):
         nonlocal stop,reason
@@ -290,7 +297,9 @@ def supervise(root,registry,plan,args,endpoint):
         while not stop and prior+time.monotonic()-started<args.seconds:
             elapsed=prior+time.monotonic()-started
             for slot,entry in list(active.items()):
-                if entry['p'].poll() is not None:finish(slot,entry);del active[slot]
+                if entry['p'].poll() is not None:
+                    finish(slot,entry);del active[slot]
+                    if entry['role']=='discovery':next_dispatch=0
             if elapsed>=next_budget:
                 try:
                     latest=budget();unreadable=0;telemetry_error=None
@@ -304,14 +313,16 @@ def supervise(root,registry,plan,args,endpoint):
                 next_budget=elapsed+min(300,15*2**min(unreadable,4))
                 if unreadable>=2 and not uncapped:reason='credit_preflight_unavailable';break
                 if not uncapped and latest['remaining_credits']<=5000:reason='provider_cap_safety_margin';break
-            # Producer cannot race dispatch: its checkpoint is read only after
-            # it exits. A detail worker's checkpoint is written only when idle.
+            # Read only committed discovery rows through a WAL snapshot, even
+            # while the producer is alive. Only idle detail DBs are written;
+            # ownership still has exactly one controller/writer.
             producer=any(e['role']=='discovery' for e in active.values())
             idle=[i for i in range(1,5) if i not in active]
-            added=0;unowned=0
-            if not producer and idle:
+            added=0
+            if idle and elapsed>=next_dispatch:
                 accepting=[i for i in idle if not state['roles'][str(i)].get('stop_reason')]
                 added,unowned=dispatch(root,registry,plan['bar'],accepting)
+                next_dispatch=elapsed+10
                 if added:event({'assigned_jobs':added,'unowned_buffer':unowned})
             snap=snapshot(root,False);dstate=state['roles']['discovery']
             if all(state['roles'][str(i)].get('stop_reason') for i in range(1,5)):
@@ -319,7 +330,8 @@ def supervise(root,registry,plan,args,endpoint):
             # Jobs owned by stopped workers cannot feed healthy slots. Counting
             # them as buffer caused all healthy workers to idle forever at 800.
             runnable_ready=sum(v['ready'] for role,v in snap['workers'].items() if not state['roles'][role].get('stop_reason'))
-            need_discovery=not producer and unowned+runnable_ready<800 and discovery_available(root) and not dstate.get('stop_reason')
+            empty_slot=any(not state['roles'][str(i)].get('stop_reason') and not snap['workers'][str(i)]['ready'] for i in idle)
+            need_discovery=not producer and (unowned+runnable_ready<800 or (empty_slot and not unowned)) and discovery_available(root) and not dstate.get('stop_reason')
             for i in idle:
                 if elapsed<next_start:break
                 role='discovery' if need_discovery and time.time()>=dstate['retry_after'] else str(i)
@@ -392,6 +404,7 @@ def cli():
     p.add_argument('--shutdown-grace',type=int,default=90)
     p.add_argument('--run-id',default='eight-hour-refill')
     p.add_argument('--recover-stopped',default='',metavar='RECOVERY_ID',help='Explicitly release no-progress stops once per recorded recovery ID; preserves runtime, budgets and failure history')
+    p.add_argument('--roster-lookups',type=int,default=0,help='Prioritize up to 100 missing saved official-roster IDs per discovery phase, within existing runtime/solver limits')
     p.add_argument('--connection-file',default=os.getenv('TBB_CONNECTION_FILE',''));p.add_argument('--solver-file',default=os.getenv('TBB_SOLVER_FILE',''))
     return run(p.parse_args())
 

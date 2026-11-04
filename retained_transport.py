@@ -168,7 +168,7 @@ def browser_class(t):
                 matches=[r for r in self.last_result or [] if r['bar_registration_number']==record['bar_registration_number'] and t.turkish_upper(r['bar_association'])==t.turkish_upper(record['bar_association'])]
                 if len(matches)!=1:missing.append(record['bar_registration_number'])
             if missing:raise t.ListingIdentityMissing(missing)
-            batch_id=uuid.uuid4().hex;pending={r['bar_registration_number']:r for r in records};completed={};errors=[]
+            batch_id=uuid.uuid4().hex;pending={r['bar_registration_number']:r for r in records};completed={};errors=[];transport_failed=[]
             self.detail_timings=[];self.detail_payloads=[]
             try:
                 # Reserve logical attempts before the network operation so a
@@ -194,7 +194,10 @@ def browser_class(t):
                         self.detail_payloads.append({k:reply.get(k) for k in ('reg','raw_html_bytes','returned_html_bytes','attempts')})
                         if reply.get('post_ms') is not None:self.detail_timings.append(reply['post_ms'])
                         try:
-                            if reply.get('error'):raise t.SessionExpired('Detail transport failed after bounded same-session recovery')
+                            if reply.get('error'):
+                                transport_failed.append(reg)
+                                self.event('retained_detail_request_failed',json.dumps({'registration':reg,'error_type':reply['error'],'attempts':reply.get('attempts',1)}))
+                                raise t.SessionExpired('Detail transport failed after bounded same-session recovery')
                             self.validate(reply);updated=t.parse_detail(reply['html'],record)
                         except (t.ExtractionError,t.VerificationRequired,t.SessionExpired) as error:
                             errors.append(error);continue
@@ -202,6 +205,11 @@ def browser_class(t):
                         completed[reg]=updated
                         self.event('retained_detail_saved','registration='+reg)
                 if errors:
+                    if completed and transport_failed and len(transport_failed)==len(errors) and self.page.evaluate(
+                            "() => navigator.onLine && !!document.querySelector('#avForm input[name=ad]') && !!window.__retainedListing?.form"):
+                        # Only the failed identity is deferred. Real disconnects,
+                        # challenges and all-failed batches still escalate.
+                        raise t.DetailRequestDeferred(transport_failed)
                     # Access failures take priority, preserving all good results
                     # before bounded refresh/reconnect or source-error retry.
                     raise next((e for e in errors if isinstance(e,t.VerificationRequired)),next((e for e in errors if isinstance(e,t.SessionExpired)),errors[0]))

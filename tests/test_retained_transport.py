@@ -188,6 +188,28 @@ class CompactTests(unittest.TestCase):
     if kind=='retained_form_refresh':Handler.mode='ok'
    self.driver.on_transport_event=release;t.process_details(self.driver,db,q,args,Path(folder))
    self.assertEqual(db.db.execute("select count(*) from details where status='done'").fetchone()[0],2);self.assertEqual(Handler.calls['610001'],1);self.assertEqual(Handler.calls['610002'],2);self.assertEqual(self.driver.stats['form_refreshes'],1);db.db.close()
+ def test_one_hanging_request_defers_exact_identity_without_discarding_healthy_browser(self):
+  with tempfile.TemporaryDirectory() as folder:
+   db,q,args=self.queue(folder);self.driver.args.navigation_timeout=1
+   marker=self.page.evaluate('()=>window.marker')
+   self.page.evaluate('''()=>{window.realFetch=fetch.bind(window);window.fetch=(url,opts)=>{
+    if(opts.body.get('detay')==='2')return new Promise((resolve,reject)=>opts.signal.addEventListener('abort',()=>reject(new DOMException('aborted','AbortError')),{once:true}));
+    return window.realFetch(url,opts);
+   };}''')
+   t.process_details(self.driver,db,q,args,Path(folder))
+   bad=db.db.execute("SELECT key,status,failures FROM details WHERE status='pending'").fetchone()
+   self.assertIsNotNone(bad);self.assertEqual(bad['failures'],0)
+   self.assertEqual(db.record(bad['key'])['_lookup_registration'],'610002')
+   self.assertEqual(db.db.execute("SELECT count(*) FROM details WHERE status='done'").fetchone()[0],1)
+   self.assertFalse(self.driver.needs_session_renewal)
+   self.assertEqual(self.page.evaluate('()=>window.marker'),marker)
+   self.assertIsNone(self.page.evaluate('()=>window.__tbbDetailBatch || null'))
+   self.page.evaluate('()=>window.fetch=window.realFetch');self.driver.details_attempted=0
+   t.process_details(self.driver,db,q,args,Path(folder))
+   self.assertEqual(db.db.execute("SELECT count(*) FROM details WHERE status='done'").fetchone()[0],2)
+   self.assertEqual(Handler.calls['610001'],1)
+   self.assertEqual(Handler.calls['610002'],1)
+   self.assertEqual(self.page.evaluate('()=>window.marker'),marker);db.db.close()
  def test_persistent_challenge_stops_refreshing_and_leaves_verification_pending(self):
   with tempfile.TemporaryDirectory() as folder:
    db,q,args=self.queue(folder);Handler.mode='detail_challenge';self.driver.refresh_limit=1
