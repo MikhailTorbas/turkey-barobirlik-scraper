@@ -68,3 +68,26 @@ class StreamingRefillTests(unittest.TestCase):
         details,_=r.command(Path('/tmp/unused'),'2',2,'6',900,args)
         self.assertEqual(discovery[discovery.index('--max-roster-lookups')+1],'30')
         self.assertNotIn('--max-roster-lookups',details)
+
+    def test_discovery_uses_empty_slot_instead_of_blocking_assigned_details(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);fixture=fixtures.RefillTests();_,registry=fixture.fixture(root)
+            fixture.job(root,'1');r.dispatch(root,registry,'6',[1]);registry.close()
+            db=t.Database(root/'discovery/checkpoint.sqlite3');db.put_query('6','ZZ','');db.db.close()
+            for name,data in [('c.json',{'cdp_endpoint':'wss://browser.zenrows.com?apikey=test'}),('s.json',{'capsolver_api_key':'test'})]:
+                (root/name).write_text(json.dumps(data))
+            args=SimpleNamespace(directory=str(root),run_id='test',seconds=30,credit_cap=600000,
+                solver_tasks=50,discovery_solver_tasks=50,connection_file=str(root/'c.json'),solver_file=str(root/'s.json'))
+            commands=[];clock=[0]
+            class Child:
+                returncode=None
+                def poll(self):return self.returncode
+                def terminate(self):self.returncode=-15
+                def wait(self,timeout=None):return self.returncode
+            def launch(cmd,**kwargs):commands.append(cmd);return Child()
+            with patch.object(r,'check_zenrows_cap',return_value={'used_credits':0,'remaining_credits':100000}),patch.object(r.subprocess,'Popen',side_effect=launch),patch.object(r.time,'monotonic',side_effect=lambda:clock[0]),patch.object(r.time,'sleep',side_effect=lambda n:clock.__setitem__(0,clock[0]+n)):
+                r.run(args)
+            self.assertEqual(len(commands),2)
+            self.assertNotIn('--no-details',commands[0])
+            self.assertIn('worker-01',commands[0][commands[0].index('--output')+1])
+            self.assertIn('--no-details',commands[1])

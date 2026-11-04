@@ -1,12 +1,12 @@
 {
   "release_date": "2026-11-04",
   "core_sha256": "ec40ef1870fa83bef6dd1ff6eb5d9a2e0e31fd9e87e68494ce159182278212a3",
-  "tests_expected": 168,
+  "tests_expected": 169,
   "fixtures": "synthetic names, contacts and identifiers",
   "runtime_data_included": false,
   "national_completeness_claim": false,
   "fresh_queue_setup": "Offline exclusive single-bar initialization; Elena 35, Pari 16",
-  "controller_recovery": "Committed WAL streaming refill, idle-slot discovery, recorded recovery and no-launch guard",
+  "controller_recovery": "Committed WAL streaming refill, discovery prefers empty slots, recorded recovery and no-launch guard",
   "solver_recovery": "Bounded same-task polling retries; sanitized HTTP diagnostics",
   "detail_recovery": "Isolate individually failed requests only with successful sibling and healthy verified form; retain exact-ID allowance"
 }

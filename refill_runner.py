@@ -332,9 +332,10 @@ def supervise(root,registry,plan,args,endpoint):
             runnable_ready=sum(v['ready'] for role,v in snap['workers'].items() if not state['roles'][role].get('stop_reason'))
             empty_slot=any(not state['roles'][str(i)].get('stop_reason') and not snap['workers'][str(i)]['ready'] for i in idle)
             need_discovery=not producer and (unowned+runnable_ready<800 or (empty_slot and not unowned)) and discovery_available(root) and not dstate.get('stop_reason')
+            discovery_slot=min(idle,key=lambda i:snap['workers'][str(i)]['ready']) if need_discovery and idle else None
             for i in idle:
                 if elapsed<next_start:break
-                role='discovery' if need_discovery and time.time()>=dstate['retry_after'] else str(i)
+                role='discovery' if i==discovery_slot and time.time()>=dstate['retry_after'] else str(i)
                 s=state['roles'][role]
                 if s.get('stop_reason') or time.time()<s['retry_after']:continue
                 if role!='discovery' and not snap['workers'][role]['ready']:continue

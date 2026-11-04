@@ -17,3 +17,5 @@ National completeness, unlimited managed-challenge access and larger multi-machi
 The 4 November controller/solver fixes passed **164 tests**, including local Chromium. Regression coverage reproduces 800 pending jobs stranded on stopped workers and verifies discovery/healthy-worker progress; recorded recovery cannot be reapplied using the same ID. Solver tests verify polling retry uses the same task, uncertain creates are not retried, and HTTP error descriptions/credentials are not exposed. Original queues are backed up before live recovery.
 
 The tail-stage update adds regression coverage for a hanging request beside a successful sibling, same-browser exact-ID recovery, streaming dispatch before discovery exits, uncommitted WAL rows being excluded, and dispatch immediately after discovery exits. A known live pending profile had 87 attempts with zero parsing failures; its retry history was preserved while routing it to exact-ID recovery.
+
+The final slot-placement regression verifies pending detail work starts immediately and discovery uses a different empty slot. The final tail-stage suite contains 169 tests.
