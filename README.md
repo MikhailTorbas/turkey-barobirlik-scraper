@@ -103,3 +103,9 @@ The controller reads committed discovery rows through read-only SQLite WAL snaps
 A request that fails while its sibling completes, with the original listing/form still alive and online, is deferred to bounded exact-registration recovery. It is not treated as browser expiry, a blank email or a completed profile. Full disconnects, verification responses and all-failed batches still use bounded session/access recovery. Exact-recovery attempt history survives pause/resume.
 
 For queues with a saved independently sourced official roster, `--roster-lookups 30` prioritizes at most 30 missing roster identities per discovery phase, using the existing runtime and solver limits. This is optional (default 0), and policy changes are recorded in state. Roster candidates are dated observations, not proof of current TBB membership. Actual exact responses alone determine whether the site lists them; no missing profile is fabricated. Ordinary discovery remains queued afterward.
+
+## Isolated roster-only audits
+
+`turkey_scraper.py --roster-only --baro ID --max-roster-lookups 100 ...` operates on an explicitly prepared audit checkpoint with saved source candidates. It does not seed, submit or complete ordinary name-discovery queries. Do not change an existing ordinary checkpoint into this mode: the configuration guard rejects mixed use. Preserve the audit's assignment manifest, original attempt history and source evidence, and coordinate disjoint IDs before running more than one audit worker. The normal four-slot production command remains unchanged.
+
+A confirmed exact-registration zero-result response is useful verification progress. Unanswered attempts are not progress. Neither counts as a completed profile or a blank email. Finishing a roster audit does not establish exhaustive current national/bar coverage; dated roster scope, source-name differences and unresolved identities remain explicit.

@@ -1493,6 +1493,7 @@ def run(args):
     config = {'schema_version': 2, 'url': args.url, 'matching': 'substring',
               'primary_field': args.primary_field, 'alphabet': args.alphabet, 'trainees': args.trainees,
               'result_cap': args.result_cap, 'max_length': args.max_prefix_length}
+    if getattr(args,'roster_only',False):config['lookup_mode']='roster_only'
     before = db.metadata('run_configuration')
     if before and before != config:
         raise RuntimeError('Checkpoint configuration differs. Use another output directory.')
@@ -1587,10 +1588,11 @@ def run(args):
                         deadline=started+args.max_runtime if args.max_runtime else None,
                         on_listing=roster_listing,on_reserve=reserve_roster_lookup)
             db.event('roster_exact_lookups',json.dumps(receipt,sort_keys=True))
-        seeds = [turkish_upper(p) for p in args.prefix] if args.prefix else prefix_pairs(args.alphabet)
+        seeds = ([] if getattr(args,'roster_only',False) else
+                 [turkish_upper(p) for p in args.prefix] if args.prefix else prefix_pairs(args.alphabet))
         history = db.metadata('seed_plan_history') or []
         plan = {'bars': sorted(selected), 'explicit_substrings': seeds if args.prefix else None, 'all_alphabet_pairs': not bool(args.prefix), 'primary_field':args.primary_field}
-        if plan not in history:
+        if plan not in history and not getattr(args,'roster_only',False):
             db.metadata('seed_plan_history', history + [plan])
         if not args.resume_details_only:
             for bar in sorted(selected):
@@ -1603,7 +1605,7 @@ def run(args):
             for q in qs:
                 process_details(driver, db, dict(q), args, dest)
         processed = 0
-        while not args.resume_details_only and (args.max_searches is None or processed < args.max_searches):
+        while not args.resume_details_only and not getattr(args,'roster_only',False) and (args.max_searches is None or processed < args.max_searches):
             if not args.no_details and args.max_details is not None and driver.details_attempted >= args.max_details:
                 LOG.info('Detail budget reached; leaving unused searches queued without submitting them')
                 break
@@ -1655,6 +1657,13 @@ def run(args):
         incomplete = any(report['query_states'].get(s,0) for s in ('failed','pending','running','verification','unresolved'))
         details_incomplete = not args.no_details and any(report['details'].get(s,0) for s in ('failed','pending','running','verification','needs_review'))
         coverage_unresolved = bool(report['potential_partition_gaps'] or report['capped_queries'] or report['roster_candidates_unresolved'])
+        if getattr(args,'roster_only',False):
+            import roster_reconciliation as reconciliation
+            work=reconciliation.lookup_status(db,selected)
+            db.metadata('roster_audit_work',work)
+            status='roster_budget_paused' if work['ready'] else 'review_required' if work['exhausted'] or details_incomplete else 'roster_audit_finished'
+            db.metadata('run_status',status)
+            return 2 if status!='roster_audit_finished' else 0
         if args.resume_details_only:
             db.metadata('run_status', 'detail_budget_paused' if details_incomplete else 'detail_queue_finished')
             return 2 if details_incomplete else 0
@@ -1763,6 +1772,7 @@ def cli(argv=None):
     p.add_argument('--max-searches', type=int)
     p.add_argument('--max-roster-lookups',type=int,default=0,
                    help='Additional bounded exact-registration lookups of missing imported roster IDs (0 disables)')
+    p.add_argument('--roster-only',action='store_true',help='Check saved roster IDs only; preserve ordinary discovery queries without submitting or completing them')
     p.add_argument('--max-details', type=int, help='Per-run limit on detail jobs, including failures; leaves the remaining queue pending')
     p.add_argument('--max-queries', type=int, default=250000)
     p.add_argument('--result-cap', type=int, default=1000)
@@ -1826,6 +1836,8 @@ def cli(argv=None):
     args.alphabet = ''.join(dict.fromkeys(turkish_upper(args.alphabet)))
     if not 0 <= args.max_roster_lookups <= 100 or (args.max_roster_lookups and args.resume_details_only):
         p.error('--max-roster-lookups must be 0..100 and cannot accompany --resume-details-only')
+    if args.roster_only and (not args.max_roster_lookups or args.resume_details_only or args.all_baros or not args.baro):
+        p.error('--roster-only requires --baro and --max-roster-lookups; cannot accompany all-bars/detail-only mode')
     if (args.form_refreshes < 0 or (args.provider_credit_cap is not None and args.provider_credit_cap < 1) or args.max_detail_failures < 1 or args.widget_grace < 0 or args.min_delay < 0 or args.max_delay < args.min_delay or args.retries < 0 or args.access_retries < 0 or args.session_restarts < 0 or args.access_cooldown < 1 or args.export_every < 1 or args.result_cap < 1 or args.max_prefix_length < 2 or args.max_queries < 1 or args.captcha_timeout < 1 or args.auto_verification_timeout < 1 or args.navigation_timeout < 1 or len(args.alphabet) < 2 or (args.max_searches is not None and args.max_searches < 1) or (args.max_details is not None and args.max_details < 1) or args.retry_backoff < 0 or args.max_backoff < 0):
         p.error('Invalid delay/budget/timeout/cap arguments')
     if any(len(clean(s)) < 2 for s in args.prefix): p.error('--prefix needs at least two characters')

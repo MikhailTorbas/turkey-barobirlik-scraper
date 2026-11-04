@@ -19,3 +19,5 @@ The 4 November controller/solver fixes passed **164 tests**, including local Chr
 The tail-stage update adds regression coverage for a hanging request beside a successful sibling, same-browser exact-ID recovery, streaming dispatch before discovery exits, uncommitted WAL rows being excluded, and dispatch immediately after discovery exits. A known live pending profile had 87 attempts with zero parsing failures; its retry history was preserved while routing it to exact-ID recovery.
 
 The final slot-placement regression verifies pending detail work starts immediately and discovery uses a different empty slot. The final tail-stage suite contains 169 tests.
+
+The closure update passed **171 tests**, including local Chromium. New checks verify exact not-found responses count as audit progress without creating contacts; roster-only mode leaves ordinary pending queries untouched and submits no broad searches. A separate offline closure-merge test verifies disjoint assignments, preserved completions/attempts and idempotent imports.

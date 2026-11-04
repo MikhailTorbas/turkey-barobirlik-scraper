@@ -237,6 +237,23 @@ class CompactTests(unittest.TestCase):
    result=subprocess.run(command,capture_output=True,text=True,env=env,timeout=30);self.assertEqual(result.returncode,2,result.stderr)
    self.assertEqual(sum(x.get('barosicil')==['610002'] for x in Handler.fields),1)
    db=t.Database(Path(folder)/'checkpoint.sqlite3');self.assertEqual(db.record(t.record_key({**ref,'bar_association_id':'69'}))['_lookup_registration'],'610002');self.assertEqual(db.db.execute("SELECT count(*) FROM details WHERE status='done'").fetchone()[0],0);db.db.close()
+ def test_cli_roster_only_does_not_submit_or_complete_ordinary_name_queries(self):
+  import subprocess
+  from roster_reconciliation import reconcile
+  with tempfile.TemporaryDirectory() as folder:
+   db=t.Database(Path(folder)/'checkpoint.sqlite3');db.db.execute("INSERT INTO bars VALUES('69','BAYBURT',1)");db.db.commit()
+   ordinary=db.put_query('69','ZZ','')
+   reconcile(db,{'source':'https://official.example/roster','date':'2026-10-21','rows':[{'regNumber':'610002','firstName':'TEST','lastName':'TEST'}]},'69');db.db.close()
+   command=[sys.executable,str(ROOT/'turkey_scraper.py'),'--url',self.url,'--baro','69','--roster-only','--max-roster-lookups','1','--no-details','--output',folder,'--population-file','','--min-delay','0','--max-delay','0','--max-runtime','20','--navigation-timeout','3','--auto-verification-timeout','1','--session-restarts','0','--access-retries','0','--retries','0']
+   env={k:v for k,v in os.environ.items() if k not in ('TBB_CDP_ENDPOINT','TBB_CONNECTION_FILE','TBB_SOLVER_FILE','CAPSOLVER_API_KEY')}
+   result=subprocess.run(command,capture_output=True,text=True,env=env,timeout=30);self.assertEqual(result.returncode,0,result.stderr)
+   self.assertEqual(Handler.searches,1)
+   db=t.Database(Path(folder)/'checkpoint.sqlite3')
+   try:
+    self.assertEqual(db.db.execute('SELECT status FROM queries WHERE id=?',(ordinary,)).fetchone()[0],'pending')
+    self.assertIsNone(db.metadata('seed_plan_history'))
+    self.assertEqual(db.metadata('run_status'),'roster_audit_finished')
+   finally:db.db.close()
  def test_complete_known_checkpoint_opens_no_browser_and_new_seed_is_not_skipped(self):
   from unittest.mock import patch
   with tempfile.TemporaryDirectory() as folder:

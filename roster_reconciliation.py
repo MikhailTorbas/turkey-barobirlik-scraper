@@ -133,6 +133,25 @@ def verify_candidates(driver, db, bars, limit, deadline=None, on_listing=None, o
     return receipt
 
 
+def lookup_status(db,bars):
+    """Roster verification work, independent of overlapping name queries."""
+    if not db.db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='roster_sources'").fetchone():
+        return {'candidates':0,'ready':0,'observed':0,'not_found':0,'exhausted':0}
+    selected=set(map(str,bars));observed={row[0] for row in db.db.execute('SELECT key FROM lawyers')}
+    attempts=({(row['baro'],row['registration']):(row['attempts'],row['state']) for row in db.db.execute('SELECT * FROM roster_lookup_attempts')}
+              if db.db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='roster_lookup_attempts'").fetchone() else {})
+    result={'candidates':0,'ready':0,'observed':0,'not_found':0,'exhausted':0}
+    for row in db.db.execute('SELECT DISTINCT s.baro,c.registration FROM roster_candidates c JOIN roster_sources s ON s.id=c.source_id'):
+        bar,reg=row['baro'],row['registration']
+        if bar not in selected:continue
+        result['candidates']+=1
+        if t.record_key({'bar_association_id':bar,'bar_registration_number':reg}) in observed:result['observed']+=1
+        elif attempts.get((bar,reg),(0,''))[1]=='not_found':result['not_found']+=1
+        elif attempts.get((bar,reg),(0,''))[0]>=3:result['exhausted']+=1
+        else:result['ready']+=1
+    return result
+
+
 def summary(db, records=None):
     if not db.db.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='roster_sources'").fetchone():
         return {'sources': [], 'national_completeness_claim': False}

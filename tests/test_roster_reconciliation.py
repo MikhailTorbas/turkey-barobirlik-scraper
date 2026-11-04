@@ -78,6 +78,7 @@ class RosterTests(unittest.TestCase):
         driver=SimpleNamespace(fetch_registration=lambda bar,reg:(calls.append(reg) or ([],0,1)))
         result=r.verify_candidates(driver,self.db,['6'],2)
         self.assertEqual(result['verified_absent'],2)
+        self.assertEqual(r.lookup_status(self.db,['6']),{'candidates':2,'ready':0,'observed':0,'not_found':2,'exhausted':0})
         r.verify_candidates(driver,self.db,['6'],2);self.assertEqual(len(calls),2)
         self.assertEqual(self.db.db.execute('SELECT count(*) FROM lawyers').fetchone()[0],0)
         self.assertEqual(r.summary(self.db)['sources'][0]['missing_registration'],2)

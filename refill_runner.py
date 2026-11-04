@@ -64,11 +64,14 @@ def snapshot(root,full=True):
         rows[str(i)]={'states':states,'done':states.get('done',0),'ready':ready}
     with read_db(root/'discovery/checkpoint.sqlite3') as db:
         queries=dict(db.execute('SELECT status,count(*) FROM queries GROUP BY status'))
+        roster_progress=(db.execute("SELECT count(*) FROM roster_lookup_attempts WHERE baro=? AND state IN ('observed','not_found')",(manifest['bar'],)).fetchone()[0]
+                         if db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='roster_lookup_attempts'").fetchone() else 0)
     done=sum(r['done'] for r in rows.values())
     return {'bar':manifest['bar'],'workers':rows,'done':done,'ready':sum(r['ready'] for r in rows.values()),
             'profiles_with_email':valid,'unique_email_addresses':len(emails),'email_evidence':dict(availability),
             'email_fill_percent':round(valid*100/done,2) if done else None,'discovery_queries':queries,
-            'discovery_progress':sum(queries.get(s,0) for s in ('done','split','unresolved'))}
+            'roster_verification_progress':roster_progress,
+            'discovery_progress':sum(queries.get(s,0) for s in ('done','split','unresolved'))+roster_progress}
 
 
 def validate(root,registry,plan):
