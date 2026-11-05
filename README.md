@@ -70,7 +70,7 @@ Discovery backpressure excludes jobs stranded on stopped workers. Reports distin
 
 ## Limits and operational rules
 
-- Michael owns Antalya **7**; Giovanni Istanbul **34**; Elena İzmir **35**; Pari Bursa **16**. See TEAM.md for exclusive assignments. Never run duplicate copies of a queue or an older overlapping allocation concurrently.
+- Michael owns Adana **1**; Giovanni Istanbul **34**; Elena İzmir **35**; Pari Bursa **16**. See TEAM.md for exclusive assignments. Never run duplicate copies of a queue or an older overlapping allocation concurrently.
 - Discovery temporarily uses one of four slots; the other three can keep checking details. There is no fifth discovery browser. At sufficient backlog, all four process details.
 - `--uncapped` removes the **application** ceiling and exact-cap requirement. It does not remove provider dashboard caps, fund an account, purchase top-ups or change subscriptions. Provider limits still apply. Account-wide usage telemetry failures are logged and retried without stopping healthy uncapped collection; real auth/funding errors remain explicit. Capped mode is available with `--credit-cap` and without `--uncapped`.
 - Solver ceilings are **lifetime attempts per existing ledger**, not additional attempts. Keep them funded and choose allowances for the approved duration; do not delete ledgers or loop-restart blocked work.

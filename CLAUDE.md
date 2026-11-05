@@ -4,7 +4,7 @@ Read README.md, TEAM.md, the operator’s named handover (ELENA.md, PARI.md or G
 
 Prepare and test offline first. Paid scraping requires the coordinator's explicit launch instruction for the runtime/bar allocation. No install, test or repository automation should start paid work. Never buy credits, enable top-ups, change subscriptions, remove provider caps, add workers or switch bars automatically.
 
-Giovanni owns Istanbul 34; Michael Antalya 7 (Ankara 6 preserved and stopped with documented exceptions); Elena İzmir 35; Pari Bursa 16. Use only the assigned queue. Preserve the entire queue, ownership database, runtime state and solver ledgers. Upgrade into a new directory and stop the old runner first. Do not run old/new copies concurrently.
+Giovanni owns Istanbul 34; Michael Adana 1 (Ankara 6 preserved with documented exceptions; Antalya 7 paused with unverified coverage); Elena İzmir 35; Pari Bursa 16. Use only the assigned queue. Preserve the entire queue, ownership database, runtime state and solver ledgers. Upgrade into a new directory and stop the old runner first. Do not run old/new copies concurrently.
 
 Uncapped application mode is independent of the provider's dashboard caps. Temporary usage telemetry failure should be recorded, not treated as proof of exhausted credit. Preserve real provider/auth/access failures and bounded recovery limits. Do not manually solve Cloudflare for a claimed autonomous run.
 
