@@ -64,12 +64,14 @@ def snapshot(root,full=True):
         rows[str(i)]={'states':states,'done':states.get('done',0),'ready':ready}
     with read_db(root/'discovery/checkpoint.sqlite3') as db:
         queries=dict(db.execute('SELECT status,count(*) FROM queries GROUP BY status'))
+        identities=db.execute('SELECT count(*) FROM lawyers').fetchone()[0]
         roster_progress=(db.execute("SELECT count(*) FROM roster_lookup_attempts WHERE baro=? AND state IN ('observed','not_found')",(manifest['bar'],)).fetchone()[0]
                          if db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='roster_lookup_attempts'").fetchone() else 0)
     done=sum(r['done'] for r in rows.values())
     return {'bar':manifest['bar'],'workers':rows,'done':done,'ready':sum(r['ready'] for r in rows.values()),
             'profiles_with_email':valid,'unique_email_addresses':len(emails),'email_evidence':dict(availability),
             'email_fill_percent':round(valid*100/done,2) if done else None,'discovery_queries':queries,
+            'discovered_identities':identities,
             'roster_verification_progress':roster_progress,
             'discovery_progress':sum(queries.get(s,0) for s in ('done','split','unresolved'))+roster_progress}
 
@@ -147,6 +149,7 @@ def run(args):
         raise ValueError('Invalid runtime, budget or run ID')
     if not 0<=getattr(args,'roster_lookups',0)<=100:raise ValueError('Roster lookups must be 0..100 per discovery phase')
     if not 1<=getattr(args,'browser_slots',4)<=4:raise ValueError('Browser slots must be 1..4 within the four-worker queue')
+    if getattr(args,'discovery_idle_seconds',900)<0:raise ValueError('Discovery idle allowance cannot be negative')
     endpoint=json.loads(Path(args.connection_file).read_text())['cdp_endpoint']
     json.loads(Path(args.solver_file).read_text())['capsolver_api_key']
     # Persistent lease covers both queue writers and every child directory.
@@ -194,9 +197,25 @@ def recover_stopped(state,recovery_id):
         recovered[role]=dict(data)
         data.pop('stop_reason')
         data.update(no_progress=0,retry_after=0)
+    if state.get('discovery_yield_pause'):
+        recovered['discovery_yield_pause']=state.pop('discovery_yield_pause')
+        # Explicit operator recovery grants another discovery observation
+        # window, never a new runtime allowance or fresh solver ledger.
+        state['discovery_yield']['last_progress_elapsed']=state['elapsed_seconds']
     history.append({'id':recovery_id,'at_unix':time.time(),'before':recovered,
                     'elapsed_seconds':state['elapsed_seconds']})
     return True
+
+
+def discovery_idle_age(state,snap,elapsed):
+    """New identities / verified roster checks are yield; query churn is not."""
+    counters=[snap['discovered_identities'],snap.get('roster_verification_progress',0)]
+    previous=state.setdefault('discovery_yield',{'counters':counters,'last_progress_elapsed':elapsed})
+    if any(a<b for a,b in zip(counters,previous['counters'])):
+        raise ValueError('Discovery identity/audit counters decreased; inspect the saved queue')
+    if counters!=previous['counters']:
+        previous.update(counters=counters,last_progress_elapsed=elapsed)
+    return max(0,elapsed-previous['last_progress_elapsed'])
 
 
 def export_idle(root,workers):
@@ -221,6 +240,7 @@ def stop_children(active,grace=90):
 def supervise(root,registry,plan,args,endpoint):
     uncapped=getattr(args,'uncapped',False)
     browser_slots=getattr(args,'browser_slots',4)
+    discovery_idle_seconds=getattr(args,'discovery_idle_seconds',900)
     def budget():return read_zenrows_usage(endpoint) if uncapped else check_zenrows_cap(endpoint,args.credit_cap)
     telemetry_error=None
     try:latest=budget()
@@ -246,7 +266,7 @@ def supervise(root,registry,plan,args,endpoint):
     if recover_stopped(state,getattr(args,'recover_stopped','')):
         # Persist authorization/history before any paid child can be launched.
         atomic(state_path,state)
-    policy={'version':'2026-11-05-slot-budget','roster_lookups':getattr(args,'roster_lookups',0),'browser_slots':browser_slots}
+    policy={'version':'2026-11-05-yield-guard','roster_lookups':getattr(args,'roster_lookups',0),'browser_slots':browser_slots,'discovery_idle_seconds':discovery_idle_seconds}
     if state.get('operating_policy')!=policy:
         state.setdefault('operating_policy_changes',[]).append({'at_unix':time.time(),'before':state.get('operating_policy'),'after':policy})
         state['operating_policy']=policy
@@ -278,6 +298,8 @@ def supervise(root,registry,plan,args,endpoint):
               'usage_monitor_status':telemetry_error or 'available',
               'billing_note':'Shared company counter. Never add concurrent Mac deltas. Billing can lag.',
               'active_slots':len(active),'browser_slot_limit':browser_slots,'roles':state['roles'],'slot_seconds':state['slot_seconds'],
+              'discovery_idle_seconds':round(discovery_idle_age(state,snap,elapsed),2),
+              'discovery_idle_limit_seconds':discovery_idle_seconds,'discovery_yield_pause':state.get('discovery_yield_pause'),
               'runnable_ready':runnable,'stranded_ready':snap['ready']-runnable,**snap}
         atomic(report_path,data);return data
     def credit_delta():
@@ -330,6 +352,13 @@ def supervise(root,registry,plan,args,endpoint):
                 next_dispatch=elapsed+10
                 if added:event({'assigned_jobs':added,'unowned_buffer':unowned})
             snap=snapshot(root,False);dstate=state['roles']['discovery']
+            idle_age=discovery_idle_age(state,snap,elapsed)
+            # Drain known work first. A pause is not a coverage/completion
+            # claim, and survives ordinary command restarts until explicitly
+            # released through the recorded operator-recovery mechanism.
+            if state.get('discovery_yield_pause') or (discovery_idle_seconds and idle_age>=discovery_idle_seconds and not snap['ready'] and not unowned):
+                state.setdefault('discovery_yield_pause',{'at_unix':time.time(),'elapsed_seconds':elapsed,'idle_seconds':idle_age,'meaning':'No new identities or verified roster checks; pending discovery/coverage remains unverified.'})
+                reason='discovery_yield_paused';break
             if all(state['roles'][str(i)].get('stop_reason') for i in range(1,5)):
                 reason='all_detail_workers_safely_stopped';break
             # Jobs owned by stopped workers cannot feed healthy slots. Counting
@@ -412,6 +441,7 @@ def supervise(root,registry,plan,args,endpoint):
 def cli():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--directory',required=True)
     p.add_argument('--browser-slots',type=int,choices=range(1,5),default=4,help='Maximum live browsers, including discovery; keeps all four durable worker queues. Two controllers at 2 slots each use at most four total.')
+    p.add_argument('--discovery-idle-seconds',type=int,default=900,help='Pause once known detail work is drained and discovery yields no new identities or verified roster checks for this many active seconds; default 900, 0 disables. Pending queries remain saved; explicit recorded recovery is required after a yield pause.')
     p.add_argument('--seconds',type=int,default=28800);p.add_argument('--credit-cap',type=int,default=600000)
     p.add_argument('--uncapped',action='store_true',help='No local credit ceiling; usage telemetry failures do not stop collection. Provider caps still apply.')
     p.add_argument('--amend-budgets',action='store_true',help='Record explicit budget/uncapped-mode changes on resume without resetting elapsed time or ledgers')
