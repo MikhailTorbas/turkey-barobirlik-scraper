@@ -2,14 +2,14 @@
 
 ## Your full national allocation — 5 November 2026
 
-You exclusively own **21 bars** listed below. Current authorized group: **ADANA (1), GAZİANTEP (27), KAYSERİ (38), ŞANLIURFA (63), two browser slots each, eight total**. Resume the four saved queues; do not initialize any of them again. The order below is a planning sequence, not an automatic paid-start instruction. For this explicitly authorized group, run four separate controllers with `--browser-slots 2` each. Keep at most eight browser slots total on your Mac, including discovery. Other bars in the sequence remain queued. Do not run four slots per assigned bar simultaneously.
+You exclusively own **21 bars** listed below. Current assigned group (**all paused for coverage reconciliation**): **ADANA (1), GAZİANTEP (27), KAYSERİ (38), ŞANLIURFA (63), two browser slots each, eight total**. Preserve all four saved queues; do not initialize them again or resume paid work until instructed. The order below is a planning sequence, not an automatic paid-start instruction. For this explicitly authorized group, run four separate controllers with `--browser-slots 2` each. Keep at most eight browser slots total on your Mac, including discovery. Other bars in the sequence remain queued. Do not run four slots per assigned bar simultaneously.
 
 | Order | Directory ID | Bar | Saved 2025 lawyer count | State |
 |---|---|---|---|---|
-| 1 | 1 | ADANA | 5,020 | Current bar: running; resume saved queue |
-| 2 | 27 | GAZİANTEP | 3,664 | Running alongside Adana: two slots; resume saved queue |
-| 3 | 38 | KAYSERİ | 3,254 | Running in parallel: two slots; resume saved queue |
-| 4 | 63 | ŞANLIURFA | 2,412 | Running in parallel: two slots; resume saved queue |
+| 1 | 1 | ADANA | 5,020 | Paused; coverage reconciliation pending; preserve queue |
+| 2 | 27 | GAZİANTEP | 3,664 | Paused; coverage reconciliation pending; preserve queue |
+| 3 | 38 | KAYSERİ | 3,254 | Paused; coverage reconciliation pending; preserve queue |
+| 4 | 63 | ŞANLIURFA | 2,412 | Paused; coverage reconciliation pending; preserve queue |
 | 5 | 26 | ESKİŞEHİR | 1,991 | Assigned to you; check for a saved queue before initialization |
 | 6 | 54 | SAKARYA | 1,558 | Assigned to you; check for a saved queue before initialization |
 | 7 | 61 | TRABZON | 1,128 | Assigned to you; check for a saved queue before initialization |
@@ -73,3 +73,5 @@ The continuing pair is controlled locally by `work/run_adana_gaziantep.py`, with
 The active four-bar group is recorded in `work/active-parser-task.json`, which lists **two supervisor PIDs**, their status files and all four queue paths. Pause both supervisors **and every separately recorded controller** to stop the entire group. Kayseri/Şanlıurfa are controlled locally by `work/run_kayseri_sanliurfa.py`; the existing Adana/Gaziantep supervisor remains running. Do not start a second copy of either pair or exceed eight total browsers.
 
 Adana’s original child stopped on three solver-failure phases and received one recorded recovery (`adana-solver-refresh-20261105`). Its recovered controller is listed separately in `standalone_controllers` in the active-task receipt; pause it too. The first pair supervisor’s old Adana child report is historical, not the recovered controller’s current state. Use Adana’s queue report for its live state. No elapsed time, saved jobs or solver ledgers were reset.
+
+**Latest state — paused on 5 November:** both supervisors and the standalone Adana recovery controller were stopped cleanly. All controller/worker leases released, with full queue backups and a reconciliation report saved locally under `outputs/four-bar-reconciliation-2026-11-05`. There is one unattempted Adana detail (registration 2409); its email is unknown. No validated exhaustive independent roster was obtained for these four bars; retain the coverage gap and pending discovery. `work/active-parser-task.json` is marked paused. The two-bar helper scripts launch paid work and must not run until Michael gives a resume instruction.

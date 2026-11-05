@@ -15,3 +15,5 @@ Only a new explicitly authorized run ID grants a new runtime allowance. Identica
 After diagnosis and explicit coordinator authorization, use `--recover-stopped UNIQUE_REPAIR_ID` once to release no-progress stops with preserved history. Reusing that ID is idempotent and cannot reset a new stop. Do not automatically rotate repair IDs. Review recent throughput and stranded backlog; a live controller with zero active browsers is not proof of collection.
 
 Use local/mock tests for code changes. Do not run paid live tests through CI. Record the exact build, setup and source checks that actually ran, including optional browser-test skips. Preserve data before changes, test relevant behavior, and do not silently change the measured production build mid-run.
+
+Michael’s Adana/Gaziantep/Kayseri/Şanlıurfa group was explicitly paused on 5 November for coverage reconciliation. Current assignment is retained; do not restart from historical launch receipts or interpret an eight-slot authorization as a request to run while paused. Check the local active-task pause receipt and MICHAEL.md.
