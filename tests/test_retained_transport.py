@@ -36,6 +36,7 @@ class Handler(BaseHTTPRequestHandler):
   data=parse_qs(self.rfile.read(int(self.headers['Content-Length'])).decode());Handler.fields.append(data)
   if 'detay' not in data:
    Handler.searches+=1
+   if Handler.mode=='form_alert':return self.send('<form id="avForm"><h3>0 kayıt listelendi.</h3><div class="alert-danger">Verification failed api_key=neverlog</div></form>')
    if Handler.mode=='expire_once' and Handler.searches==1:return self.send('<form id="avForm"><div class="alert-danger">Expired form</div></form>')
    if data.get('soyad')==['ZZ']:return self.send('<form id="avForm"><h3>0 kayıt listelendi.</h3></form>')
    soup=BeautifulSoup((FIX/'live_bayburt_combined.html').read_text(),'html.parser');soup.select_one('#avForm')['action']='/'
@@ -71,6 +72,12 @@ class CompactTests(unittest.TestCase):
   Handler.mode='ok';Handler.fields=[];Handler.maximum=0;Handler.active=0;Handler.calls={};Handler.finishes=[];Handler.searches=0;Handler.gets=0
   self.page=self.browser.new_page();self.url=f'http://127.0.0.1:{self.server.server_port}/';self.page.goto(self.url);self.page.evaluate('window.marker=19');self.driver=CompactOverlapBrowser(self.page,t.Config(),SimpleNamespace(navigation_timeout=3,url=self.url,form_refreshes=0))
  def tearDown(self):self.page.close()
+ def test_rejected_form_keeps_redacted_reason_and_never_counts_as_empty(self):
+  Handler.mode='form_alert'
+  with self.assertRaises(t.VerificationRequired) as error:self.driver.fetch('69','ZZ','')
+  self.assertIn('Verification failed',str(error.exception))
+  self.assertNotIn('neverlog',str(error.exception))
+  self.assertIn('[redacted]',str(error.exception))
  def targets(self):
   rows,total,_=self.driver.fetch('69','KA','ME');self.assertEqual(total,5);return [next(r for r in rows if r['bar_registration_number']==reg) for reg in ['610002','610001']]
  def test_exact_registration_and_detail_use_same_verified_listing(self):

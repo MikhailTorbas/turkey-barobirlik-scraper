@@ -139,7 +139,12 @@ def browser_class(t):
                         self.needs_session_renewal=True;self.invalidate()
                         raise t.SessionExpired('Retained search transport failed after bounded same-session recovery')
                     soup=self.validate(reply);form=soup.select_one('#avForm');text=form.get_text(' ',strip=True)
-                    if form.select_one('.alert-danger,[role=alert]'):raise RejectedForm('Website rejected the search form')
+                    alerts=[x.get_text(' ',strip=True) for x in form.select('.alert-danger,[role=alert]')]
+                    if alerts:
+                        # Retain the source reason so verification, invalid input
+                        # and availability failures can be distinguished in logs.
+                        # An alert still cannot establish a successful empty result.
+                        raise RejectedForm('Website rejected the search form: '+t.redact(' '.join(alerts))[:500])
                     rows=t.parse_html_records(str(form),self.page.url);total=t.count_hint(text)
                     if not rows and re.search(r'kay[iı]t\s*bulunamad[iı]|sonu[cç]\s*bulunamad[iı]',text,re.I):total=0
                     if total is None or len(rows)!=total:raise t.ExtractionError('Unconfirmed retained search result count')

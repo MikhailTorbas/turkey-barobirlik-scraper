@@ -4,7 +4,7 @@ Updated **5 November 2026**. All 83 saved directory bars have exactly one owner.
 
 | Owner | Bars | Current bar | Browser slots total | Handover |
 |---|---|---|---|---|
-| Michael | 21 | Adana 1, Gaziantep 27, Kayseri 38, Şanlıurfa 63: guarded restart, two slots each | 8 maximum when authorized | [MICHAEL.md](MICHAEL.md) |
+| Michael | 21 | Adana 1, Gaziantep 27, Kayseri 38, Şanlıurfa 63: paused after low yield | 8 maximum when authorized | [MICHAEL.md](MICHAEL.md) |
 | Giovanni | 20 | İSTANBUL (34) | 4 | [GIOVANNI.md](GIOVANNI.md) |
 | Elena | 21 | İZMİR (35) | 4 | [ELENA.md](ELENA.md) |
 | Pari | 21 | BURSA (16) | 4 | [PARI.md](PARI.md) |
@@ -19,7 +19,7 @@ IDs are TBB directory IDs; Istanbul No. 2 and Ankara No. 2 are separate bars.
 
 | Directory ID | Bar | Owner | State |
 |---|---|---|---|
-| 1 | ADANA | Michael | Controlled restart, two slots; 900-second yield guard; coverage unverified |
+| 1 | ADANA | Michael | Paused after low yield; 900-second guard; coverage unverified |
 | 2 | ADIYAMAN | Elena | Assigned; check saved work before a new queue |
 | 3 | AFYONKARAHİSAR | Pari | Assigned; check saved work before a new queue |
 | 4 | AĞRI | Elena | Assigned; check saved work before a new queue |
@@ -45,7 +45,7 @@ IDs are TBB directory IDs; Istanbul No. 2 and Ankara No. 2 are separate bars.
 | 24 | ERZİNCAN | Giovanni | Assigned; check saved work before a new queue |
 | 25 | ERZURUM | Giovanni | Assigned; check saved work before a new queue |
 | 26 | ESKİŞEHİR | Michael | Assigned; check saved work before a new queue |
-| 27 | GAZİANTEP | Michael | Controlled restart, two slots; 900-second yield guard; coverage unverified |
+| 27 | GAZİANTEP | Michael | Paused after low yield; 900-second guard; coverage unverified |
 | 28 | GİRESUN | Elena | Assigned; check saved work before a new queue |
 | 29 | GÜMÜŞHANE | Giovanni | Assigned; check saved work before a new queue |
 | 30 | HAKKARİ | Michael | Assigned; check saved work before a new queue |
@@ -56,7 +56,7 @@ IDs are TBB directory IDs; Istanbul No. 2 and Ankara No. 2 are separate bars.
 | 35 | İZMİR | Elena | Current bar: resume existing queue if present |
 | 36 | KARS | Michael | Assigned; check saved work before a new queue |
 | 37 | KASTAMONU | Giovanni | Assigned; check saved work before a new queue |
-| 38 | KAYSERİ | Michael | Controlled restart, two slots; 900-second yield guard; coverage unverified |
+| 38 | KAYSERİ | Michael | Paused after low yield; 900-second guard; coverage unverified |
 | 39 | KIRKLARELİ | Giovanni | Assigned; check saved work before a new queue |
 | 40 | KIRŞEHİR | Elena | Assigned; check saved work before a new queue |
 | 41 | KOCAELİ | Pari | Assigned; check saved work before a new queue |
@@ -81,7 +81,7 @@ IDs are TBB directory IDs; Istanbul No. 2 and Ankara No. 2 are separate bars.
 | 60 | TOKAT | Pari | Assigned; check saved work before a new queue |
 | 61 | TRABZON | Michael | Assigned; check saved work before a new queue |
 | 62 | TUNCELİ | Pari | Assigned; check saved work before a new queue |
-| 63 | ŞANLIURFA | Michael | Controlled restart, two slots; 900-second yield guard; coverage unverified |
+| 63 | ŞANLIURFA | Michael | Paused after low yield; 900-second guard; coverage unverified |
 | 64 | UŞAK | Michael | Assigned; check saved work before a new queue |
 | 65 | VAN | Pari | Assigned; check saved work before a new queue |
 | 66 | YOZGAT | Michael | Assigned; check saved work before a new queue |
@@ -107,4 +107,6 @@ The table is a coordination record, not a cross-machine lock. Coordinate shared-
 
 On 5 November Michael requested all four current bars be paused for coverage reconciliation. Their local queues, runtime and solver history are retained; they are not available for reassignment. Public roster routes point to TBB rather than an independently validated exhaustive list. Do not resume or start new bars without Michael’s next instruction.
 
-**Latest instruction — guarded restart authorized on 5 November:** Michael explicitly resumed the same four queues after the pause/readiness review. Maximum eight browsers total, two per bar; discovery yield guard 900 active seconds; existing run IDs, runtime and solver history retained. The unified supervisor stops at yield/recovery limits without automatically clearing them. Coverage remains unverified. The local active-task receipt identifies the single current supervisor; older pair/standalone launch receipts are historical.
+**Historical restart instruction — 5 November:** Michael explicitly resumed the same four queues after the pause/readiness review. Maximum eight browsers total, two per bar; discovery yield guard 900 active seconds; existing run IDs, runtime and solver history retained. The unified supervisor stops at yield/recovery limits without automatically clearing them. Coverage remains unverified. The local active-task receipt identifies the single current supervisor; older pair/standalone launch receipts are historical.
+
+**Current status — 6 November review:** all four Michael queues safely stopped after their 900-second discovery-yield guard. They hold 14,707 completed profiles and 4,749 pending discovery queries; whole-bar coverage remains unverified. The unified supervisor has exited. Do not run historical helpers or clear persistent pauses automatically. See [COVERAGE_STATUS.md](COVERAGE_STATUS.md). The ownership allocation is unchanged.
