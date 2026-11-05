@@ -1,6 +1,67 @@
-# Pari: Bursa, bar 16, four browser slots
+# Pari: national allocation and current-bar handover
 
-Read this file and CLAUDE.md before setup. Your current allocation is **Bursa only (directory bar ID 16)**. Michael owns Ankara 6, Giovanni Istanbul 34, and the other colleague has a different bar. Do not switch bars, add slots or create another copy without coordinating through TEAM.md.
+## Your full national allocation — 5 November 2026
+
+You exclusively own **21 bars** listed below. Start/continue **BURSA (ID 16)**. The order below is a planning sequence, not an automatic paid-start instruction. Run **one bar at a time, at most four browser slots total on your Mac**; discovery uses one of those slots. Do not run four slots per assigned bar simultaneously.
+
+| Order | Directory ID | Bar | Saved 2025 lawyer count | State |
+|---|---|---|---|---|
+| 1 | 16 | BURSA | 6,544 | Current bar: resume existing queue if present |
+| 2 | 33 | MERSİN | 3,915 | Assigned to you; check for a saved queue before initialization |
+| 3 | 41 | KOCAELİ | 3,182 | Assigned to you; check for a saved queue before initialization |
+| 4 | 20 | DENİZLİ | 2,286 | Assigned to you; check for a saved queue before initialization |
+| 5 | 9 | AYDIN | 1,924 | Assigned to you; check for a saved queue before initialization |
+| 6 | 45 | MANİSA | 1,876 | Assigned to you; check for a saved queue before initialization |
+| 7 | 65 | VAN | 1,064 | Assigned to you; check for a saved queue before initialization |
+| 8 | 3 | AFYONKARAHİSAR | 856 | Assigned to you; check for a saved queue before initialization |
+| 9 | 60 | TOKAT | 733 | Assigned to you; check for a saved queue before initialization |
+| 10 | 19 | ÇORUM | 667 | Assigned to you; check for a saved queue before initialization |
+| 11 | 43 | KÜTAHYA | 593 | Assigned to you; check for a saved queue before initialization |
+| 12 | 77 | YALOVA | 442 | Assigned to you; check for a saved queue before initialization |
+| 13 | 71 | KIRIKKALE | 421 | Assigned to you; check for a saved queue before initialization |
+| 14 | 73 | ŞIRNAK | 413 | Assigned to you; check for a saved queue before initialization |
+| 15 | 14 | BOLU | 371 | Assigned to you; check for a saved queue before initialization |
+| 16 | 53 | RİZE | 307 | Assigned to you; check for a saved queue before initialization |
+| 17 | 12 | BİNGÖL | 240 | Assigned to you; check for a saved queue before initialization |
+| 18 | 57 | SİNOP | 200 | Assigned to you; check for a saved queue before initialization |
+| 19 | 76 | IĞDIR | 179 | Assigned to you; check for a saved queue before initialization |
+| 20 | 62 | TUNCELİ | 74 | Assigned to you; check for a saved queue before initialization |
+| 21 | 69 | BAYBURT | 59 | Assigned to you; check for a saved queue before initialization |
+
+Counts are the saved TBB baseline dated 31 December 2025. They are workload indicators, not current roster sizes or proof of completeness. Allocation is even by bar count (21/20/21/21); Istanbul makes equal total lawyer counts impossible while keeping the existing single-bar ownership. The newly assigned bars were spread using those saved counts. Do not take another operator's bar. TEAM.md is the master ownership list.
+
+### What your LLM must do for each bar
+
+1. Read this entire handover, CLAUDE.md, README.md and TEAM.md. Verify the bar ID belongs to you. Locate your existing queue/launch receipt first. An existing queue must be resumed; never recreate it or copy another person's live queue.
+2. Before changing bars, stop the old controller with Ctrl-C once, wait for checkpoint/export cleanup, confirm zero active children, and run `queue_quality.py`. Preserve its full queue, ownership database, discovery/worker checkpoints, runtime state and solver ledgers. Record whether coverage is complete, unverified, blocked or awaiting reconciliation; never call a time-limit/empty detail queue proof of coverage.
+3. Inspect pending/review details, discovery and roster gaps. Reconcile against official roster evidence where available. If Michael explicitly defers closure, retain the old bar under your custody with a written remainder; do not erase pending searches or assign it to someone else.
+4. For a genuinely new bar, use a separate directory outside the checkout. Replace BAR_ID with the numeric ID from your table, and RUN_ID with a unique operator/bar-specific ID. Do not run the initializer if that directory already exists. An assignment grants ownership; coordinate each paid launch/runtime allowance with Michael. No automatic loop across the table or automatic new run IDs.
+
+```sh
+# Set these to your private local provider files; actual keys are never in Git.
+export TBB_CONNECTION_FILE="/absolute/private/zenrows.local.json"
+export TBB_SOLVER_FILE="/absolute/private/capsolver.local.json"
+# Substitute your own user/bar directory. Keep one durable queue per bar.
+export TBB_QUEUE="$HOME/TurkeyData/pari-bar-BAR_ID/queue"
+
+# NEW allocation only: refuse existing destinations.
+.venv/bin/python prepare_queue.py --directory "$TBB_QUEUE" --baro BAR_ID --owner Pari
+.venv/bin/python queue_quality.py --directory "$TBB_QUEUE"
+
+# Only after the paid-start instruction; eight-hour allowance example.
+caffeinate -is .venv/bin/python refill_runner.py \
+  --directory "$TBB_QUEUE" --seconds 28800 --uncapped \
+  --solver-tasks 250 --discovery-solver-tasks 100 \
+  --run-id RUN_ID
+```
+
+For an existing production queue, use its recorded command and limits instead of replacing them with this example. Resume with the identical queue, run ID and configuration. An exhausted allowance needs explicit authorization; never reset counters/ledgers. The connection/solver flags can be supplied explicitly instead of the environment variables. Keep keys, contacts and checkpoints outside Git. Funding/provider caps remain shared; do not buy credits, alter subscriptions or change dashboard limits.
+
+5. Track new completed profiles, profiles/minute (recent and overall), profiles with email, unique emails, fill rate, pending/review statuses, active workers, solver attempts, reconnects/challenges, active runtime and timestamped shared-account credits. Shared-account deltas overlap: do not add simultaneous operators' totals. Distinguish source blanks/invalid emails from unknown extraction failures.
+6. Return a private RESULTS.md, quality report and the entire stopped queue for each bar. GitHub stores ownership/instructions only. Keep Mac on AC with lid open while parsing; sleeping does not collect. Resume saved work after moving/shutdown.
+
+## Existing starting-bar setup and recovery instructions
+Read this file and CLAUDE.md before setup. Your current starting bar is **Bursa (directory bar ID 16)**. Your full exclusive allocation is listed above. Coordinate paid starts and any change of owner through TEAM.md.
 
 ## Install (macOS)
 
@@ -70,4 +131,4 @@ Inspect `refill-report-pari-bursa-01.json`, `refill-events-pari-bursa-01.jsonl`,
 
 Record the Git commit (`git rev-parse HEAD`), start/end times and timezone, active duration, new completed profiles, profiles/minute, profiles with email, unique email addresses, fill rate, pending/review states, CAPTCHA attempts, challenges/reconnects and stop/resume issues. Distinguish verified source blanks/invalid emails from unknown/extraction failures. Shared-key credit deltas overlap other users: send timestamped observations to Michael; do not add the four Macs' deltas together.
 
-After stopping cleanly, return the **entire queue directory** privately with `RESULTS.md` and the quality report, including discovery, all four worker databases, ownership, WAL files if present, run state and solver ledgers. A CSV alone cannot resume. Exclude provider configuration files. Never upload collected data/credentials to commits, issues or releases. Do not automatically pick another bar; Michael reconciles coverage and assigns the next one. National completeness remains unverified.
+After stopping cleanly, return the **entire queue directory** privately with `RESULTS.md` and the quality report, including discovery, all four worker databases, ownership, WAL files if present, run state and solver ledgers. A CSV alone cannot resume. Exclude provider configuration files. Never upload collected data/credentials to commits, issues or releases. Follow your assigned sequence only after closure/reconciliation or Michael’s explicit deferred-closure instruction, with the paid runtime agreed. Ownership transfers require updating TEAM.md. National completeness remains unverified.

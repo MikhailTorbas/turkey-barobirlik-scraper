@@ -1,20 +1,106 @@
-# Exclusive bar assignments
+# Exclusive nationwide bar assignments
 
-| Owner | Current bar | Directory ID | Browser slots |
-| --- | --- | --- | --- |
-| Michael | Adana | 1 | 4 |
-| Giovanni | Istanbul (main) | 34 | 4 |
-| Elena | İzmir | 35 | 4 |
-| Pari | Bursa | 16 | 4 |
+Updated **5 November 2026**. All 83 saved directory bars have exactly one owner. Allocation is even by **number of bars**, with larger newly assigned bars spread using the saved 2025 population baseline. Istanbul remains with Giovanni, so equal total lawyer counts are not possible without splitting or transferring existing ownership. Baseline counts are not remaining work or coverage proof.
 
-Only Michael coordinates reassignment. These allocations do not include Ankara No. 2 / Istanbul No. 2. A bar has one owner and one live queue; four slots are managed by one controller on that owner's Mac. This table is a coordination record, not a cross-machine locking service.
+| Owner | Bars | Current bar | Browser slots total | Handover |
+|---|---|---|---|---|
+| Michael | 21 | ADANA (1) | 4 | [MICHAEL.md](MICHAEL.md) |
+| Giovanni | 20 | İSTANBUL (34) | 4 | [GIOVANNI.md](GIOVANNI.md) |
+| Elena | 21 | İZMİR (35) | 4 | [ELENA.md](ELENA.md) |
+| Pari | 21 | BURSA (16) | 4 | [PARI.md](PARI.md) |
 
-Elena follows ELENA.md; Pari follows PARI.md; Giovanni follows GIOVANNI.md. Giovanni continues his saved Istanbul queue; colleagues initialize fresh queues once. Michael moved to Adana on 5 November 2026; Antalya is paused for later coverage reconciliation. Credentials travel separately in private handovers, never in Git history. Use the hosted session endpoint; no separate residential-proxy credentials are required.
+One owner, one durable queue per bar. Each operator runs one bar at a time and at most four browser slots total, with discovery inside that limit. Current live runs are unchanged by this document update. Only Michael coordinates ownership transfers; a planned sequence is not an automatic paid-launch instruction. Paid runtime, solver increases and recovery releases remain explicit. Do not change subscriptions, buy credits or alter provider caps.
 
-First coordinate a short simultaneous live observation before sustained 16-slot operation. Company account capacity/funding/provider caps are shared, and four-Mac throughput is not yet validated. Keep paid-start timing explicit; installing/updating/preparing queues does not start a run.
+Ankara 6 and Antalya 7 remain Michael’s saved reconciliation work; neither is free for another operator. Finish/reconcile the current bar or get an explicit deferred-closure instruction before switching. Preserve full queues and histories. Empty detail queues and elapsed-time exits do not prove exhaustive coverage. Credentials, contacts, logs and checkpoints stay private, outside Git.
 
-An eight-hour exit is a checkpoint, not proof of complete coverage. Do not switch bars automatically. Return the full stopped queue privately, reconcile pending/review/discovery/roster gaps, then update this table before a new owner starts. GitHub does not store the queues or collected contacts.
+## Master ownership table
 
-Ankara (bar 6) is retained under Michael’s custody, stopped after roster reconciliation with four detail exceptions. It is not assigned to another worker and is not certified exhaustively covered. Keep the full saved queue; do not restart it alongside Adana on the same four slots.
+IDs are TBB directory IDs; Istanbul No. 2 and Ankara No. 2 are separate bars.
 
-Antalya (bar 7) is paused under Michael’s custody with all discovered details completed, pending discovery and unverified coverage. Preserve its full queue and ledgers for reconciliation; do not assign or run another copy.
+| Directory ID | Bar | Owner | State |
+|---|---|---|---|
+| 1 | ADANA | Michael | Current bar: running; resume saved queue |
+| 2 | ADIYAMAN | Elena | Assigned; check saved work before a new queue |
+| 3 | AFYONKARAHİSAR | Pari | Assigned; check saved work before a new queue |
+| 4 | AĞRI | Elena | Assigned; check saved work before a new queue |
+| 5 | AMASYA | Giovanni | Assigned; check saved work before a new queue |
+| 6 | ANKARA | Michael | Retained: audited with four detail exceptions; not certified exhaustive |
+| 7 | ANTALYA | Michael | Retained: paused; coverage reconciliation pending |
+| 8 | ARTVİN | Elena | Assigned; check saved work before a new queue |
+| 9 | AYDIN | Pari | Assigned; check saved work before a new queue |
+| 10 | BALIKESİR | Giovanni | Assigned; check saved work before a new queue |
+| 11 | BİLECİK | Elena | Assigned; check saved work before a new queue |
+| 12 | BİNGÖL | Pari | Assigned; check saved work before a new queue |
+| 13 | BİTLİS | Giovanni | Assigned; check saved work before a new queue |
+| 14 | BOLU | Pari | Assigned; check saved work before a new queue |
+| 15 | BURDUR | Elena | Assigned; check saved work before a new queue |
+| 16 | BURSA | Pari | Current bar: resume existing queue if present |
+| 17 | ÇANAKKALE | Elena | Assigned; check saved work before a new queue |
+| 18 | ÇANKIRI | Elena | Assigned; check saved work before a new queue |
+| 19 | ÇORUM | Pari | Assigned; check saved work before a new queue |
+| 20 | DENİZLİ | Pari | Assigned; check saved work before a new queue |
+| 21 | DİYARBAKIR | Elena | Assigned; check saved work before a new queue |
+| 22 | EDİRNE | Giovanni | Assigned; check saved work before a new queue |
+| 23 | ELAZIĞ | Giovanni | Assigned; check saved work before a new queue |
+| 24 | ERZİNCAN | Giovanni | Assigned; check saved work before a new queue |
+| 25 | ERZURUM | Giovanni | Assigned; check saved work before a new queue |
+| 26 | ESKİŞEHİR | Michael | Assigned; check saved work before a new queue |
+| 27 | GAZİANTEP | Michael | Assigned; check saved work before a new queue |
+| 28 | GİRESUN | Elena | Assigned; check saved work before a new queue |
+| 29 | GÜMÜŞHANE | Giovanni | Assigned; check saved work before a new queue |
+| 30 | HAKKARİ | Michael | Assigned; check saved work before a new queue |
+| 31 | HATAY | Elena | Assigned; check saved work before a new queue |
+| 32 | ISPARTA | Michael | Assigned; check saved work before a new queue |
+| 33 | MERSİN | Pari | Assigned; check saved work before a new queue |
+| 34 | İSTANBUL | Giovanni | Current bar: resume saved Istanbul queue |
+| 35 | İZMİR | Elena | Current bar: resume existing queue if present |
+| 36 | KARS | Michael | Assigned; check saved work before a new queue |
+| 37 | KASTAMONU | Giovanni | Assigned; check saved work before a new queue |
+| 38 | KAYSERİ | Michael | Assigned; check saved work before a new queue |
+| 39 | KIRKLARELİ | Giovanni | Assigned; check saved work before a new queue |
+| 40 | KIRŞEHİR | Elena | Assigned; check saved work before a new queue |
+| 41 | KOCAELİ | Pari | Assigned; check saved work before a new queue |
+| 42 | KONYA | Elena | Assigned; check saved work before a new queue |
+| 43 | KÜTAHYA | Pari | Assigned; check saved work before a new queue |
+| 44 | MALATYA | Elena | Assigned; check saved work before a new queue |
+| 45 | MANİSA | Pari | Assigned; check saved work before a new queue |
+| 46 | KAHRAMANMARAŞ | Giovanni | Assigned; check saved work before a new queue |
+| 47 | MARDİN | Elena | Assigned; check saved work before a new queue |
+| 48 | MUĞLA | Elena | Assigned; check saved work before a new queue |
+| 49 | MUŞ | Giovanni | Assigned; check saved work before a new queue |
+| 50 | NEVŞEHİR | Giovanni | Assigned; check saved work before a new queue |
+| 51 | NİĞDE | Michael | Assigned; check saved work before a new queue |
+| 52 | ORDU | Michael | Assigned; check saved work before a new queue |
+| 53 | RİZE | Pari | Assigned; check saved work before a new queue |
+| 54 | SAKARYA | Michael | Assigned; check saved work before a new queue |
+| 55 | SAMSUN | Giovanni | Assigned; check saved work before a new queue |
+| 56 | SİİRT | Elena | Assigned; check saved work before a new queue |
+| 57 | SİNOP | Pari | Assigned; check saved work before a new queue |
+| 58 | SİVAS | Michael | Assigned; check saved work before a new queue |
+| 59 | TEKİRDAĞ | Elena | Assigned; check saved work before a new queue |
+| 60 | TOKAT | Pari | Assigned; check saved work before a new queue |
+| 61 | TRABZON | Michael | Assigned; check saved work before a new queue |
+| 62 | TUNCELİ | Pari | Assigned; check saved work before a new queue |
+| 63 | ŞANLIURFA | Michael | Assigned; check saved work before a new queue |
+| 64 | UŞAK | Michael | Assigned; check saved work before a new queue |
+| 65 | VAN | Pari | Assigned; check saved work before a new queue |
+| 66 | YOZGAT | Michael | Assigned; check saved work before a new queue |
+| 67 | ZONGULDAK | Elena | Assigned; check saved work before a new queue |
+| 68 | AKSARAY | Michael | Assigned; check saved work before a new queue |
+| 69 | BAYBURT | Pari | Assigned; check saved work before a new queue |
+| 70 | KARAMAN | Michael | Assigned; check saved work before a new queue |
+| 71 | KIRIKKALE | Pari | Assigned; check saved work before a new queue |
+| 72 | BATMAN | Giovanni | Assigned; check saved work before a new queue |
+| 73 | ŞIRNAK | Pari | Assigned; check saved work before a new queue |
+| 74 | BARTIN | Michael | Assigned; check saved work before a new queue |
+| 75 | ARDAHAN | Elena | Assigned; check saved work before a new queue |
+| 76 | IĞDIR | Pari | Assigned; check saved work before a new queue |
+| 77 | YALOVA | Pari | Assigned; check saved work before a new queue |
+| 78 | KARABÜK | Michael | Assigned; check saved work before a new queue |
+| 79 | KİLİS | Giovanni | Assigned; check saved work before a new queue |
+| 80 | OSMANİYE | Giovanni | Assigned; check saved work before a new queue |
+| 81 | DÜZCE | Elena | Assigned; check saved work before a new queue |
+| 342 | İSTANBUL 2 NOLU | Giovanni | Assigned; check saved work before a new queue |
+| 620 | ANKARA 2 NOLU | Giovanni | Assigned; check saved work before a new queue |
+
+The table is a coordination record, not a cross-machine lock. Coordinate shared-provider capacity for up to 16 slots. Never sum overlapping shared-key credit deltas. Return private stopped queues/results for reconciliation; do not upload datasets or credentials here.

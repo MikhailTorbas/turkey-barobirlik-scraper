@@ -2,7 +2,7 @@
 
 Private team source for the TBB directory scraper. Runs four local browser slots on one exclusively assigned bar, with retained-form searches, two-profile detail overlap, durable queue ownership, automatic discovery refill and checkpoint/resume.
 
-**Team:** see [TEAM.md](TEAM.md). Elena starts with [ELENA.md](ELENA.md); Pari with [PARI.md](PARI.md). **Giovanni:** start with [GIOVANNI.md](GIOVANNI.md). Keep your existing Istanbul queue. This repository contains code, synthetic test fixtures and instructions; it deliberately contains **no collected contacts, production checkpoints or credentials**. Cloning code does not download or recreate your saved progress.
+**Team:** see [TEAM.md](TEAM.md). Michael starts with [MICHAEL.md](MICHAEL.md); Elena with [ELENA.md](ELENA.md); Pari with [PARI.md](PARI.md). **Giovanni:** start with [GIOVANNI.md](GIOVANNI.md). Keep your existing Istanbul queue. This repository contains code, synthetic test fixtures and instructions; it deliberately contains **no collected contacts, production checkpoints or credentials**. Cloning code does not download or recreate your saved progress.
 
 ## Install
 
@@ -70,7 +70,7 @@ Discovery backpressure excludes jobs stranded on stopped workers. Reports distin
 
 ## Limits and operational rules
 
-- Michael owns Adana **1**; Giovanni Istanbul **34**; Elena İzmir **35**; Pari Bursa **16**. See TEAM.md for exclusive assignments. Never run duplicate copies of a queue or an older overlapping allocation concurrently.
+- Michael owns Adana **1**; Giovanni Istanbul **34**; Elena İzmir **35**; Pari Bursa **16**. These are current starting bars; see TEAM.md and each named handover for all 83 exclusive assignments (21/20/21/21). Never run duplicate copies of a queue or an older overlapping allocation concurrently.
 - Discovery temporarily uses one of four slots; the other three can keep checking details. There is no fifth discovery browser. At sufficient backlog, all four process details.
 - `--uncapped` removes the **application** ceiling and exact-cap requirement. It does not remove provider dashboard caps, fund an account, purchase top-ups or change subscriptions. Provider limits still apply. Account-wide usage telemetry failures are logged and retried without stopping healthy uncapped collection; real auth/funding errors remain explicit. Capped mode is available with `--credit-cap` and without `--uncapped`.
 - Solver ceilings are **lifetime attempts per existing ledger**, not additional attempts. Keep them funded and choose allowances for the approved duration; do not delete ledgers or loop-restart blocked work.
