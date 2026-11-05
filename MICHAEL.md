@@ -2,14 +2,14 @@
 
 ## Your full national allocation — 5 November 2026
 
-You exclusively own **21 bars** listed below. Current assigned group (**all paused for coverage reconciliation**): **ADANA (1), GAZİANTEP (27), KAYSERİ (38), ŞANLIURFA (63), two browser slots each, eight total**. Preserve all four saved queues; do not initialize them again or resume paid work until instructed. The order below is a planning sequence, not an automatic paid-start instruction. For this explicitly authorized group, run four separate controllers with `--browser-slots 2` each. Keep at most eight browser slots total on your Mac, including discovery. Other bars in the sequence remain queued. Do not run four slots per assigned bar simultaneously.
+You exclusively own **21 bars** listed below. Current running group (**controlled restart with discovery-yield guard**): **ADANA (1), GAZİANTEP (27), KAYSERİ (38), ŞANLIURFA (63), two browser slots each, eight total**. All four saved queues were explicitly resumed after the readiness review; preserve them and do not initialize any again. The order below is a planning sequence, not an automatic paid-start instruction. For this explicitly authorized group, run four separate controllers with `--browser-slots 2` each. Keep at most eight browser slots total on your Mac, including discovery. Other bars in the sequence remain queued. Do not run four slots per assigned bar simultaneously.
 
 | Order | Directory ID | Bar | Saved 2025 lawyer count | State |
 |---|---|---|---|---|
-| 1 | 1 | ADANA | 5,020 | Paused; coverage reconciliation pending; preserve queue |
-| 2 | 27 | GAZİANTEP | 3,664 | Paused; coverage reconciliation pending; preserve queue |
-| 3 | 38 | KAYSERİ | 3,254 | Paused; coverage reconciliation pending; preserve queue |
-| 4 | 63 | ŞANLIURFA | 2,412 | Paused; coverage reconciliation pending; preserve queue |
+| 1 | 1 | ADANA | 5,020 | Guarded restart, two slots; preserve queue and coverage gaps |
+| 2 | 27 | GAZİANTEP | 3,664 | Guarded restart, two slots; preserve queue and coverage gaps |
+| 3 | 38 | KAYSERİ | 3,254 | Guarded restart, two slots; preserve queue and coverage gaps |
+| 4 | 63 | ŞANLIURFA | 2,412 | Guarded restart, two slots; preserve queue and coverage gaps |
 | 5 | 26 | ESKİŞEHİR | 1,991 | Assigned to you; check for a saved queue before initialization |
 | 6 | 54 | SAKARYA | 1,558 | Assigned to you; check for a saved queue before initialization |
 | 7 | 61 | TRABZON | 1,128 | Assigned to you; check for a saved queue before initialization |
@@ -74,6 +74,8 @@ The active four-bar group is recorded in `work/active-parser-task.json`, which l
 
 Adana’s original child stopped on three solver-failure phases and received one recorded recovery (`adana-solver-refresh-20261105`). Its recovered controller is listed separately in `standalone_controllers` in the active-task receipt; pause it too. The first pair supervisor’s old Adana child report is historical, not the recovered controller’s current state. Use Adana’s queue report for its live state. No elapsed time, saved jobs or solver ledgers were reset.
 
-**Latest state — paused on 5 November:** both supervisors and the standalone Adana recovery controller were stopped cleanly. All controller/worker leases released, with full queue backups and a reconciliation report saved locally under `outputs/four-bar-reconciliation-2026-11-05`. There is one unattempted Adana detail (registration 2409); its email is unknown. No validated exhaustive independent roster was obtained for these four bars; retain the coverage gap and pending discovery. `work/active-parser-task.json` is marked paused. The two-bar helper scripts launch paid work and must not run until Michael gives a resume instruction.
+**Earlier pause on 5 November (historical):** both supervisors and the standalone Adana recovery controller were stopped cleanly. All controller/worker leases released, with full queue backups and a reconciliation report saved locally under `outputs/four-bar-reconciliation-2026-11-05`. There is one unattempted Adana detail (registration 2409); its email is unknown. No validated exhaustive independent roster was obtained for these four bars; retain the coverage gap and pending discovery. `work/active-parser-task.json` is marked paused. The two-bar helper scripts launch paid work and must not run until Michael gives a resume instruction.
 
 **Restart-readiness follow-up:** the saved Adana registration 2409 was completed in one bounded live check using one additional solver task. Its email is verified blank on the source; it is no longer pending. All four bars now have zero unfinished discovered details. Whole-bar coverage remains unverified. The new 900-active-second discovery-yield guard prevents paid overlapping-search tails from running indefinitely; review README.md before a recorded recovery. Broad scraping stays paused until Michael requests restart.
+
+**Current restart:** Michael explicitly resumed all four bars after the readiness review, using one local `work/run_four_bar_guarded.py` supervisor. `work/active-parser-task.json` now identifies that one supervisor and its four queues; signal that verified PID once to pause the whole group. This supersedes the two-pair/standalone process layout above. Do not launch historical helper scripts alongside the unified supervisor. Every controller uses two browser slots, the same original run ID/runtime/solver ledger, and `--discovery-idle-seconds 900`. A low-yield or bounded recovery stop remains stopped until reviewed; no automated recovery/run-ID rotation. Independent full coverage remains unverified.
