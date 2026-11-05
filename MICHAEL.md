@@ -2,12 +2,12 @@
 
 ## Your full national allocation — 5 November 2026
 
-You exclusively own **21 bars** listed below. Start/continue **ADANA (ID 1)**. The order below is a planning sequence, not an automatic paid-start instruction. Run **one bar at a time, at most four browser slots total on your Mac**; discovery uses one of those slots. Do not run four slots per assigned bar simultaneously.
+You exclusively own **21 bars** listed below. Current authorized pair: **ADANA (ID 1) + GAZİANTEP (ID 27), two browser slots each, four total**. Resume both saved queues; do not initialize either again. The order below is a planning sequence, not an automatic paid-start instruction. For this explicitly authorized pair, run two separate controllers with `--browser-slots 2` each. Keep at most four browser slots total on your Mac, including discovery. Other bars in the sequence remain queued. Do not run four slots per assigned bar simultaneously.
 
 | Order | Directory ID | Bar | Saved 2025 lawyer count | State |
 |---|---|---|---|---|
 | 1 | 1 | ADANA | 5,020 | Current bar: running; resume saved queue |
-| 2 | 27 | GAZİANTEP | 3,664 | Assigned to you; check for a saved queue before initialization |
+| 2 | 27 | GAZİANTEP | 3,664 | Running alongside Adana: two slots; resume saved queue |
 | 3 | 38 | KAYSERİ | 3,254 | Assigned to you; check for a saved queue before initialization |
 | 4 | 63 | ŞANLIURFA | 2,412 | Assigned to you; check for a saved queue before initialization |
 | 5 | 26 | ESKİŞEHİR | 1,991 | Assigned to you; check for a saved queue before initialization |
@@ -67,3 +67,5 @@ Adana is the current production run. Its local receipt is `outputs/adana-product
 Antalya is paused with 8,256 completed profiles and 4,879 unique emails in its saved 5 November stop report; coverage reconciliation remains pending. Ankara has 26,400 completed profiles, four documented detail exceptions and a completed saved-roster reconciliation; exhaustive current coverage remains unverified. Neither queue is transferred or reset by this allocation.
 
 For a new machine, follow README.md installation and private credential setup, then the per-bar instructions above. Existing source data must travel privately with the full stopped queue; GitHub has no production contacts or checkpoints.
+
+The continuing pair is controlled locally by `work/run_adana_gaziantep.py`, with the current supervisor PID and queue paths in `work/active-parser-task.json`. Gaziantep preserves `gaziantep-comparison-2026-11-05` as its run ID so prior work/runtime/solver history are retained. The timed comparison was interrupted before its automatic Adana-only restoration; it must not be relaunched alongside this pair.

@@ -4,12 +4,12 @@ Updated **5 November 2026**. All 83 saved directory bars have exactly one owner.
 
 | Owner | Bars | Current bar | Browser slots total | Handover |
 |---|---|---|---|---|
-| Michael | 21 | ADANA (1) | 4 | [MICHAEL.md](MICHAEL.md) |
+| Michael | 21 | ADANA (1) + GAZİANTEP (27), two slots each | 4 | [MICHAEL.md](MICHAEL.md) |
 | Giovanni | 20 | İSTANBUL (34) | 4 | [GIOVANNI.md](GIOVANNI.md) |
 | Elena | 21 | İZMİR (35) | 4 | [ELENA.md](ELENA.md) |
 | Pari | 21 | BURSA (16) | 4 | [PARI.md](PARI.md) |
 
-One owner, one durable queue per bar. Each operator runs one bar at a time and at most four browser slots total, with discovery inside that limit. Current live runs are unchanged by this document update. Only Michael coordinates ownership transfers; a planned sequence is not an automatic paid-launch instruction. Paid runtime, solver increases and recovery releases remain explicit. Do not change subscriptions, buy credits or alter provider caps.
+One owner, one durable queue per bar. Default operation is one bar at a time and at most four browser slots total, with discovery inside that limit. Michael explicitly authorized Adana 1 and Gaziantep 27 together on 5 November: separate saved queues/controllers, each with `--browser-slots 2`, four total. No two default four-slot controllers. Other operators retain sequential operation unless Michael authorizes the same split. Current live runs are unchanged by this document update. Only Michael coordinates ownership transfers; a planned sequence is not an automatic paid-launch instruction. Paid runtime, solver increases and recovery releases remain explicit. Do not change subscriptions, buy credits or alter provider caps.
 
 Ankara 6 and Antalya 7 remain Michael’s saved reconciliation work; neither is free for another operator. Finish/reconcile the current bar or get an explicit deferred-closure instruction before switching. Preserve full queues and histories. Empty detail queues and elapsed-time exits do not prove exhaustive coverage. Credentials, contacts, logs and checkpoints stay private, outside Git.
 
@@ -45,7 +45,7 @@ IDs are TBB directory IDs; Istanbul No. 2 and Ankara No. 2 are separate bars.
 | 24 | ERZİNCAN | Giovanni | Assigned; check saved work before a new queue |
 | 25 | ERZURUM | Giovanni | Assigned; check saved work before a new queue |
 | 26 | ESKİŞEHİR | Michael | Assigned; check saved work before a new queue |
-| 27 | GAZİANTEP | Michael | Assigned; check saved work before a new queue |
+| 27 | GAZİANTEP | Michael | Current parallel bar: two slots; resume saved queue |
 | 28 | GİRESUN | Elena | Assigned; check saved work before a new queue |
 | 29 | GÜMÜŞHANE | Giovanni | Assigned; check saved work before a new queue |
 | 30 | HAKKARİ | Michael | Assigned; check saved work before a new queue |
