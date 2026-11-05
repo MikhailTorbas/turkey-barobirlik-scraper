@@ -146,6 +146,7 @@ def run(args):
     if not re.fullmatch(r'[A-Za-z0-9_-]{1,48}',args.run_id) or min(args.seconds,args.credit_cap,args.solver_tasks,args.discovery_solver_tasks)<1:
         raise ValueError('Invalid runtime, budget or run ID')
     if not 0<=getattr(args,'roster_lookups',0)<=100:raise ValueError('Roster lookups must be 0..100 per discovery phase')
+    if not 1<=getattr(args,'browser_slots',4)<=4:raise ValueError('Browser slots must be 1..4 within the four-worker queue')
     endpoint=json.loads(Path(args.connection_file).read_text())['cdp_endpoint']
     json.loads(Path(args.solver_file).read_text())['capsolver_api_key']
     # Persistent lease covers both queue writers and every child directory.
@@ -219,6 +220,7 @@ def stop_children(active,grace=90):
 
 def supervise(root,registry,plan,args,endpoint):
     uncapped=getattr(args,'uncapped',False)
+    browser_slots=getattr(args,'browser_slots',4)
     def budget():return read_zenrows_usage(endpoint) if uncapped else check_zenrows_cap(endpoint,args.credit_cap)
     telemetry_error=None
     try:latest=budget()
@@ -244,7 +246,7 @@ def supervise(root,registry,plan,args,endpoint):
     if recover_stopped(state,getattr(args,'recover_stopped','')):
         # Persist authorization/history before any paid child can be launched.
         atomic(state_path,state)
-    policy={'version':'2026-11-04-streaming','roster_lookups':getattr(args,'roster_lookups',0)}
+    policy={'version':'2026-11-05-slot-budget','roster_lookups':getattr(args,'roster_lookups',0),'browser_slots':browser_slots}
     if state.get('operating_policy')!=policy:
         state.setdefault('operating_policy_changes',[]).append({'at_unix':time.time(),'before':state.get('operating_policy'),'after':policy})
         state['operating_policy']=policy
@@ -275,7 +277,7 @@ def supervise(root,registry,plan,args,endpoint):
               'provider_budget':latest,'shared_key_credit_delta':credit_delta(),
               'usage_monitor_status':telemetry_error or 'available',
               'billing_note':'Shared company counter. Never add concurrent Mac deltas. Billing can lag.',
-              'active_slots':len(active),'roles':state['roles'],'slot_seconds':state['slot_seconds'],
+              'active_slots':len(active),'browser_slot_limit':browser_slots,'roles':state['roles'],'slot_seconds':state['slot_seconds'],
               'runnable_ready':runnable,'stranded_ready':snap['ready']-runnable,**snap}
         atomic(report_path,data);return data
     def credit_delta():
@@ -336,7 +338,14 @@ def supervise(root,registry,plan,args,endpoint):
             empty_slot=any(not state['roles'][str(i)].get('stop_reason') and not snap['workers'][str(i)]['ready'] for i in idle)
             need_discovery=not producer and (unowned+runnable_ready<800 or (empty_slot and not unowned)) and discovery_available(root) and not dstate.get('stop_reason')
             discovery_slot=min(idle,key=lambda i:snap['workers'][str(i)]['ready']) if need_discovery and idle else None
-            for i in idle:
+            # Persistent ownership stays across all four worker checkpoints.
+            # Reduced concurrency limits live children, not which jobs can run.
+            # Give discovery its reserved opportunity, then rotate detail roles
+            # by their last launch so lower-numbered queues cannot starve peers.
+            launch_order=(sorted(idle,key=lambda i:(i!=discovery_slot,state['roles'][str(i)].get('last_started_elapsed',-1),i))
+                          if browser_slots<4 else idle)
+            for i in launch_order:
+                if len(active)>=browser_slots:break
                 if elapsed<next_start:break
                 role='discovery' if i==discovery_slot and time.time()>=dstate['retry_after'] else str(i)
                 s=state['roles'][role]
@@ -354,6 +363,7 @@ def supervise(root,registry,plan,args,endpoint):
                 except Exception:log.close();raise
                 active[i]={'p':p,'log':log,'role':role,'started':time.monotonic(),
                            'before':snap['discovery_progress'] if role=='discovery' else snap['workers'][role]['done']}
+                s['last_started_elapsed']=elapsed
                 next_start=elapsed+5
                 if role=='discovery':need_discovery=False
             if elapsed>=next_report:
@@ -401,6 +411,7 @@ def supervise(root,registry,plan,args,endpoint):
 
 def cli():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--directory',required=True)
+    p.add_argument('--browser-slots',type=int,choices=range(1,5),default=4,help='Maximum live browsers, including discovery; keeps all four durable worker queues. Two controllers at 2 slots each use at most four total.')
     p.add_argument('--seconds',type=int,default=28800);p.add_argument('--credit-cap',type=int,default=600000)
     p.add_argument('--uncapped',action='store_true',help='No local credit ceiling; usage telemetry failures do not stop collection. Provider caps still apply.')
     p.add_argument('--amend-budgets',action='store_true',help='Record explicit budget/uncapped-mode changes on resume without resetting elapsed time or ledgers')

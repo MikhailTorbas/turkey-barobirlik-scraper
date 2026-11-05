@@ -1,7 +1,7 @@
 {
-  "release_date": "2026-11-04",
+  "release_date": "2026-11-05",
   "core_sha256": "8b1009dfcdc91af628660fe843ce87953b205f9d1eb5447dc491115784ab208c",
-  "tests_expected": 171,
+  "tests_expected": 174,
   "fixtures": "synthetic names, contacts and identifiers",
   "runtime_data_included": false,
   "national_completeness_claim": false,
@@ -9,5 +9,6 @@
   "controller_recovery": "Committed WAL streaming refill, discovery prefers empty slots, recorded recovery and no-launch guard",
   "solver_recovery": "Bounded same-task polling retries; sanitized HTTP diagnostics",
   "detail_recovery": "Isolate individually failed requests only with successful sibling and healthy verified form; retain exact-ID allowance",
-  "closure_audit": "Verified absences count as progress; isolated roster-only lookup mode preserves ordinary queries"
+  "closure_audit": "Verified absences count as progress; isolated roster-only lookup mode preserves ordinary queries",
+  "browser_slots": "Configurable 1..4 live children including discovery; retains all four durable worker queues and records policy changes. Two-bar performance remains experimental."
 }

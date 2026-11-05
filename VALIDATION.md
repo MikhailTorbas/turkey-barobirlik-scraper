@@ -21,3 +21,5 @@ The tail-stage update adds regression coverage for a hanging request beside a su
 The final slot-placement regression verifies pending detail work starts immediately and discovery uses a different empty slot. The final tail-stage suite contains 169 tests.
 
 The closure update passed **171 tests**, including local Chromium. New checks verify exact not-found responses count as audit progress without creating contacts; roster-only mode leaves ordinary pending queries untouched and submits no broad searches. A separate offline closure-merge test verifies disjoint assignments, preserved completions/attempts and idempotent imports.
+
+The adjustable-browser update passed **174 tests**, including local Chromium and localhost fixture servers. New scheduler tests verify one/two-slot caps include discovery, every pre-existing four-worker queue remains reachable, changing back to four preserves ownership/completions and records policy history, and an invalid slot count starts no children. Default four-slot tests remain unchanged. Live two-bar throughput/cost validation is a separate operational comparison; no speedup is claimed by these offline checks.
