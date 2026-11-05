@@ -4,12 +4,12 @@ Updated **5 November 2026**. All 83 saved directory bars have exactly one owner.
 
 | Owner | Bars | Current bar | Browser slots total | Handover |
 |---|---|---|---|---|
-| Michael | 21 | ADANA (1) + GAZİANTEP (27), two slots each | 4 | [MICHAEL.md](MICHAEL.md) |
+| Michael | 21 | ADANA (1), GAZİANTEP (27), KAYSERİ (38), ŞANLIURFA (63), two slots each | 8 | [MICHAEL.md](MICHAEL.md) |
 | Giovanni | 20 | İSTANBUL (34) | 4 | [GIOVANNI.md](GIOVANNI.md) |
 | Elena | 21 | İZMİR (35) | 4 | [ELENA.md](ELENA.md) |
 | Pari | 21 | BURSA (16) | 4 | [PARI.md](PARI.md) |
 
-One owner, one durable queue per bar. Default operation is one bar at a time and at most four browser slots total, with discovery inside that limit. Michael explicitly authorized Adana 1 and Gaziantep 27 together on 5 November: separate saved queues/controllers, each with `--browser-slots 2`, four total. No two default four-slot controllers. Other operators retain sequential operation unless Michael authorizes the same split. Current live runs are unchanged by this document update. Only Michael coordinates ownership transfers; a planned sequence is not an automatic paid-launch instruction. Paid runtime, solver increases and recovery releases remain explicit. Do not change subscriptions, buy credits or alter provider caps.
+One owner, one durable queue per bar. Default operation is one bar at a time and at most four browser slots total, with discovery inside that limit. Michael explicitly authorized four simultaneous bars on 5 November: Adana 1, Gaziantep 27, Kayseri 38 and Şanlıurfa 63, each with its own saved queue/controller and `--browser-slots 2`, eight total. This is an explicit exception for Michael; other operators do not add slots automatically. No four default four-slot controllers. Other operators retain sequential operation unless Michael authorizes the same split. Current live runs are unchanged by this document update. Only Michael coordinates ownership transfers; a planned sequence is not an automatic paid-launch instruction. Paid runtime, solver increases and recovery releases remain explicit. Do not change subscriptions, buy credits or alter provider caps.
 
 Ankara 6 and Antalya 7 remain Michael’s saved reconciliation work; neither is free for another operator. Finish/reconcile the current bar or get an explicit deferred-closure instruction before switching. Preserve full queues and histories. Empty detail queues and elapsed-time exits do not prove exhaustive coverage. Credentials, contacts, logs and checkpoints stay private, outside Git.
 
@@ -56,7 +56,7 @@ IDs are TBB directory IDs; Istanbul No. 2 and Ankara No. 2 are separate bars.
 | 35 | İZMİR | Elena | Current bar: resume existing queue if present |
 | 36 | KARS | Michael | Assigned; check saved work before a new queue |
 | 37 | KASTAMONU | Giovanni | Assigned; check saved work before a new queue |
-| 38 | KAYSERİ | Michael | Assigned; check saved work before a new queue |
+| 38 | KAYSERİ | Michael | Current parallel bar: two slots; resume saved queue |
 | 39 | KIRKLARELİ | Giovanni | Assigned; check saved work before a new queue |
 | 40 | KIRŞEHİR | Elena | Assigned; check saved work before a new queue |
 | 41 | KOCAELİ | Pari | Assigned; check saved work before a new queue |
@@ -81,7 +81,7 @@ IDs are TBB directory IDs; Istanbul No. 2 and Ankara No. 2 are separate bars.
 | 60 | TOKAT | Pari | Assigned; check saved work before a new queue |
 | 61 | TRABZON | Michael | Assigned; check saved work before a new queue |
 | 62 | TUNCELİ | Pari | Assigned; check saved work before a new queue |
-| 63 | ŞANLIURFA | Michael | Assigned; check saved work before a new queue |
+| 63 | ŞANLIURFA | Michael | Current parallel bar: two slots; resume saved queue |
 | 64 | UŞAK | Michael | Assigned; check saved work before a new queue |
 | 65 | VAN | Pari | Assigned; check saved work before a new queue |
 | 66 | YOZGAT | Michael | Assigned; check saved work before a new queue |

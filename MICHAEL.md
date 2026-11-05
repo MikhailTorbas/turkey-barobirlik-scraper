@@ -2,14 +2,14 @@
 
 ## Your full national allocation — 5 November 2026
 
-You exclusively own **21 bars** listed below. Current authorized pair: **ADANA (ID 1) + GAZİANTEP (ID 27), two browser slots each, four total**. Resume both saved queues; do not initialize either again. The order below is a planning sequence, not an automatic paid-start instruction. For this explicitly authorized pair, run two separate controllers with `--browser-slots 2` each. Keep at most four browser slots total on your Mac, including discovery. Other bars in the sequence remain queued. Do not run four slots per assigned bar simultaneously.
+You exclusively own **21 bars** listed below. Current authorized group: **ADANA (1), GAZİANTEP (27), KAYSERİ (38), ŞANLIURFA (63), two browser slots each, eight total**. Resume the four saved queues; do not initialize any of them again. The order below is a planning sequence, not an automatic paid-start instruction. For this explicitly authorized group, run four separate controllers with `--browser-slots 2` each. Keep at most eight browser slots total on your Mac, including discovery. Other bars in the sequence remain queued. Do not run four slots per assigned bar simultaneously.
 
 | Order | Directory ID | Bar | Saved 2025 lawyer count | State |
 |---|---|---|---|---|
 | 1 | 1 | ADANA | 5,020 | Current bar: running; resume saved queue |
 | 2 | 27 | GAZİANTEP | 3,664 | Running alongside Adana: two slots; resume saved queue |
-| 3 | 38 | KAYSERİ | 3,254 | Assigned to you; check for a saved queue before initialization |
-| 4 | 63 | ŞANLIURFA | 2,412 | Assigned to you; check for a saved queue before initialization |
+| 3 | 38 | KAYSERİ | 3,254 | Running in parallel: two slots; resume saved queue |
+| 4 | 63 | ŞANLIURFA | 2,412 | Running in parallel: two slots; resume saved queue |
 | 5 | 26 | ESKİŞEHİR | 1,991 | Assigned to you; check for a saved queue before initialization |
 | 6 | 54 | SAKARYA | 1,558 | Assigned to you; check for a saved queue before initialization |
 | 7 | 61 | TRABZON | 1,128 | Assigned to you; check for a saved queue before initialization |
@@ -69,3 +69,5 @@ Antalya is paused with 8,256 completed profiles and 4,879 unique emails in its s
 For a new machine, follow README.md installation and private credential setup, then the per-bar instructions above. Existing source data must travel privately with the full stopped queue; GitHub has no production contacts or checkpoints.
 
 The continuing pair is controlled locally by `work/run_adana_gaziantep.py`, with the current supervisor PID and queue paths in `work/active-parser-task.json`. Gaziantep preserves `gaziantep-comparison-2026-11-05` as its run ID so prior work/runtime/solver history are retained. The timed comparison was interrupted before its automatic Adana-only restoration; it must not be relaunched alongside this pair.
+
+The active four-bar group is recorded in `work/active-parser-task.json`, which lists **two supervisor PIDs**, their status files and all four queue paths. Both supervisors must be paused to stop the entire group. Kayseri/Şanlıurfa are controlled locally by `work/run_kayseri_sanliurfa.py`; the existing Adana/Gaziantep supervisor remains running. Do not start a second copy of either pair or exceed eight total browsers.
