@@ -32,4 +32,4 @@ For each bar, obtain an official dated CSV/XLSX/PDF or public download with loca
 
 Then use `roster_reconciliation.py` to retain source evidence, compare bar+registration identities, queue only missing official IDs, and investigate name conflicts. Preserve nonmatches and source scope/date differences. A complete official list at one date does not prove a later changing directory is exhaustive.
 
-No request has been sent to any bar. These four queues remain paused pending a reviewed strategy; no automatic recovery follows from this report. Michael separately authorized fresh collection for bars 26/54/61/52; see MICHAEL.md. The 900-second discovery-yield guard remains enabled.
+No request has been sent to any bar. These four queues remain paused pending a reviewed strategy; no automatic recovery follows from this report. The subsequent 26/54/61/52 group also paused after low yield, with saved data and unverified coverage. Michael separately authorized fresh collection for bars 58/32/64/68; see MICHAEL.md. The 900-second discovery-yield guard remains enabled.

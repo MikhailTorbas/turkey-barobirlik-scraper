@@ -4,7 +4,7 @@ Updated **5 November 2026**. All 83 saved directory bars have exactly one owner.
 
 | Owner | Bars | Current bar | Browser slots total | Handover |
 |---|---|---|---|---|
-| Michael | 21 | Eskişehir 26, Sakarya 54, Trabzon 61, Ordu 52: current authorized group | 8 maximum when authorized | [MICHAEL.md](MICHAEL.md) |
+| Michael | 21 | Sivas 58, Isparta 32, Uşak 64, Aksaray 68: current authorized group | 8 maximum when authorized | [MICHAEL.md](MICHAEL.md) |
 | Giovanni | 20 | İSTANBUL (34) | 4 | [GIOVANNI.md](GIOVANNI.md) |
 | Elena | 21 | İZMİR (35) | 4 | [ELENA.md](ELENA.md) |
 | Pari | 21 | BURSA (16) | 4 | [PARI.md](PARI.md) |
@@ -44,13 +44,13 @@ IDs are TBB directory IDs; Istanbul No. 2 and Ankara No. 2 are separate bars.
 | 23 | ELAZIĞ | Giovanni | Assigned; check saved work before a new queue |
 | 24 | ERZİNCAN | Giovanni | Assigned; check saved work before a new queue |
 | 25 | ERZURUM | Giovanni | Assigned; check saved work before a new queue |
-| 26 | ESKİŞEHİR | Michael | Current authorized run; two slots; 8-hour allowance |
+| 26 | ESKİŞEHİR | Michael | Paused after low yield; coverage unverified |
 | 27 | GAZİANTEP | Michael | Paused after low yield; 900-second guard; coverage unverified |
 | 28 | GİRESUN | Elena | Assigned; check saved work before a new queue |
 | 29 | GÜMÜŞHANE | Giovanni | Assigned; check saved work before a new queue |
 | 30 | HAKKARİ | Michael | Assigned; check saved work before a new queue |
 | 31 | HATAY | Elena | Assigned; check saved work before a new queue |
-| 32 | ISPARTA | Michael | Assigned; check saved work before a new queue |
+| 32 | ISPARTA | Michael | Current authorized run; two slots; 8-hour allowance |
 | 33 | MERSİN | Pari | Assigned; check saved work before a new queue |
 | 34 | İSTANBUL | Giovanni | Current bar: resume saved Istanbul queue |
 | 35 | İZMİR | Elena | Current bar: resume existing queue if present |
@@ -70,23 +70,23 @@ IDs are TBB directory IDs; Istanbul No. 2 and Ankara No. 2 are separate bars.
 | 49 | MUŞ | Giovanni | Assigned; check saved work before a new queue |
 | 50 | NEVŞEHİR | Giovanni | Assigned; check saved work before a new queue |
 | 51 | NİĞDE | Michael | Assigned; check saved work before a new queue |
-| 52 | ORDU | Michael | Current authorized run; two slots; 8-hour allowance |
+| 52 | ORDU | Michael | Paused after low yield; coverage unverified |
 | 53 | RİZE | Pari | Assigned; check saved work before a new queue |
-| 54 | SAKARYA | Michael | Current authorized run; two slots; 8-hour allowance |
+| 54 | SAKARYA | Michael | Paused after low yield; coverage unverified |
 | 55 | SAMSUN | Giovanni | Assigned; check saved work before a new queue |
 | 56 | SİİRT | Elena | Assigned; check saved work before a new queue |
 | 57 | SİNOP | Pari | Assigned; check saved work before a new queue |
-| 58 | SİVAS | Michael | Assigned; check saved work before a new queue |
+| 58 | SİVAS | Michael | Current authorized run; two slots; 8-hour allowance |
 | 59 | TEKİRDAĞ | Elena | Assigned; check saved work before a new queue |
 | 60 | TOKAT | Pari | Assigned; check saved work before a new queue |
-| 61 | TRABZON | Michael | Current authorized run; two slots; 8-hour allowance |
+| 61 | TRABZON | Michael | Paused after low yield; coverage unverified |
 | 62 | TUNCELİ | Pari | Assigned; check saved work before a new queue |
 | 63 | ŞANLIURFA | Michael | Paused after low yield; 900-second guard; coverage unverified |
-| 64 | UŞAK | Michael | Assigned; check saved work before a new queue |
+| 64 | UŞAK | Michael | Current authorized run; two slots; 8-hour allowance |
 | 65 | VAN | Pari | Assigned; check saved work before a new queue |
 | 66 | YOZGAT | Michael | Assigned; check saved work before a new queue |
 | 67 | ZONGULDAK | Elena | Assigned; check saved work before a new queue |
-| 68 | AKSARAY | Michael | Assigned; check saved work before a new queue |
+| 68 | AKSARAY | Michael | Current authorized run; two slots; 8-hour allowance |
 | 69 | BAYBURT | Pari | Assigned; check saved work before a new queue |
 | 70 | KARAMAN | Michael | Assigned; check saved work before a new queue |
 | 71 | KIRIKKALE | Pari | Assigned; check saved work before a new queue |
@@ -111,4 +111,6 @@ On 5 November Michael requested all four current bars be paused for coverage rec
 
 **Previous group status — 6 November review:** all four Michael queues safely stopped after their 900-second discovery-yield guard. They hold 14,707 completed profiles and 4,749 pending discovery queries; whole-bar coverage remains unverified. The unified supervisor has exited. Do not run historical helpers or clear persistent pauses automatically. See [COVERAGE_STATUS.md](COVERAGE_STATUS.md). The ownership allocation is unchanged.
 
-**Latest launch — 6 November:** Michael explicitly authorized the next four bars: Eskişehir 26, Sakarya 54, Trabzon 61 and Ordu 52, two browser slots each/eight maximum. Four fresh durable queues were prepared outside Git after confirming no earlier target queues or active parser processes. Eight-hour active-time allowances, uncapped application credits, 900-second discovery-yield guard and persistent checkpoints. The single current local supervisor is `work/run_next_four_bars.py`; read the active-task receipt and MICHAEL.md. The prior four bars remain paused with coverage exceptions and retained data. No reassignment or automatic rollover to later bars.
+**Previous launch — 6 November:** Michael explicitly authorized the next four bars: Eskişehir 26, Sakarya 54, Trabzon 61 and Ordu 52, two browser slots each/eight maximum. Four fresh durable queues were prepared outside Git after confirming no earlier target queues or active parser processes. Eight-hour active-time allowances, uncapped application credits, 900-second discovery-yield guard and persistent checkpoints. The single current local supervisor is `work/run_next_four_bars.py`; read the active-task receipt and MICHAEL.md. The prior four bars remain paused with coverage exceptions and retained data. No reassignment or automatic rollover to later bars.
+
+**Current launch — 6 November, next group:** Michael explicitly authorized Sivas 58, Isparta 32, Uşak 64 and Aksaray 68, two slots each/eight maximum, after the previous group safely paused. Fresh queues were prepared only after checking saved target plans, old queue leases and active parser processes. Eight-hour allowances, uncapped application credits, 900-second discovery-yield guard; one current local supervisor `work/run_third_four_bars.py`. Read the active-task receipt and MICHAEL.md. Both previous four-bar groups remain paused with their data and coverage gaps preserved. Ownership is unchanged. No automatic recovery or rollover to further bars.

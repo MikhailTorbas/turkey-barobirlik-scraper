@@ -2,9 +2,9 @@
 
 ## Your full national allocation — 5 November 2026
 
-You exclusively own **21 bars** listed below. **Current authorized group: ESKİŞEHİR (26), SAKARYA (54), TRABZON (61), ORDU (52), two browser slots each/eight maximum**, launched on 6 November after Michael's explicit instruction. Each fresh queue has an eight-hour active-time allowance, uncapped application credits and a 900-second discovery-yield guard. Other operators' assignments are unchanged.
+You exclusively own **21 bars** listed below. **Current authorized group: SİVAS (58), ISPARTA (32), UŞAK (64), AKSARAY (68), two browser slots each/eight maximum**, launched on 6 November after Michael's explicit instruction. Each fresh queue has an eight-hour active-time allowance, uncapped application credits and a 900-second discovery-yield guard. Other operators' assignments are unchanged.
 
-The prior Adana (1), Gaziantep (27), Kayseri (38) and Şanlıurfa (63) queues remain paused with saved data and unverified coverage. Preserve them; do not recreate or resume them alongside the current group. The sequence below is not an automatic paid-start instruction for later bars.
+The prior Adana (1), Gaziantep (27), Kayseri (38), Şanlıurfa (63), Eskişehir (26), Sakarya (54), Trabzon (61) and Ordu (52) queues remain paused with saved data and unverified coverage. Preserve them; do not recreate or resume them alongside the current group. The sequence below is not an automatic paid-start instruction for later bars.
 
 | Order | Directory ID | Bar | Saved 2025 lawyer count | State |
 |---|---|---|---|---|
@@ -12,14 +12,14 @@ The prior Adana (1), Gaziantep (27), Kayseri (38) and Şanlıurfa (63) queues re
 | 2 | 27 | GAZİANTEP | 3,664 | Paused after low yield; preserve queue and coverage gaps |
 | 3 | 38 | KAYSERİ | 3,254 | Paused after low yield; preserve queue and coverage gaps |
 | 4 | 63 | ŞANLIURFA | 2,412 | Paused after low yield; preserve queue and coverage gaps |
-| 5 | 26 | ESKİŞEHİR | 1,991 | Current authorized run, two slots; preserve new durable queue |
-| 6 | 54 | SAKARYA | 1,558 | Current authorized run, two slots; preserve new durable queue |
-| 7 | 61 | TRABZON | 1,128 | Current authorized run, two slots; preserve new durable queue |
-| 8 | 52 | ORDU | 925 | Current authorized run, two slots; preserve new durable queue |
-| 9 | 58 | SİVAS | 821 | Assigned to you; check for a saved queue before initialization |
-| 10 | 32 | ISPARTA | 711 | Assigned to you; check for a saved queue before initialization |
-| 11 | 64 | UŞAK | 628 | Assigned to you; check for a saved queue before initialization |
-| 12 | 68 | AKSARAY | 558 | Assigned to you; check for a saved queue before initialization |
+| 5 | 26 | ESKİŞEHİR | 1,991 | Paused after low yield; preserve queue and coverage gaps |
+| 6 | 54 | SAKARYA | 1,558 | Paused after low yield; preserve queue and coverage gaps |
+| 7 | 61 | TRABZON | 1,128 | Paused after low yield; preserve queue and coverage gaps |
+| 8 | 52 | ORDU | 925 | Paused after low yield; preserve queue and coverage gaps |
+| 9 | 58 | SİVAS | 821 | Current authorized run, two slots; preserve new durable queue |
+| 10 | 32 | ISPARTA | 711 | Current authorized run, two slots; preserve new durable queue |
+| 11 | 64 | UŞAK | 628 | Current authorized run, two slots; preserve new durable queue |
+| 12 | 68 | AKSARAY | 558 | Current authorized run, two slots; preserve new durable queue |
 | 13 | 51 | NİĞDE | 419 | Assigned to you; check for a saved queue before initialization |
 | 14 | 66 | YOZGAT | 384 | Assigned to you; check for a saved queue before initialization |
 | 15 | 70 | KARAMAN | 333 | Assigned to you; check for a saved queue before initialization |
@@ -78,8 +78,12 @@ The prior guarded supervisor (`work/run_four_bar_guarded.py`) has exited; its re
 
 The resolved Adana registration 2409 is complete and its email is blank on the source. It is not an unresolved extraction failure. Ankara and Antalya retain their earlier documented coverage exceptions. See [COVERAGE_STATUS.md](COVERAGE_STATUS.md) for the remaining dependency; no new bar or automatic paid restart is authorized by this status record.
 
+## Previous Eskişehir/Sakarya/Trabzon/Ordu group
+
+These four queues safely stopped with `discovery_yield_paused` by 03:02 Tbilisi time on 6 November. All 5,733 discovered profiles were completed; 3,654 contain emails (3,651 distinct email addresses across the group). Pending discovery remains saved and whole-bar coverage unverified. Their historical supervisor/receipts are `work/run_next_four_bars.py` and `outputs/next-four-bars-production-2026-11-06`. Do not restart from those historical receipts alongside the current group.
+
 ## Current four-bar launch — 6 November
 
-The one current supervisor is `work/run_next_four_bars.py`; its verified PID and fresh status are in `work/active-parser-task.json` and `outputs/next-four-bars-production-2026-11-06/status.json`. Signal that verified supervisor once to checkpoint/stop all four current bars. Wait for all child/queue leases to release before moving or restarting. The old supervisor's PID is historical.
+Michael explicitly authorized Sivas 58, Isparta 32, Uşak 64 and Aksaray 68 after the previous group paused. The one current supervisor is `work/run_third_four_bars.py`; its verified PID and fresh status are in `work/active-parser-task.json` and `outputs/third-four-bars-production-2026-11-06/status.json`. Signal that verified supervisor once to checkpoint/stop all four current bars. Wait for all child/queue leases to release before moving or restarting. Older supervisor PIDs are historical.
 
-Each queue is `outputs/NAME-production-2026-11-06/queue` outside this checkout (NAME: `eskisehir`, `sakarya`, `trabzon`, `ordu`). Its exact launch command is in the adjacent `launch-plan.json` and the group's `LAUNCH_PLAN.json`. Preserve that queue and the run ID `NAME-production-2026-11-06` to resume the remaining allowance. Commands use `--seconds 28800 --uncapped --browser-slots 2 --solver-tasks 250 --discovery-solver-tasks 100 --discovery-idle-seconds 900`. Solver limits are lifetime attempts in each retained ledger. Do not reset them or clear yield/recovery stops automatically. No automatic switch to later bars.
+Each queue is `outputs/NAME-production-2026-11-06/queue` outside this checkout (NAME: `sivas`, `isparta`, `usak`, `aksaray`). Its exact launch command is in the adjacent `launch-plan.json` and the group's `LAUNCH_PLAN.json`. Preserve that queue and the run ID `NAME-production-2026-11-06` to resume the remaining allowance. Commands use `--seconds 28800 --uncapped --browser-slots 2 --solver-tasks 250 --discovery-solver-tasks 100 --discovery-idle-seconds 900`. Solver limits are lifetime attempts in each retained ledger. Do not reset them or clear yield/recovery stops automatically. No automatic switch to later bars.
