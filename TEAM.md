@@ -4,7 +4,7 @@ Updated **5 November 2026**. All 83 saved directory bars have exactly one owner.
 
 | Owner | Bars | Current bar | Browser slots total | Handover |
 |---|---|---|---|---|
-| Michael | 21 | Niğde 51, Yozgat 66, Karaman 70, Karabük 78: current authorized group | 8 maximum when authorized | [MICHAEL.md](MICHAEL.md) |
+| Michael | 21 | Hakkari 30, Kars 36, Bartın 74 + Karabük 78 recovery: current group | 8 maximum when authorized | [MICHAEL.md](MICHAEL.md) |
 | Giovanni | 20 | İSTANBUL (34) | 4 | [GIOVANNI.md](GIOVANNI.md) |
 | Elena | 21 | İZMİR (35) | 4 | [ELENA.md](ELENA.md) |
 | Pari | 21 | BURSA (16) | 4 | [PARI.md](PARI.md) |
@@ -48,13 +48,13 @@ IDs are TBB directory IDs; Istanbul No. 2 and Ankara No. 2 are separate bars.
 | 27 | GAZİANTEP | Michael | Paused after low yield; 900-second guard; coverage unverified |
 | 28 | GİRESUN | Elena | Assigned; check saved work before a new queue |
 | 29 | GÜMÜŞHANE | Giovanni | Assigned; check saved work before a new queue |
-| 30 | HAKKARİ | Michael | Assigned; check saved work before a new queue |
+| 30 | HAKKARİ | Michael | Current authorized run; two slots; 900-second yield guard |
 | 31 | HATAY | Elena | Assigned; check saved work before a new queue |
 | 32 | ISPARTA | Michael | Paused after low yield; coverage unverified |
 | 33 | MERSİN | Pari | Assigned; check saved work before a new queue |
 | 34 | İSTANBUL | Giovanni | Current bar: resume saved Istanbul queue |
 | 35 | İZMİR | Elena | Current bar: resume existing queue if present |
-| 36 | KARS | Michael | Assigned; check saved work before a new queue |
+| 36 | KARS | Michael | Current authorized run; two slots; 900-second yield guard |
 | 37 | KASTAMONU | Giovanni | Assigned; check saved work before a new queue |
 | 38 | KAYSERİ | Michael | Paused after low yield; 900-second guard; coverage unverified |
 | 39 | KIRKLARELİ | Giovanni | Assigned; check saved work before a new queue |
@@ -69,7 +69,7 @@ IDs are TBB directory IDs; Istanbul No. 2 and Ankara No. 2 are separate bars.
 | 48 | MUĞLA | Elena | Assigned; check saved work before a new queue |
 | 49 | MUŞ | Giovanni | Assigned; check saved work before a new queue |
 | 50 | NEVŞEHİR | Giovanni | Assigned; check saved work before a new queue |
-| 51 | NİĞDE | Michael | Current authorized run; two slots; 900-second yield guard |
+| 51 | NİĞDE | Michael | Paused after low yield; coverage unverified |
 | 52 | ORDU | Michael | Paused after low yield; coverage unverified |
 | 53 | RİZE | Pari | Assigned; check saved work before a new queue |
 | 54 | SAKARYA | Michael | Paused after low yield; coverage unverified |
@@ -84,19 +84,19 @@ IDs are TBB directory IDs; Istanbul No. 2 and Ankara No. 2 are separate bars.
 | 63 | ŞANLIURFA | Michael | Paused after low yield; 900-second guard; coverage unverified |
 | 64 | UŞAK | Michael | Paused after low yield; coverage unverified |
 | 65 | VAN | Pari | Assigned; check saved work before a new queue |
-| 66 | YOZGAT | Michael | Current authorized run; two slots; 900-second yield guard |
+| 66 | YOZGAT | Michael | Paused after low yield; coverage unverified |
 | 67 | ZONGULDAK | Elena | Assigned; check saved work before a new queue |
 | 68 | AKSARAY | Michael | Paused after low yield; coverage unverified |
 | 69 | BAYBURT | Pari | Assigned; check saved work before a new queue |
-| 70 | KARAMAN | Michael | Current authorized run; two slots; 900-second yield guard |
+| 70 | KARAMAN | Michael | Paused after low yield; coverage unverified |
 | 71 | KIRIKKALE | Pari | Assigned; check saved work before a new queue |
 | 72 | BATMAN | Giovanni | Assigned; check saved work before a new queue |
 | 73 | ŞIRNAK | Pari | Assigned; check saved work before a new queue |
-| 74 | BARTIN | Michael | Assigned; check saved work before a new queue |
+| 74 | BARTIN | Michael | Current authorized run; two slots; 900-second yield guard |
 | 75 | ARDAHAN | Elena | Assigned; check saved work before a new queue |
 | 76 | IĞDIR | Pari | Assigned; check saved work before a new queue |
 | 77 | YALOVA | Pari | Assigned; check saved work before a new queue |
-| 78 | KARABÜK | Michael | Current authorized run; two slots; 900-second yield guard |
+| 78 | KARABÜK | Michael | Current reviewed recovery; original queue/history retained |
 | 79 | KİLİS | Giovanni | Assigned; check saved work before a new queue |
 | 80 | OSMANİYE | Giovanni | Assigned; check saved work before a new queue |
 | 81 | DÜZCE | Elena | Assigned; check saved work before a new queue |
@@ -115,4 +115,6 @@ On 5 November Michael requested all four current bars be paused for coverage rec
 
 **Previous launch — 6 November, third group:** Michael explicitly authorized Sivas 58, Isparta 32, Uşak 64 and Aksaray 68, two slots each/eight maximum, after the previous group safely paused. Fresh queues were prepared only after checking saved target plans, old queue leases and active parser processes. Eight-hour allowances, uncapped application credits, 900-second discovery-yield guard; one current local supervisor `work/run_third_four_bars.py`. Read the active-task receipt and MICHAEL.md. Both previous four-bar groups remain paused with their data and coverage gaps preserved. Ownership is unchanged. No automatic recovery or rollover to further bars.
 
-**Current launch — 6 November, fourth group:** Michael authorized Niğde 51, Yozgat 66, Karaman 70 and Karabük 78. Two slots each/eight maximum, uncapped application credits, 900-second discovery-yield guard and seven-day safety backstop replacing the eight-hour cutoff. No automatic recovery, rollover, provider purchases or cap changes. The single current local supervisor is `work/run_fourth_four_bars.py`; read MICHAEL.md and the active-task receipt. All previous twelve bars remain paused with saved data and unverified coverage; Aksaray retains a dated-baseline shortfall. Official 2025 baseline counts were checked for the new group, not treated as live roster totals. Ownership is unchanged.
+**Previous launch — 6 November, fourth group:** Michael authorized Niğde 51, Yozgat 66, Karaman 70 and Karabük 78. Two slots each/eight maximum, uncapped application credits, 900-second discovery-yield guard and seven-day safety backstop replacing the eight-hour cutoff. No automatic recovery, rollover, provider purchases or cap changes. The single current local supervisor is `work/run_fourth_four_bars.py`; read MICHAEL.md and the active-task receipt. All previous twelve bars remain paused with saved data and unverified coverage; Aksaray retains a dated-baseline shortfall. Official 2025 baseline counts were checked for the new group, not treated as live roster totals. Ownership is unchanged.
+
+**Current batch — 7 November:** new Hakkari 30, Kars 36 and Bartın 74, plus one reviewed recovery of Michael's existing Karabük 78 queue. Two slots each/eight maximum; uncapped application credits, 900-second discovery-yield guard, seven-day safety backstop. Only three fresh assignments remained; no colleague's bar was taken. Karabük preserves its old run ID, runtime, solver ledgers and 255 completions; its recorded recovery ID is `karabuk-baseline-review-20261107`, never automatically rotated. Single local supervisor `work/run_fifth_batch.py`; see MICHAEL.md and the active-task receipt. All Michael's 21 bars have now been started; remaining work includes coverage reconciliation, not new assignments. Earlier groups stay paused except this explicitly recovered Karabük queue.

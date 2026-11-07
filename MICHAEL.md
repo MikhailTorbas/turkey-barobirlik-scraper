@@ -2,7 +2,7 @@
 
 ## Your full national allocation — 5 November 2026
 
-You exclusively own **21 bars** listed below. **Current authorized group: NİĞDE (51), YOZGAT (66), KARAMAN (70), KARABÜK (78), two browser slots each/eight maximum**, launched on 6 November after Michael's explicit instruction. Each fresh queue has uncapped application credits and a 900-second discovery-yield guard, with a seven-day safety backstop instead of an eight-hour cutoff. Other operators' assignments are unchanged.
+You exclusively own **21 bars** listed below. **Current authorized group: HAKKARİ (30), KARS (36), BARTIN (74), plus a saved KARABÜK (78) recovery, two browser slots each/eight maximum**, launched on 7 November after Michael's explicit instruction. Each fresh queue has uncapped application credits and a 900-second discovery-yield guard, with a seven-day safety backstop instead of an eight-hour cutoff. Other operators' assignments are unchanged.
 
 The prior Adana (1), Gaziantep (27), Kayseri (38), Şanlıurfa (63), Eskişehir (26), Sakarya (54), Trabzon (61), Ordu (52), Sivas (58), Isparta (32), Uşak (64) and Aksaray (68) queues remain paused with saved data and unverified coverage. Preserve them; do not recreate or resume them alongside the current group. The sequence below is not an automatic paid-start instruction for later bars.
 
@@ -20,13 +20,13 @@ The prior Adana (1), Gaziantep (27), Kayseri (38), Şanlıurfa (63), Eskişehir 
 | 10 | 32 | ISPARTA | 711 | Paused after low yield; preserve queue and coverage gaps |
 | 11 | 64 | UŞAK | 628 | Paused after low yield; preserve queue and coverage gaps |
 | 12 | 68 | AKSARAY | 558 | Paused after low yield; preserve queue and coverage gaps |
-| 13 | 51 | NİĞDE | 419 | Current authorized run, two slots; preserve new durable queue |
-| 14 | 66 | YOZGAT | 384 | Current authorized run, two slots; preserve new durable queue |
-| 15 | 70 | KARAMAN | 333 | Current authorized run, two slots; preserve new durable queue |
-| 16 | 78 | KARABÜK | 275 | Current authorized run, two slots; preserve new durable queue |
-| 17 | 30 | HAKKARİ | 219 | Assigned to you; check for a saved queue before initialization |
-| 18 | 36 | KARS | 203 | Assigned to you; check for a saved queue before initialization |
-| 19 | 74 | BARTIN | 184 | Assigned to you; check for a saved queue before initialization |
+| 13 | 51 | NİĞDE | 419 | Paused after low yield; preserve queue and coverage gaps |
+| 14 | 66 | YOZGAT | 384 | Paused after low yield; preserve queue and coverage gaps |
+| 15 | 70 | KARAMAN | 333 | Paused after low yield; preserve queue and coverage gaps |
+| 16 | 78 | KARABÜK | 275 | Current reviewed recovery, two slots; preserve original queue/history |
+| 17 | 30 | HAKKARİ | 219 | Current authorized run, two slots; preserve new durable queue |
+| 18 | 36 | KARS | 203 | Current authorized run, two slots; preserve new durable queue |
+| 19 | 74 | BARTIN | 184 | Current authorized run, two slots; preserve new durable queue |
 | 20 | 7 | ANTALYA | 8,038 | Retained: paused; coverage reconciliation pending |
 | 21 | 6 | ANKARA | 26,206 | Retained: audited with four detail exceptions; not certified exhaustive |
 
@@ -86,10 +86,16 @@ These four queues safely stopped with `discovery_yield_paused` by 03:02 Tbilisi 
 
 All four stopped safely with `discovery_yield_paused`. Saved completions: Sivas 831, Isparta 729, Uşak 640, Aksaray 480 (2,680 total). Source coverage remains unverified; Aksaray is below its dated 2025 baseline of 558 and requires targeted follow-up. Preserve every queue and pending search. Historical receipts: `outputs/third-four-bars-production-2026-11-06`; old supervisor `work/run_third_four_bars.py`. Do not restart it alongside the current group.
 
-## Current four-bar launch — 6 November
+## Previous Niğde/Yozgat/Karaman/Karabük group
 
-Michael explicitly authorized Niğde 51, Yozgat 66, Karaman 70 and Karabük 78 after the previous group stopped. The single current supervisor is `work/run_fourth_four_bars.py`; verify its PID/status in `work/active-parser-task.json` and `outputs/fourth-four-bars-production-2026-11-06/status.json`. Signal that verified supervisor once to checkpoint/stop the group; wait for all queue leases to release before moving or resuming. Historical supervisor PIDs must not be signaled.
+All four safely stopped with `discovery_yield_paused`, preserving 1,371 completed profiles: Niğde 435, Yozgat 368, Karaman 313, Karabük 255. Coverage remains unverified. Yozgat, Karaman and Karabük remain below the dated 2025 baselines; retain these follow-ups. Historical supervisor/receipts are `work/run_fourth_four_bars.py` and `outputs/fourth-four-bars-production-2026-11-06`. Do not launch that old supervisor concurrently with the new group. Only Karabük is explicitly selected for one reviewed recovery in the current batch.
 
-Fresh queues are `outputs/NAME-production-2026-11-06/queue` outside Git (NAME: `nigde`, `yozgat`, `karaman`, `karabuk`), run IDs `NAME-production-2026-11-06`. Exact commands are in the adjacent `launch-plan.json` and group `LAUNCH_PLAN.json`. Commands use `--seconds 604800 --uncapped --browser-slots 2 --solver-tasks 250 --discovery-solver-tasks 100 --discovery-idle-seconds 900`. The seven-day allowance is a safety backstop, replacing the prior eight-hour cutoff; the intended operational stop is drained detail work plus 15 active minutes without new identities/verified roster progress, or bounded recovery/provider/solver limits. This is not an unlimited retry policy or a coverage proof. Keep runtime and lifetime solver ledgers on resume; never clear yield/recovery stops automatically. No automatic rollover to later bars.
+## Current mixed batch — 7 November
 
-The saved official 31 December 2025 population baseline was checked before launch: Niğde 419, Yozgat 384, Karaman 333, Karabük 275. These are not current verified roster totals. Previous twelve bars and Ankara/Antalya retain their data and unresolved coverage work. Only Hakkari 30, Kars 36 and Bartın 74 remain unstarted in Michael's allocation after this launch.
+Only three unstarted bars remained. Michael requested the next batch of four; the launched group is new Hakkari 30, Kars 36 and Bartın 74, plus one reviewed Karabük 78 recovery. No other operator's bar was reassigned. The single current supervisor is `work/run_fifth_batch.py`; its verified PID/status are in `work/active-parser-task.json` and `outputs/fifth-batch-production-2026-11-07/status.json`. Signal that verified supervisor once to stop/checkpoint the group; wait for all queue leases to release. Old supervisor PIDs are historical.
+
+Fresh queues are `outputs/NAME-production-2026-11-07/queue` (NAME `hakkari`, `kars`, `bartin`), run IDs `NAME-production-2026-11-07`. Karabük keeps `outputs/karabuk-production-2026-11-06/queue`, run ID `karabuk-production-2026-11-06`, all 255 prior completions, elapsed runtime and lifetime solver attempts. Its full stopped queue was backed up before recovery under the current group output. Exact commands are in the group `LAUNCH_PLAN.json`; new bars also have adjacent `launch-plan.json` files.
+
+Commands retain `--seconds 604800 --uncapped --browser-slots 2 --solver-tasks 250 --discovery-solver-tasks 100 --discovery-idle-seconds 900`. Seven days is a safety backstop, not an eight-hour cutoff. Karabük uses its remaining original allowance and one recorded `--recover-stopped karabuk-baseline-review-20261107` after review of its pending discovery and dated-baseline shortfall. This opens one 900-second yield observation window; useful new identities extend it normally. Repeating the same recovery ID is idempotent and cannot release a later stop. Do not invent another ID or change budgets automatically. Provider, solver and bounded recovery stops remain effective.
+
+All 21 Michael allocations have now been started; there are no further unstarted bars to launch automatically. Previously collected bars remain saved with explicit coverage exceptions. The historical baseline is not a live exhaustive count; neither low-yield pause nor checking every discovered detail establishes full coverage. Aksaray, Yozgat, Karaman and Karabük retain their below-baseline flags until reconciled; Karabük's new recovery does not erase its flag.
