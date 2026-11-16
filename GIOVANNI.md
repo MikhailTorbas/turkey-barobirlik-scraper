@@ -1,33 +1,41 @@
-# Giovanni: national allocation and current-bar handover
+# Giovanni: setup and remaining-bar handover
 
-## Your full national allocation — 5 November 2026
+## Active allocation — 16 November 2026
 
-You exclusively own **20 bars** listed below. Start/continue **İSTANBUL (ID 34)**. The order below is a planning sequence, not an automatic paid-start instruction. Run **one bar at a time, at most four browser slots total on your Mac**; discovery uses one of those slots. Do not run four slots per assigned bar simultaneously.
+Michael explicitly reassigned the 29 locally unstarted bars between Elena and Giovanni. Your next-work list contains **14 bars**, approximately **11,235 profiles** against the 31 December 2025 TBB baseline. These are dated workload indicators, not coverage proof. TEAM.md is the authoritative ownership table.
 
-| Order | Directory ID | Bar | Saved 2025 lawyer count | State |
-|---|---|---|---|---|
-| 1 | 34 | İSTANBUL | 67,463 | Current bar: resume saved Istanbul queue |
-| 2 | 342 | İSTANBUL 2 NOLU | 3,979 | Assigned to you; check for a saved queue before initialization |
-| 3 | 620 | ANKARA 2 NOLU | 3,078 | Assigned to you; check for a saved queue before initialization |
-| 4 | 55 | SAMSUN | 2,385 | Assigned to you; check for a saved queue before initialization |
-| 5 | 10 | BALIKESİR | 1,878 | Assigned to you; check for a saved queue before initialization |
-| 6 | 46 | KAHRAMANMARAŞ | 1,632 | Assigned to you; check for a saved queue before initialization |
-| 7 | 25 | ERZURUM | 1,083 | Assigned to you; check for a saved queue before initialization |
-| 8 | 80 | OSMANİYE | 917 | Assigned to you; check for a saved queue before initialization |
-| 9 | 23 | ELAZIĞ | 770 | Assigned to you; check for a saved queue before initialization |
-| 10 | 72 | BATMAN | 717 | Assigned to you; check for a saved queue before initialization |
-| 11 | 22 | EDİRNE | 665 | Assigned to you; check for a saved queue before initialization |
-| 12 | 39 | KIRKLARELİ | 436 | Assigned to you; check for a saved queue before initialization |
-| 13 | 5 | AMASYA | 420 | Assigned to you; check for a saved queue before initialization |
-| 14 | 50 | NEVŞEHİR | 400 | Assigned to you; check for a saved queue before initialization |
-| 15 | 37 | KASTAMONU | 380 | Assigned to you; check for a saved queue before initialization |
-| 16 | 24 | ERZİNCAN | 312 | Assigned to you; check for a saved queue before initialization |
-| 17 | 13 | BİTLİS | 226 | Assigned to you; check for a saved queue before initialization |
-| 18 | 49 | MUŞ | 207 | Assigned to you; check for a saved queue before initialization |
-| 19 | 79 | KİLİS | 183 | Assigned to you; check for a saved queue before initialization |
-| 20 | 29 | GÜMÜŞHANE | 94 | Assigned to you; check for a saved queue before initialization |
+Open this file, README.md, CLAUDE.md and TEAM.md with Claude Code. Clone the repository if new; otherwise stop any local parser cleanly before pulling updates. Use your private provider configuration outside Git. Run the offline setup/tests first. This reassignment is not permission to duplicate a queue or automatically launch the whole list: coordinate the paid start and runtime with Michael. Default on your Mac is one bar at a time, at most four browser slots including discovery, with the 900-second low-yield guard and existing provider/solver limits.
 
-Counts are the saved TBB baseline dated 31 December 2025. They are workload indicators, not current roster sizes or proof of completeness. Allocation is even by bar count (21/20/21/21); Istanbul makes equal total lawyer counts impossible while keeping the existing single-bar ownership. The newly assigned bars were spread using those saved counts. Do not take another operator's bar. TEAM.md is the master ownership list.
+Search your Mac and any privately returned results before initializing each bar. The local coordinator has no saved production queues for this next-work list, but cannot observe your Mac. If you already started a listed/transferred bar, tell Michael before launching anything; preserve the queue, original run ID, remaining allowance and all ledgers. Do not create a fresh queue to replace existing work.
+
+### Next-work list (in order)
+
+| Order | Directory ID | Bar | 31 December 2025 approximate target | State |
+|---|---|---|---:|---|
+| 1 | 620 | ANKARA 2 NOLU | 3,078 | Check saved work; coordinate start |
+| 2 | 55 | SAMSUN | 2,385 | Check saved work; coordinate start |
+| 3 | 46 | KAHRAMANMARAŞ | 1,632 | Check saved work; coordinate start |
+| 4 | 23 | ELAZIĞ | 770 | Check saved work; coordinate start |
+| 5 | 22 | EDİRNE | 665 | Check saved work; coordinate start |
+| 6 | 77 | YALOVA | 442 | Check saved work; coordinate start |
+| 7 | 71 | KIRIKKALE | 421 | Check saved work; coordinate start |
+| 8 | 5 | AMASYA | 420 | Check saved work; coordinate start |
+| 9 | 73 | ŞIRNAK | 413 | Check saved work; coordinate start |
+| 10 | 24 | ERZİNCAN | 312 | Check saved work; coordinate start |
+| 11 | 12 | BİNGÖL | 240 | Check saved work; coordinate start |
+| 12 | 57 | SİNOP | 200 | Check saved work; coordinate start |
+| 13 | 79 | KİLİS | 183 | Check saved work; coordinate start |
+| 14 | 62 | TUNCELİ | 74 | Check saved work; coordinate start |
+
+### Previously started work retained for reconciliation
+
+These bars are not part of the 29-bar new-work split. Do not initialize them again or clear recorded stops. Michael's saved covering queues must be transferred privately before another Mac resumes them. Pauses do not establish full coverage.
+
+| Order | Directory ID | Bar | 31 December 2025 approximate target | State |
+|---|---|---|---:|---|
+| 1 | 34 | İSTANBUL | 67,463 | Saved work; coverage unverified |
+
+İstanbul 34 remains with Giovanni as a separate existing queue. Its latest completion is not verified locally; report your current status before switching bars. The new-work totals above exclude İstanbul.
 
 ### What your LLM must do for each bar
 

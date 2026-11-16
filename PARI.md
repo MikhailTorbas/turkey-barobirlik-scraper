@@ -1,34 +1,22 @@
 # Pari: national allocation and current-bar handover
 
-## Your full national allocation — 5 November 2026
+## Retained allocation — 16 November 2026
 
-You exclusively own **21 bars** listed below. Start/continue **BURSA (ID 16)**. The order below is a planning sequence, not an automatic paid-start instruction. Run **one bar at a time, at most four browser slots total on your Mac**; discovery uses one of those slots. Do not run four slots per assigned bar simultaneously.
+Pari retains the 11 previously started bars below. Michael covered these production runs; their queues and coverage exceptions remain saved. The ten formerly unstarted bars have been transferred to Elena/Giovanni in TEAM.md and their named handovers. Do not initialize or launch those transferred bars. Resume retained work only from the original queue/run ID after coordinating with Michael.
 
-| Order | Directory ID | Bar | Saved 2025 lawyer count | State |
-|---|---|---|---|---|
-| 1 | 16 | BURSA | 6,544 | Current bar: resume existing queue if present |
-| 2 | 33 | MERSİN | 3,915 | Assigned to you; check for a saved queue before initialization |
-| 3 | 41 | KOCAELİ | 3,182 | Assigned to you; check for a saved queue before initialization |
-| 4 | 20 | DENİZLİ | 2,286 | Assigned to you; check for a saved queue before initialization |
-| 5 | 9 | AYDIN | 1,924 | Assigned to you; check for a saved queue before initialization |
-| 6 | 45 | MANİSA | 1,876 | Assigned to you; check for a saved queue before initialization |
-| 7 | 65 | VAN | 1,064 | Assigned to you; check for a saved queue before initialization |
-| 8 | 3 | AFYONKARAHİSAR | 856 | Assigned to you; check for a saved queue before initialization |
-| 9 | 60 | TOKAT | 733 | Assigned to you; check for a saved queue before initialization |
-| 10 | 19 | ÇORUM | 667 | Assigned to you; check for a saved queue before initialization |
-| 11 | 43 | KÜTAHYA | 593 | Assigned to you; check for a saved queue before initialization |
-| 12 | 77 | YALOVA | 442 | Assigned to you; check for a saved queue before initialization |
-| 13 | 71 | KIRIKKALE | 421 | Assigned to you; check for a saved queue before initialization |
-| 14 | 73 | ŞIRNAK | 413 | Assigned to you; check for a saved queue before initialization |
-| 15 | 14 | BOLU | 371 | Assigned to you; check for a saved queue before initialization |
-| 16 | 53 | RİZE | 307 | Assigned to you; check for a saved queue before initialization |
-| 17 | 12 | BİNGÖL | 240 | Assigned to you; check for a saved queue before initialization |
-| 18 | 57 | SİNOP | 200 | Assigned to you; check for a saved queue before initialization |
-| 19 | 76 | IĞDIR | 179 | Assigned to you; check for a saved queue before initialization |
-| 20 | 62 | TUNCELİ | 74 | Assigned to you; check for a saved queue before initialization |
-| 21 | 69 | BAYBURT | 59 | Assigned to you; check for a saved queue before initialization |
-
-Counts are the saved TBB baseline dated 31 December 2025. They are workload indicators, not current roster sizes or proof of completeness. Allocation is even by bar count (21/20/21/21); Istanbul makes equal total lawyer counts impossible while keeping the existing single-bar ownership. The newly assigned bars were spread using those saved counts. Do not take another operator's bar. TEAM.md is the master ownership list.
+| Order | Directory ID | Bar | 31 December 2025 approximate target | State |
+|---|---|---|---:|---|
+| 1 | 16 | BURSA | 6,544 | Started by Michael; saved coverage/review work |
+| 2 | 33 | MERSİN | 3,915 | Started by Michael; saved coverage/review work |
+| 3 | 41 | KOCAELİ | 3,182 | Started by Michael; saved coverage/review work |
+| 4 | 20 | DENİZLİ | 2,286 | Started by Michael; saved coverage/review work |
+| 5 | 9 | AYDIN | 1,924 | Started by Michael; saved coverage/review work |
+| 6 | 45 | MANİSA | 1,876 | Started by Michael; saved coverage/review work |
+| 7 | 65 | VAN | 1,064 | Started by Michael; saved coverage/review work |
+| 8 | 3 | AFYONKARAHİSAR | 856 | Started by Michael; saved coverage/review work |
+| 9 | 60 | TOKAT | 733 | Started by Michael; saved coverage/review work |
+| 10 | 19 | ÇORUM | 667 | Started by Michael; saved coverage/review work |
+| 11 | 43 | KÜTAHYA | 593 | Started by Michael; saved coverage/review work |
 
 ### What your LLM must do for each bar
 

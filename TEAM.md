@@ -1,13 +1,13 @@
 # Exclusive nationwide bar assignments
 
-Updated **5 November 2026**. All 83 saved directory bars have exactly one owner. Allocation is even by **number of bars**, with larger newly assigned bars spread using the saved 2025 population baseline. Istanbul remains with Giovanni, so equal total lawyer counts are not possible without splitting or transferring existing ownership. Baseline counts are not remaining work or coverage proof.
+Updated **16 November 2026**. All 83 bars have exactly one owner. Michael reassigned the 29 locally unstarted bars between Elena (15) and Giovanni (14), balancing dated profile workloads; İstanbul remains with Giovanni separately. Previously started queues retain their owners and saved progress. No remote Mac activity is inferred from local checks.
 
-| Owner | Bars | Current bar | Browser slots total | Handover |
-|---|---|---|---|---|
-| Michael | 21 | Hakkari 30, Kars 36, Bartın 74 + Karabük 78 recovery: current group | 8 maximum when authorized | [MICHAEL.md](MICHAEL.md) |
-| Giovanni | 20 | İSTANBUL (34) | 4 | [GIOVANNI.md](GIOVANNI.md) |
-| Elena | 21 | İZMİR (35) | 4 | [ELENA.md](ELENA.md) |
-| Pari | 21 | BURSA (16) | 4 | [PARI.md](PARI.md) |
+| Owner | Owned bars | Next-work bars | Handover |
+|---|---:|---:|---|
+| Michael | 21 | 0 | [MICHAEL.md](MICHAEL.md) |
+| Giovanni | 15 | 14 | [GIOVANNI.md](GIOVANNI.md) |
+| Elena | 36 | 15 | [ELENA.md](ELENA.md) |
+| Pari | 11 | 0 | [PARI.md](PARI.md) |
 
 One owner, one durable queue per bar. Default operation is one bar at a time and at most four browser slots total, with discovery inside that limit. Michael explicitly authorized four simultaneous bars on 5 November: Adana 1, Gaziantep 27, Kayseri 38 and Şanlıurfa 63, each with its own saved queue/controller and `--browser-slots 2`, eight total. This is an explicit exception for Michael; other operators do not add slots automatically. No four default four-slot controllers. Other operators retain sequential operation unless Michael authorizes the same split. Current live runs are unchanged by this document update. Only Michael coordinates ownership transfers; a planned sequence is not an automatic paid-launch instruction. Paid runtime, solver increases and recovery releases remain explicit. Do not change subscriptions, buy credits or alter provider caps.
 
@@ -23,16 +23,16 @@ IDs are TBB directory IDs; Istanbul No. 2 and Ankara No. 2 are separate bars.
 | 2 | ADIYAMAN | Elena | Assigned; check saved work before a new queue |
 | 3 | AFYONKARAHİSAR | Pari | Assigned; check saved work before a new queue |
 | 4 | AĞRI | Elena | Assigned; check saved work before a new queue |
-| 5 | AMASYA | Giovanni | Assigned; check saved work before a new queue |
+| 5 | AMASYA | Giovanni | Reassigned 16 November; check saved work before coordinated start |
 | 6 | ANKARA | Michael | Retained: audited with four detail exceptions; not certified exhaustive |
 | 7 | ANTALYA | Michael | Retained: paused; coverage reconciliation pending |
 | 8 | ARTVİN | Elena | Assigned; check saved work before a new queue |
 | 9 | AYDIN | Pari | Assigned; check saved work before a new queue |
-| 10 | BALIKESİR | Giovanni | Assigned; check saved work before a new queue |
+| 10 | BALIKESİR | Elena | Reassigned 16 November; check saved work before coordinated start |
 | 11 | BİLECİK | Elena | Assigned; check saved work before a new queue |
-| 12 | BİNGÖL | Pari | Assigned; check saved work before a new queue |
-| 13 | BİTLİS | Giovanni | Assigned; check saved work before a new queue |
-| 14 | BOLU | Pari | Assigned; check saved work before a new queue |
+| 12 | BİNGÖL | Giovanni | Reassigned 16 November; check saved work before coordinated start |
+| 13 | BİTLİS | Elena | Reassigned 16 November; check saved work before coordinated start |
+| 14 | BOLU | Elena | Reassigned 16 November; check saved work before coordinated start |
 | 15 | BURDUR | Elena | Assigned; check saved work before a new queue |
 | 16 | BURSA | Pari | Current bar: resume existing queue if present |
 | 17 | ÇANAKKALE | Elena | Assigned; check saved work before a new queue |
@@ -40,14 +40,14 @@ IDs are TBB directory IDs; Istanbul No. 2 and Ankara No. 2 are separate bars.
 | 19 | ÇORUM | Pari | Assigned; check saved work before a new queue |
 | 20 | DENİZLİ | Pari | Assigned; check saved work before a new queue |
 | 21 | DİYARBAKIR | Elena | Assigned; check saved work before a new queue |
-| 22 | EDİRNE | Giovanni | Assigned; check saved work before a new queue |
-| 23 | ELAZIĞ | Giovanni | Assigned; check saved work before a new queue |
-| 24 | ERZİNCAN | Giovanni | Assigned; check saved work before a new queue |
-| 25 | ERZURUM | Giovanni | Assigned; check saved work before a new queue |
+| 22 | EDİRNE | Giovanni | Reassigned 16 November; check saved work before coordinated start |
+| 23 | ELAZIĞ | Giovanni | Reassigned 16 November; check saved work before coordinated start |
+| 24 | ERZİNCAN | Giovanni | Reassigned 16 November; check saved work before coordinated start |
+| 25 | ERZURUM | Elena | Reassigned 16 November; check saved work before coordinated start |
 | 26 | ESKİŞEHİR | Michael | Paused after low yield; coverage unverified |
 | 27 | GAZİANTEP | Michael | Paused after low yield; 900-second guard; coverage unverified |
 | 28 | GİRESUN | Elena | Assigned; check saved work before a new queue |
-| 29 | GÜMÜŞHANE | Giovanni | Assigned; check saved work before a new queue |
+| 29 | GÜMÜŞHANE | Elena | Reassigned 16 November; check saved work before coordinated start |
 | 30 | HAKKARİ | Michael | Current authorized run; two slots; 900-second yield guard |
 | 31 | HATAY | Elena | Assigned; check saved work before a new queue |
 | 32 | ISPARTA | Michael | Paused after low yield; coverage unverified |
@@ -55,53 +55,53 @@ IDs are TBB directory IDs; Istanbul No. 2 and Ankara No. 2 are separate bars.
 | 34 | İSTANBUL | Giovanni | Current bar: resume saved Istanbul queue |
 | 35 | İZMİR | Elena | Current bar: resume existing queue if present |
 | 36 | KARS | Michael | Current authorized run; two slots; 900-second yield guard |
-| 37 | KASTAMONU | Giovanni | Assigned; check saved work before a new queue |
+| 37 | KASTAMONU | Elena | Reassigned 16 November; check saved work before coordinated start |
 | 38 | KAYSERİ | Michael | Paused after low yield; 900-second guard; coverage unverified |
-| 39 | KIRKLARELİ | Giovanni | Assigned; check saved work before a new queue |
+| 39 | KIRKLARELİ | Elena | Reassigned 16 November; check saved work before coordinated start |
 | 40 | KIRŞEHİR | Elena | Assigned; check saved work before a new queue |
 | 41 | KOCAELİ | Pari | Assigned; check saved work before a new queue |
 | 42 | KONYA | Elena | Assigned; check saved work before a new queue |
 | 43 | KÜTAHYA | Pari | Assigned; check saved work before a new queue |
 | 44 | MALATYA | Elena | Assigned; check saved work before a new queue |
 | 45 | MANİSA | Pari | Assigned; check saved work before a new queue |
-| 46 | KAHRAMANMARAŞ | Giovanni | Assigned; check saved work before a new queue |
+| 46 | KAHRAMANMARAŞ | Giovanni | Reassigned 16 November; check saved work before coordinated start |
 | 47 | MARDİN | Elena | Assigned; check saved work before a new queue |
 | 48 | MUĞLA | Elena | Assigned; check saved work before a new queue |
-| 49 | MUŞ | Giovanni | Assigned; check saved work before a new queue |
-| 50 | NEVŞEHİR | Giovanni | Assigned; check saved work before a new queue |
+| 49 | MUŞ | Elena | Reassigned 16 November; check saved work before coordinated start |
+| 50 | NEVŞEHİR | Elena | Reassigned 16 November; check saved work before coordinated start |
 | 51 | NİĞDE | Michael | Paused after low yield; coverage unverified |
 | 52 | ORDU | Michael | Paused after low yield; coverage unverified |
-| 53 | RİZE | Pari | Assigned; check saved work before a new queue |
+| 53 | RİZE | Elena | Reassigned 16 November; check saved work before coordinated start |
 | 54 | SAKARYA | Michael | Paused after low yield; coverage unverified |
-| 55 | SAMSUN | Giovanni | Assigned; check saved work before a new queue |
+| 55 | SAMSUN | Giovanni | Reassigned 16 November; check saved work before coordinated start |
 | 56 | SİİRT | Elena | Assigned; check saved work before a new queue |
-| 57 | SİNOP | Pari | Assigned; check saved work before a new queue |
+| 57 | SİNOP | Giovanni | Reassigned 16 November; check saved work before coordinated start |
 | 58 | SİVAS | Michael | Paused after low yield; coverage unverified |
 | 59 | TEKİRDAĞ | Elena | Assigned; check saved work before a new queue |
 | 60 | TOKAT | Pari | Assigned; check saved work before a new queue |
 | 61 | TRABZON | Michael | Paused after low yield; coverage unverified |
-| 62 | TUNCELİ | Pari | Assigned; check saved work before a new queue |
+| 62 | TUNCELİ | Giovanni | Reassigned 16 November; check saved work before coordinated start |
 | 63 | ŞANLIURFA | Michael | Paused after low yield; 900-second guard; coverage unverified |
 | 64 | UŞAK | Michael | Paused after low yield; coverage unverified |
 | 65 | VAN | Pari | Assigned; check saved work before a new queue |
 | 66 | YOZGAT | Michael | Paused after low yield; coverage unverified |
 | 67 | ZONGULDAK | Elena | Assigned; check saved work before a new queue |
 | 68 | AKSARAY | Michael | Paused after low yield; coverage unverified |
-| 69 | BAYBURT | Pari | Assigned; check saved work before a new queue |
+| 69 | BAYBURT | Elena | Reassigned 16 November; check saved work before coordinated start |
 | 70 | KARAMAN | Michael | Paused after low yield; coverage unverified |
-| 71 | KIRIKKALE | Pari | Assigned; check saved work before a new queue |
-| 72 | BATMAN | Giovanni | Assigned; check saved work before a new queue |
-| 73 | ŞIRNAK | Pari | Assigned; check saved work before a new queue |
+| 71 | KIRIKKALE | Giovanni | Reassigned 16 November; check saved work before coordinated start |
+| 72 | BATMAN | Elena | Reassigned 16 November; check saved work before coordinated start |
+| 73 | ŞIRNAK | Giovanni | Reassigned 16 November; check saved work before coordinated start |
 | 74 | BARTIN | Michael | Current authorized run; two slots; 900-second yield guard |
 | 75 | ARDAHAN | Elena | Assigned; check saved work before a new queue |
-| 76 | IĞDIR | Pari | Assigned; check saved work before a new queue |
-| 77 | YALOVA | Pari | Assigned; check saved work before a new queue |
+| 76 | IĞDIR | Elena | Reassigned 16 November; check saved work before coordinated start |
+| 77 | YALOVA | Giovanni | Reassigned 16 November; check saved work before coordinated start |
 | 78 | KARABÜK | Michael | Current reviewed recovery; original queue/history retained |
-| 79 | KİLİS | Giovanni | Assigned; check saved work before a new queue |
-| 80 | OSMANİYE | Giovanni | Assigned; check saved work before a new queue |
+| 79 | KİLİS | Giovanni | Reassigned 16 November; check saved work before coordinated start |
+| 80 | OSMANİYE | Elena | Reassigned 16 November; check saved work before coordinated start |
 | 81 | DÜZCE | Elena | Assigned; check saved work before a new queue |
-| 342 | İSTANBUL 2 NOLU | Giovanni | Assigned; check saved work before a new queue |
-| 620 | ANKARA 2 NOLU | Giovanni | Assigned; check saved work before a new queue |
+| 342 | İSTANBUL 2 NOLU | Elena | Reassigned 16 November; check saved work before coordinated start |
+| 620 | ANKARA 2 NOLU | Giovanni | Reassigned 16 November; check saved work before coordinated start |
 
 The table is a coordination record, not a cross-machine lock. Coordinate shared-provider capacity for up to 16 slots. Never sum overlapping shared-key credit deltas. Return private stopped queues/results for reconciliation; do not upload datasets or credentials here.
 
