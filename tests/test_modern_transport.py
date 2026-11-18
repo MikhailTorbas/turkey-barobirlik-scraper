@@ -1,4 +1,5 @@
-import unittest
+import unittest,tempfile
+from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import Mock
 import turkey_scraper as t
@@ -67,3 +68,41 @@ class ModernTests(unittest.TestCase):
         d,m=self.driver();d.args._solver=Mock();d.page.evaluate.return_value={'status':403,'data':None}
         with self.assertRaises(t.VerificationRequired):m.submit('342','AK','')
         d.solve_turnstile.assert_not_called()
+
+    def test_modern_listing_creates_durable_detail_job(self):
+        d,m=self.driver();rec=m.listing(self.row(),'342')
+        with tempfile.TemporaryDirectory() as tmp:
+            db=t.Database(Path(tmp)/'queue.sqlite3')
+            try:
+                db.db.execute("INSERT INTO bars VALUES('342','İSTANBUL 2 NOLU',1)")
+                db.put_query('342','AK');q=db.take_query()
+                key=db.upsert(rec,q['id'])
+                self.assertEqual(db.detail_jobs(q['id'])[0]['key'],key)
+                d.last_query=('342','AK','');d.last_result=[rec]
+                d.on_detail_extracted=db.complete_detail
+                d.page.evaluate.return_value={'status':200,'data':{'kayit':{**self.row(),'tbbSicil':'2','eposta':'test@example.com'}}}
+                m.detail(rec,d.last_query)
+                self.assertEqual(db.record(key)['email'],'test@example.com')
+                self.assertEqual(db.db.execute('select status from details').fetchone()[0],'done')
+            finally:db.db.close()
+
+    def test_observed_probe_page_revises_last_page(self):
+        d,m=self.driver()
+        d.page.evaluate.side_effect=[self.reply([self.row()],1,1,2),self.reply([],1,2,1)]
+        rows,total,pages=m.submit('342','AK','')
+        self.assertEqual((len(rows),total,pages),(1,1,2))
+    def test_observed_incremental_pager_157_records(self):
+        d,m=self.driver()
+        replies=[]
+        for page in range(1,9):
+            rows=[self.row(str(i)) for i in range((page-1)*20+1,min(page*20,157)+1)]
+            replies.append(self.reply(rows,157,page,page+1))
+        replies.append(self.reply([],157,9,8));d.page.evaluate.side_effect=replies
+        rows,total,pages=m.submit('342','AK','')
+        self.assertEqual((len(rows),total,pages),(157,157,9))
+    def test_known_total_cannot_shrink_or_truncate(self):
+        d,m=self.driver()
+        d.page.evaluate.side_effect=[self.reply([self.row()],3,1,2),self.reply([],3,2,1)]
+        with self.assertRaises(t.ExtractionError):m.submit('342','AK','')
+        d.page.evaluate.side_effect=[self.reply([self.row()],3,1,2),self.reply([self.row('2')],2,2,2)]
+        with self.assertRaises(t.ExtractionError):m.submit('342','AK','')

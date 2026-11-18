@@ -98,7 +98,7 @@ class ModernDirectory:
         if not re.fullmatch(r'[0-9]{1,8}',reg) or int(reg)==0:raise t.ExtractionError('Modern response missing local registration')
         if not item.get('ad') or not item.get('soyad'):raise t.ExtractionError('Modern response missing name')
         rec={'bar_association_id':str(bar_id),'bar_association':expected['label'],
-             'bar_registration_number':reg,'first_name':t.clean(item['ad']),'last_name':t.clean(item['soyad']),
+             'bar_registration_number':reg,'_detail_index':'json:'+reg,'first_name':t.clean(item['ad']),'last_name':t.clean(item['soyad']),
              'source_url':durl(self.driver),'profile_url':'','scraped_at':t.now(),'detail_status':'pending'}
         rec['full_name']=t.clean(rec['first_name']+' '+rec['last_name'])
         rec['_field_availability']={f:'present' if rec.get(f) else 'not_in_listing' for f in t.FIELDS if f not in ('source_queries','field_availability')}
@@ -111,27 +111,43 @@ class ModernDirectory:
         if self.authorized:token=''  # frontend consumes the token on the first accepted search
         body={'ad':name,'soyad':surname,'sicil':registration,'baro':self.service_bar(baro),
               'tip':'s' if getattr(d.args,'trainees',False) else 'a','sayfa':1,'sayfaBoyutu':20,'turnstile':token}
-        records=[];seen=set();total=None;pages=None
+        records=[];seen=set();pages=0;known_total=None
         while True:
             data=self.request('sorgula',body)
             counts=[data.get(k) for k in ('toplamKayit','toplamSayfa','sayfa')]
             if any(type(n) is not int for n in counts):raise self.t.ExtractionError('Modern pagination metadata missing')
             count,page_count,page=counts
-            if count<0 or page_count<0 or page!=body['sayfa'] or page_count>max(1,count):
+            if count<0 or page_count<0 or page!=body['sayfa']:
                 raise self.t.ExtractionError('Invalid modern pagination metadata')
-            if total is None:total,pages=count,max(1,page_count)
-            if count!=total or max(1,page_count)!=pages:raise self.t.ExtractionError('Modern roster changed during pagination')
             items=data.get('kayitlar')
-            if not isinstance(items,list) or len(items)>20:raise self.t.ExtractionError('Modern listing missing or oversized')
+            if not isinstance(items,list) or len(items)>20 or count<len(items):
+                raise self.t.ExtractionError('Modern listing missing or inconsistent')
+            if page==1 and count>len(items):known_total=count
+            if known_total is not None and count!=known_total:
+                raise self.t.ExtractionError('Modern reported total changed during traversal')
+            pages+=1
+            if not items:
+                # Observed service probes the next page and then revises its
+                # page hint backwards (1/2 with one row -> empty 2/1).
+                # An empty first page with a positive count is not evidence of
+                # an empty query. Nor is an empty page with advertised successors.
+                if (page==1 and count!=0) or page_count>=page and not (page==1 and count==0 and page_count<=1):
+                    raise self.t.ExtractionError('Modern pagination ended without a terminal response')
+                break
+            if page_count<page:raise self.t.ExtractionError('Modern nonempty page beyond advertised end')
             for item in items:
                 rec=self.listing(item,baro);key=rec['bar_registration_number']
                 if key in seen:raise self.t.ExtractionError('Duplicate modern paginated identity')
                 seen.add(key);records.append(rec)
-            if page>=pages:break
-            if not items:raise self.t.ExtractionError('Modern pagination ended early')
+            if page==page_count:
+                if count>len(records):raise self.t.ExtractionError('Modern terminal page omits reported records')
+                break
             body['sayfa']+=1;body['turnstile']=''
-        if len(records)!=total:raise self.t.ExtractionError('Modern listing count mismatch; query remains pending')
-        return records,total,pages
+        # toplamKayit/page hints are revised by the live service; the verified
+        # traversal, not the first hint, supplies the exact returned row count.
+        if known_total is not None and len(records)!=known_total:
+            raise self.t.ExtractionError('Modern traversal did not reach reported total')
+        return records,len(records),pages
 
     def detail(self, record, query):
         d=self.driver
