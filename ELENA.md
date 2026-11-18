@@ -58,6 +58,24 @@ These bars are not part of the 29-bar new-work split. Do not initialize them aga
 
 Michael covered all 21 earlier Elena bars. Hatay retains 400 stranded details; İzmir has review records and a dated-baseline gap. Muğla also has separate direct-parser evidence. Preserve these sources and coordinate recovery separately.
 
+## Cloudflare/access diagnosis and one-time recovery — 18 November 2026
+
+Give these instructions to Claude Code when access fails. Michael authorizes **one recorded recovery for the current affected queue** for a confirmed access/session-related no-progress stop, after diagnosis and a safe backup. This is not a blanket authorization to recover other bars or repeatedly reopen stops. A recovery ID does not bypass Cloudflare.
+
+1. Read CLAUDE.md, README.md, TEAM.md and this handover. Identify the current bar, authoritative queue, original run ID, exact launch command, remaining runtime and solver budgets. Verify processes and controller/worker leases before starting anything. Never run duplicate controllers or infer another Mac is inactive from local checks.
+2. Inspect the latest `refill-report-*`, `refill-state-*`, phase events and relevant worker logs. Distinguish an active bounded retry, expired browser session, provider authentication/funding error, solver limit, discovery-yield pause and `three_phases_without_progress` stop. Not every Cloudflare response requires a recovery ID. Never print credentials or commit production data/logs.
+3. Before modifying a checkpoint or applying recovery, gracefully stop any active controller once, wait for child cleanup and all queue leases to release, then back up the **entire stopped queue**, including SQLite databases and any WAL files, ownership, runtime state and solver ledgers. Run `queue_quality.py`; record completed profiles/emails and pending/review work before recovery. Do not back up a live queue by copying SQLite files independently.
+4. Fix the diagnosed cause using the existing implementation where possible. Resume the **same queue, original run ID and recorded configuration**. Preserve completed profiles, pending/review jobs, official bar ID plus local registration identities, ownership, consumed runtime and all solver attempts. Keep the **900-second low-yield guard**, recorded browser-slot limits and provider caps. Do not substitute the historical launch examples elsewhere in this handover for the actual saved command.
+5. Only for a confirmed access/session-related no-progress stop, after diagnosis and backup, append this single authorized recovery option to the saved launch command:
+
+   ```text
+   --recover-stopped elena-access-review-20261118
+   ```
+
+   Check the saved `operator_recoveries` history first. If this ID was already used for this queue, it grants no additional reset: do not rotate IDs, delete history, edit stop flags or clear counters manually. Record which queue used this authorization. Do not use it to reopen a discovery-yield pause.
+6. This authorization does **not** allow budget increases, resetting an exhausted allowance, new run IDs to gain runtime, purchases, subscription changes, provider-cap changes or recovery of earlier stopped bars. If one of these is needed, or persistent Cloudflare blocking remains after bounded recovery, stop safely and report the specific blocker to Michael. Do not loop retries or manually solve Cloudflare while claiming an autonomous fix.
+7. After resuming, verify actual increases in completed-profile counts and healthy leases; a live process alone is not proof of collection. Report the cause, fix, queue/run ID, backup location, profiles/emails before and after, remaining pending/review work, remaining runtime/solver limits and unresolved blockers. Include the agreed **31 December 2025 approximate baseline** when reporting bar coverage; a pause is not complete coverage.
+
 ### What your LLM must do for each bar
 
 1. Read this entire handover, CLAUDE.md, README.md and TEAM.md. Verify the bar ID belongs to you. Locate your existing queue/launch receipt first. An existing queue must be resumed; never recreate it or copy another person's live queue.
