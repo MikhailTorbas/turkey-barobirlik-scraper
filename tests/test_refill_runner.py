@@ -22,6 +22,19 @@ class RefillTests(unittest.TestCase):
         record={'bar_association_id':bar,'bar_registration_number':reg,'_detail_index':'1','detail_status':'pending'}
         key=db.upsert(record,qid);db.finish(qid,'done');db.db.close();return key
 
+    def test_managed_block_stops_role_and_only_explicit_recovery_releases_it(self):
+        role={'no_progress':0,'retry_after':0}
+        r.record_phase_failure(role,'managed_challenge_blocked',0,10)
+        self.assertEqual(role['stop_reason'],'managed_challenge_blocked')
+        state={'roles':{'discovery':role},'elapsed_seconds':123}
+        self.assertFalse(r.recover_stopped(state,''))
+        self.assertTrue(r.recover_stopped(state,'test-access-fixed'))
+        self.assertEqual(state['elapsed_seconds'],123)
+        self.assertEqual(state['operator_recoveries'][0]['before']['discovery']['stop_reason'],'managed_challenge_blocked')
+        r.record_phase_failure(role,'managed_challenge_blocked',0,20)
+        self.assertFalse(r.recover_stopped(state,'test-access-fixed'))
+        self.assertEqual(role['stop_reason'],'managed_challenge_blocked')
+
     def test_refills_are_disjoint_and_idempotent(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td);plan,registry=self.fixture(root)

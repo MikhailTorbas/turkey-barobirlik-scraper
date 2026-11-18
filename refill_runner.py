@@ -184,6 +184,15 @@ def amend_state(state,config,allowed=False):
     state['config']=config
 
 
+def record_phase_failure(role_state, status, progress, now):
+    role_state['no_progress']=0 if progress else role_state['no_progress']+1
+    role_state['retry_after']=now+(60*2**(role_state['no_progress']-1) if role_state['no_progress'] else 0)
+    if status=='managed_challenge_blocked':
+        role_state['stop_reason']='managed_challenge_blocked'
+    elif role_state['no_progress']>=3:
+        role_state['stop_reason']='three_phases_without_progress'
+
+
 def recover_stopped(state,recovery_id):
     """Explicit, idempotent operator recovery; keep prior failures and budgets."""
     if not recovery_id:return False
@@ -193,7 +202,7 @@ def recover_stopped(state,recovery_id):
     if any(item['id']==recovery_id for item in history):return False
     recovered={}
     for role,data in state['roles'].items():
-        if data.get('stop_reason')!='three_phases_without_progress':continue
+        if data.get('stop_reason') not in {'three_phases_without_progress','managed_challenge_blocked'}:continue
         recovered[role]=dict(data)
         data.pop('stop_reason')
         data.update(no_progress=0,retry_after=0)
@@ -314,9 +323,7 @@ def supervise(root,registry,plan,args,endpoint):
             status=db.execute("SELECT value FROM metadata WHERE key='run_status'").fetchone()
         s['last_worker_status']=json.loads(status[0]) if status else 'unknown'
         if not planned:
-            s['no_progress']=0 if progress else s['no_progress']+1
-            s['retry_after']=time.time()+(60*2**(s['no_progress']-1) if s['no_progress'] else 0)
-            if s['no_progress']>=3:s['stop_reason']='three_phases_without_progress'
+            record_phase_failure(s,s['last_worker_status'],progress,time.time())
         state['slot_seconds']['discovery' if role=='discovery' else 'details']+=time.monotonic()-entry['started']
         event({'role':role,'slot':slot,'progress':progress,'exit_code':entry['p'].returncode,'planned_stop':planned})
         if role!='discovery':export_idle(root,[int(role)])

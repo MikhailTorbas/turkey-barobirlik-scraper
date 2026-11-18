@@ -27,10 +27,25 @@ class StartupTests(unittest.TestCase):
     def test_deadline_without_form_never_enters_ordinary_solver(self):
         driver,page,clock=self.driver([{'ready':False,'managed':True}],timeout=2)
         with patch.object(t.time,'monotonic',side_effect=lambda:clock[0]):
-            with self.assertRaisesRegex(t.VerificationRequired,'Startup deadline'):driver.navigate(t.URL)
+            with self.assertRaisesRegex(t.ManagedChallengeBlocked,'outer Cloudflare'):driver.navigate(t.URL)
         driver.wait_for_turnstile.assert_not_called()
         self.assertEqual(page.goto.call_count,1)
         self.assertEqual(clock[0],2)
+
+    def test_managed_block_does_not_reopen_session_or_change_pending_job(self):
+        with tempfile.TemporaryDirectory() as td:
+            calls=[]
+            def blocked(args):
+                db=t.Database(Path(td)/'checkpoint.sqlite3')
+                db.put_query('342','KA')
+                db.metadata('run_status','managed_challenge_blocked')
+                db.db.close();calls.append(1);return 2
+            with patch.object(t,'run',side_effect=blocked),patch.object(t.time,'sleep') as sleep:
+                self.assertEqual(t.cli(['--output',td,'--population-file','','--access-retries','2','--max-runtime','60']),2)
+            self.assertEqual(len(calls),1);sleep.assert_not_called()
+            db=t.Database(Path(td)/'checkpoint.sqlite3')
+            self.assertEqual(db.db.execute("select count(*) from queries where status='pending'").fetchone()[0],1)
+            db.db.close()
 
     def test_transient_net_timeout_reuses_session_once_then_succeeds(self):
         driver,page,clock=self.driver([{'ready':False,'managed':False},{'ready':True,'managed':False}],

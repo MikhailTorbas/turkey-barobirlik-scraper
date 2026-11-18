@@ -58,6 +58,14 @@ These bars are not part of the 29-bar new-work split. Do not initialize them aga
 
 Michael covered all 21 earlier Elena bars. Hatay retains 400 stranded details; İzmir has review records and a dated-baseline gap. Muğla also has separate direct-parser evidence. Preserve these sources and coordinate recovery separately.
 
+## Persistent outer Cloudflare block — diagnosis update
+
+A hosted browser connecting successfully does not mean the directory is accessible. If startup diagnostics show repeated managed-challenge observations and no search form, the ordinary in-form Turnstile solver is not reached. A recovery ID only releases a recorded local stop; it does not restore site access.
+
+The updated scraper records `managed_challenge_blocked` when the outer challenge still occupies the page at the startup deadline. It preserves pending work and stops that controller role without automatically opening more sessions for the same block. Other healthy roles can finish known details. Existing pauses, consumed recovery IDs and runtime/solver ledgers are not reset by this update.
+
+Elena's bar 342 log on 18 November shows nine blocked sessions, zero completed profiles and all 2,048 searches pending. Her `elena-access-review-20261118` ID is already consumed; **do not invent another ID or rerun the initializer**. The earlier yield pause was also reopened even though the prior instructions excluded that action. Keep the queue stopped. Pull this update only after clean shutdown. Request provider/site access diagnosis using the target directory URL, UTC failure timestamps and private sanitized diagnostics; do not post credentials or challenge artifacts to the public repository. There is no evidence in the supplied log that a different bar, larger solver budget, VPN change or repeated restart would fix this. After access is restored, coordinate one explicit recovery with Michael using the same queue and original run ID/remaining allowance.
+
 ## Cloudflare/access diagnosis and one-time recovery — 18 November 2026
 
 Give these instructions to Claude Code when access fails. Michael authorizes **one recorded recovery for the current affected queue** for a confirmed access/session-related no-progress stop, after diagnosis and a safe backup. This is not a blanket authorization to recover other bars or repeatedly reopen stops. A recovery ID does not bypass Cloudflare.

@@ -349,6 +349,10 @@ class DetailRequestDeferred(ExtractionError):
 class VerificationRequired(RuntimeError):
     pass
 
+class ManagedChallengeBlocked(VerificationRequired):
+    """Outer challenge persisted through startup; ordinary widget solver is inapplicable."""
+    pass
+
 class SessionExpired(RuntimeError):
     pass
 
@@ -807,6 +811,7 @@ class DirectoryBrowser:
 
     def wait_for_directory_form(self, deadline):
         started=time.monotonic()
+        last_managed=False
         try:
             while time.monotonic()<deadline:
                 try:
@@ -814,13 +819,16 @@ class DirectoryBrowser:
                     if state['ready']:
                         LOG.info('Directory search form ready after %.1fs automatic startup wait',time.monotonic()-started)
                         return
-                    self.startup_stats['managed_observations']+=int(state['managed'])
+                    last_managed=bool(state['managed'])
+                    self.startup_stats['managed_observations']+=int(last_managed)
                 except Exception as error:
                     if session_was_closed(error):raise SessionExpired('Browser closed while waiting for directory form') from None
                     if not navigation_in_progress(error):raise
                 self.page.wait_for_timeout(min(500,max(1,(deadline-time.monotonic())*1000)))
             # Never hand an outer managed challenge to the ordinary form solver.
-            raise VerificationRequired('Startup deadline reached before a usable directory form; fresh-session access recovery required')
+            if last_managed:
+                raise ManagedChallengeBlocked('Startup deadline: outer Cloudflare challenge persists; search form never loaded. Ordinary form solver is not applicable. Stop automatic retries; resolve provider/site access before an authorized recovery. Checkpoint preserved.')
+            raise VerificationRequired('Startup deadline reached before a usable directory form; inspect navigation diagnostics before access recovery')
         finally:
             self.startup_stats['form_wait_seconds']+=round(time.monotonic()-started,3)
 
@@ -1677,7 +1685,7 @@ def run(args):
         LOG.warning('Hosted browser session expired; unfinished jobs remain pending')
         return 2
     except VerificationRequired as e:
-        db.metadata('run_status', 'access_blocked')
+        db.metadata('run_status', 'managed_challenge_blocked' if isinstance(e, ManagedChallengeBlocked) else 'access_blocked')
         db.event('verification_required', str(e))
         if args.capture_failures and page:
             driver.capture_failure(dest / 'diagnostics', 'access_blocked')
