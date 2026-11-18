@@ -715,12 +715,14 @@ class DirectoryBrowser:
             if not has_form and hasattr(self.page, 'evaluate'):
                 managed = managed or bool(self.page.evaluate('() => !!window._cf_chl_opt'))
             tokens = self.page.locator('[name="cf-turnstile-response"]')
-            widget = self.page.locator('.cf-turnstile').count() > 0
+            widget = self.page.locator('.cf-turnstile, #avTurnstile').count() > 0
             return managed or (widget and (tokens.count() == 0 or not tokens.first.input_value()))
         except Exception:
             return True
 
     def wait_for_turnstile(self):
+        if getattr(self, "modern", None) and self.modern.authorized:
+            return
         if getattr(self.args, '_solver', None):
             # Do not alter the managed challenge's browser environment before
             # it has loaded the directory. Instrument only the real form.
@@ -799,15 +801,24 @@ class DirectoryBrowser:
 
     def directory_state(self):
         """Observe readiness without changing or exporting a managed challenge."""
-        return self.page.evaluate('''selectors=>{
+        state = self.page.evaluate('''selectors=>{
+          const modern=!!document.querySelector('#avSearch #avAd') && !!document.querySelector('#avSearch #avSoyad') && !!document.querySelector('#avSearch #avBaroSec');
           const controls=selectors.map(s=>document.querySelector(s));
           const form=controls[0]?.closest('form');
           const ready=!!form && controls.every(e=>e && e.closest('form')===form)
             && document.readyState!=='loading';
           const text=document.body?.innerText||'';
-          return {ready,managed:!ready && (!!window._cf_chl_opt ||
+          return {ready:ready || modern,modern,managed:!ready && !modern && (!!window._cf_chl_opt ||
             /cloudflare|verify you are human|just a moment|security verification|проверки безопасности|один момент/i.test(text))};
         }''',[self.cfg.name,self.cfg.surname,self.cfg.baro])
+        if state.get('modern') and not getattr(self, 'modern', None):
+            from modern_transport import ModernDirectory
+            self.cfg=Config(name='#avAd',surname='#avSoyad',baro='#avBaroSec',search='#avBtnAv',result_rows='#avTbody > tr')
+            self.modern=ModernDirectory(self,sys.modules[__name__])
+            LOG.info('Detected redesigned TBB JSON directory; preserving canonical bar IDs')
+        elif not state.get('modern') and getattr(self,'modern',None):
+            self.modern.authorized=False
+        return state
 
     def wait_for_directory_form(self, deadline):
         started=time.monotonic()
@@ -833,6 +844,7 @@ class DirectoryBrowser:
             self.startup_stats['form_wait_seconds']+=round(time.monotonic()-started,3)
 
     def navigate(self, url):
+        if getattr(self,"modern",None):self.modern.authorized=False
         deadline=time.monotonic()+getattr(self.args,'startup_timeout',120)
         for attempt in range(2):
             self.startup_stats['navigation_attempts']+=1
@@ -871,6 +883,7 @@ class DirectoryBrowser:
 
     def baro_options(self):
         self.form()
+        if getattr(self,"modern",None):return self.modern.options()
         return self.loc('baro').locator('option').evaluate_all('els => els.map(e=>({label:e.textContent.trim(),value:e.value,disabled:e.disabled}))')
 
     def inspect(self, out):
@@ -917,6 +930,7 @@ class DirectoryBrowser:
         self.page.mouse.click(position['x'], position['y'])
 
     def submit(self, baro, surname, name, registration=''):
+        if getattr(self,'modern',None):return self.modern.submit(baro,surname,name,registration)
         self.form()
         self.set_control(self.cfg.baro, baro, select=True)
         self.set_control(self.cfg.surname, surname)
@@ -1012,6 +1026,7 @@ class DirectoryBrowser:
         return self.fetch(str(baro), '', '', str(registration))
 
     def detail(self, rec, query):
+        if getattr(self,"modern",None):return self.modern.detail(rec,query)
         if self.last_query != query or not self.page.locator('button[name="detay"]').count():
             self.fetch(*query)
         # Locate by official registration + displayed bar, never stale row index.
@@ -1084,6 +1099,7 @@ class DirectoryBrowser:
 
     def details(self, records, query):
         """Overlap up to two observed form POSTs inside the verified browser."""
+        if getattr(self,"modern",None):return self.modern.details(records,query)
         if not records:
             return []
         if len(records) > 2 or len({r['bar_registration_number'] for r in records}) != len(records):

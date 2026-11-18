@@ -127,6 +127,7 @@ def browser_class(t):
             return True
 
         def submit(self,baro,surname,name,registration=''):
+            if getattr(self,'modern',None):return self.modern.submit(baro,surname,name,registration)
             while True:
                 try:
                     self.stats['search_post_attempts']+=1
@@ -163,6 +164,7 @@ def browser_class(t):
             return self.details([record],query)[0]
 
         def details(self,records,query):
+            if getattr(self,'modern',None):return self.modern.details(records,query)
             if not records:return []
             if len(records)>2 or len({r['bar_registration_number'] for r in records})!=len(records):
                 raise t.ExtractionError('Expected at most two distinct official detail identities')

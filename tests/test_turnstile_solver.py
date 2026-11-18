@@ -161,7 +161,7 @@ if(!rejected || field.value!=='solution') throw Error('Stale document accepted')
 location.href='https://example.test/search';
 let created=null;
 document.querySelectorAll=selector=>selector==='input,textarea'?[]:
-    selector==='.cf-turnstile[data-sitekey]'?[{dataset:{sitekey:'key'},closest:()=>({appendChild:item=>{created=item;}})}]:[];
+    selector==='.cf-turnstile[data-sitekey], #avTurnstile[data-sitekey]'?[{dataset:{sitekey:'key'},closest:()=>({appendChild:item=>{created=item;}})}]:[];
 document.createElement=()=>({dispatchEvent:()=>{}});
 apply({widget:{...widgets[0],index:-1},token:'new-solution'});
 if(!created || created.name!=='cf-turnstile-response' || created.value!=='new-solution')

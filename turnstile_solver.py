@@ -170,7 +170,7 @@ DISCOVER_SCRIPT = r"""() => {
         cdata:item.options.cData, responseField:item.options['response-field-name'] || 'cf-turnstile-response',
         callback:typeof item.options.callback === 'function' ? true : false
     }));
-    for (const element of document.querySelectorAll('.cf-turnstile[data-sitekey]')) {
+    for (const element of document.querySelectorAll('.cf-turnstile[data-sitekey], #avTurnstile[data-sitekey]')) {
         if (found.some(item=>item.sitekey === element.dataset.sitekey)) continue;
         found.push({index:-1, sitekey:element.dataset.sitekey, action:element.dataset.action,
             cdata:element.dataset.cdata, callbackName:element.dataset.callback,
@@ -199,7 +199,7 @@ APPLY_SCRIPT = r"""({widget,token}) => {
         // If the widget's script failed to load, its hidden input may never
         // have been created. Attach the genuine solver response to the form
         // containing the observed sitekey, rather than to an arbitrary form.
-        const containers = [...document.querySelectorAll('.cf-turnstile[data-sitekey]')]
+        const containers = [...document.querySelectorAll('.cf-turnstile[data-sitekey], #avTurnstile[data-sitekey]')]
             .filter(element=>element.dataset.sitekey === widget.sitekey);
         const form = containers.length === 1 ? containers[0].closest('form') : null;
         if (form) {

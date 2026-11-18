@@ -37,6 +37,14 @@ These bars are not part of the 29-bar new-work split. Do not initialize them aga
 
 İstanbul 34 remains with Giovanni as a separate existing queue. Its latest completion is not verified locally; report your current status before switching bars. The new-work totals above exclude İstanbul.
 
+## Directory redesign and access validation — 18 November 2026
+
+Live diagnostics found the redesigned national directory at the same URL. It uses `#avSearch`, named bar options and JSON `/AvukatArama/sorgula` / `/AvukatArama/detay` requests. The legacy `#avForm` adapter cannot parse it even when Cloudflare clears. The compatibility branch adds detection, all-page count checks and mapping of all 83 observed names to the original numeric bar IDs. No checkpoint migration, new run ID or initializer is needed.
+
+**Access is not yet validated end to end.** A Turkey-routed ZenRows session loaded the real form, but a normal UI search returned HTTP 400, `Güvenlik doğrulaması başarısız. Lütfen yeniden deneyin.` A separate bounded CapSolver task did not produce a solution within 90 seconds and remained `idle` on a subsequent check. Neither observation proves that credentials are invalid or that the target is permanently blocked. Do not change provider caps or repeatedly create solver tasks.
+
+This adapter is staged for validation, not a claim that production can resume. Keep stopped queues and all consumed recovery IDs/allowances intact. Require one successful search **and** matching detail with observed email-field evidence in an isolated diagnostic before resuming an existing queue. A loaded homepage, populated token field or passing offline test is insufficient. Use the original queue/run ID and remaining allowance only after access is demonstrated. Preserve any pending provider task rather than clearing its ledger to obtain another attempt.
+
 ## Persistent outer Cloudflare block — diagnosis update
 
 A hosted browser connecting successfully does not mean the directory is accessible. If startup diagnostics show repeated managed-challenge observations and no search form, the ordinary in-form Turnstile solver is not reached. A recovery ID only releases a recorded local stop; it does not restore site access.
