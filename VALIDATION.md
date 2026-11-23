@@ -1,5 +1,16 @@
 # Release validation
 
+Current validation: **23 November 2026**, code commit `cdb3a24`.
+
+- Full suite: **202 tests run, 169 passed, 33 skipped** (opt-in browser fixtures were not run in this invocation).
+- Real ZenRows + CapSolver acceptance: an injected transient search failure recovered in the same browser; 84 listing rows over five pages and two completed profiles with two emails were saved to isolated SQLite. Integrity check passed.
+- November 18 acceptance covered fixed and incremental pagination, durable detail jobs and nine distinct completed profiles with four emails.
+- Later persistent outer Cloudflare startup blocks remain possible. Session/transport failures do not prove TTL expiry, and HTTP success without a JSON directory response is not a completed query.
+- All actual profiles, credentials and diagnostic queues remain outside Git. No production checkpoint, run ID, remaining allowance or provider cap was changed by these checks.
+- `RELEASE.json` hashes identify the current runtime source files. Test counts above supersede the historical entries below.
+
+## Historical validation
+
 Version: 2026-11-02 production fixes.
 
 - The original source build passed 156 regression tests, including local Chromium fixtures.

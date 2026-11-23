@@ -1,15 +1,37 @@
 {
-  "release_date": "2026-11-05",
-  "core_sha256": "8b1009dfcdc91af628660fe843ce87953b205f9d1eb5447dc491115784ab208c",
-  "tests_expected": 179,
+  "release_date": "2026-11-23",
+  "core_sha256": "324d6461741898020934a94f93b777aecff3e76509d8d89ecfab7c00ef2b8ef4",
+  "tests_expected": 202,
   "fixtures": "synthetic names, contacts and identifiers",
   "runtime_data_included": false,
   "national_completeness_claim": false,
-  "fresh_queue_setup": "Offline exclusive single-bar initialization; Elena 35, Pari 16",
+  "fresh_queue_setup": "Offline exclusive single-bar initialization only for genuinely new work; consult TEAM.md and named handover. Resume saved queues in place.",
   "controller_recovery": "Committed WAL streaming refill, discovery prefers empty slots, recorded recovery and no-launch guard",
   "solver_recovery": "Bounded same-task polling retries; sanitized HTTP diagnostics",
   "detail_recovery": "Isolate individually failed requests only with successful sibling and healthy verified form; retain exact-ID allowance",
   "closure_audit": "Verified absences count as progress; isolated roster-only lookup mode preserves ordinary queries",
   "browser_slots": "Configurable 1..4 live children including discovery; retains all four durable worker queues and records policy changes. Two-bar performance remains experimental.",
-  "discovery_yield_guard": "Pause after 900 active seconds without new identities or verified roster checks once known detail work is drained; pending queries remain saved; pause persists across ordinary resumes and requires recorded operator recovery."
+  "discovery_yield_guard": "Pause after 900 active seconds without new identities or verified roster checks once known detail work is drained; pending queries remain saved; pause persists across ordinary resumes and requires recorded operator recovery.",
+  "tests_passed": 169,
+  "tests_skipped": 33,
+  "validated_code_commit": "cdb3a24",
+  "modern_transport": "Redesigned JSON directory; fixed and incremental pagination; durable detail jobs; one same-document transient retry within original deadline; no blind challenge retries",
+  "live_validation": {
+    "date": "2026-11-23",
+    "bar_id": "342",
+    "listing_rows": 84,
+    "pages": 5,
+    "completed_profiles": 2,
+    "profiles_with_email": 2,
+    "injected_transient_search_recovered": true,
+    "sqlite_integrity": "ok",
+    "scope": "Isolated diagnostic, not national coverage or guaranteed future access"
+  },
+  "source_sha256": {
+    "turkey_scraper.py": "324d6461741898020934a94f93b777aecff3e76509d8d89ecfab7c00ef2b8ef4",
+    "modern_transport.py": "498b2c086c18ad2f2bcbb9c5e9d24b7d4cc63e94286bbcfc2a4d3ef868bac350",
+    "retained_transport.py": "dd825a76cc90ea0fd7387f43d74b54dc662b97890a5da9514f9ff30a5a8c4545",
+    "refill_runner.py": "bfb979db2bb952c84ee11b6a72a787c74db5c60462bc0f0b8b5421ca02b27ba3",
+    "turnstile_solver.py": "0c9cbd887fc33adbabd032249c5b291a136edf4132ce9aa6796121f82867d5b9"
+  }
 }
