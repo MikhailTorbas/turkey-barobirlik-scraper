@@ -1698,7 +1698,7 @@ def run(args):
     except SessionExpired as e:
         db.metadata('run_status', 'session_expired')
         db.event('session_expired', str(e))
-        LOG.warning('Hosted browser session expired; unfinished jobs remain pending')
+        LOG.warning('Browser session or transport interrupted; unfinished jobs remain pending: %s', redact(str(e)))
         return 2
     except VerificationRequired as e:
         db.metadata('run_status', 'managed_challenge_blocked' if isinstance(e, ManagedChallengeBlocked) else 'access_blocked')

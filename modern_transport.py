@@ -11,19 +11,34 @@ from pathlib import Path
 REQUEST = r'''async ({endpoint,body,timeout}) => {
  const form=document.querySelector('#avSearch');
  const csrf=form?.querySelector('[name="__RequestVerificationToken"]')?.value;
- if(!csrf) return {status:0,error:'Directory CSRF token absent'};
- const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),timeout);
- try {
-  const response=await fetch('/AvukatArama/'+endpoint,{
-   method:'POST',credentials:'same-origin',signal:controller.signal,
-   headers:{'Content-Type':'application/json',RequestVerificationToken:csrf},
-   body:JSON.stringify(body)});
-  if(new URL(response.url).origin!==location.origin)return {status:0,error:'Unexpected redirect'};
-  const data=await response.json().catch(()=>null);
-  return {status:response.status,data};
- } catch(error) {return {status:0,error:error.name};}
- finally {clearTimeout(timer);}
+ if(!csrf) return {status:0,error:'MissingForm',attempts:0};
+ const url=location.href,deadline=performance.now()+timeout;
+ const healthy=()=>location.href===url && document.querySelector('#avSearch')===form && navigator.onLine;
+ for(let attempt=1;attempt<=2;attempt++) {
+  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),Math.max(1,deadline-performance.now()));
+  let reply;
+  try {
+   const response=await fetch('/AvukatArama/'+endpoint,{
+    method:'POST',credentials:'same-origin',signal:controller.signal,
+    headers:{'Content-Type':'application/json',RequestVerificationToken:csrf},
+    body:JSON.stringify(body)});
+   if(new URL(response.url).origin!==location.origin)return {status:0,error:'UnexpectedRedirect',attempts:attempt};
+   const text=await response.text();
+   let data=null;try{data=JSON.parse(text);}catch(error){}
+   const managed=/(?:window\.)?_cf_chl_opt\s*=|id=["'](?:challenge-running|challenge-stage|cf-challenge-running)["']/.test(text);
+   reply={status:response.status,data,managed,attempts:attempt,
+          response_kind:data===null ? (/^\s*</.test(text)?'html':'non_json'):'json'};
+   // An origin timeout can be retried once without discarding a verified
+   // document. Never retry a challenge, rate limit, or validation rejection.
+   if(!(response.status===522 && !managed && attempt===1 && healthy() && deadline-performance.now()>500))return reply;
+  } catch(error) {
+   reply={status:0,error:['TypeError','NetworkError','AbortError'].includes(error.name)?error.name:'RequestError',attempts:attempt};
+   if(!(attempt===1 && ['TypeError','NetworkError'].includes(error.name) && healthy() && deadline-performance.now()>500))return reply;
+  } finally {clearTimeout(timer);}
+  await new Promise(resolve=>setTimeout(resolve,250));
+ }
 }'''
+
 
 
 def bar_key(value):
@@ -69,8 +84,13 @@ class ModernDirectory:
         if hasattr(d,'stats'):
             d.stats['detail_post_attempts' if endpoint=='detay' else 'search_post_attempts']+=1
         reply=d.page.evaluate(REQUEST,{'endpoint':endpoint,'body':body,'timeout':d.args.navigation_timeout*1000})
+        attempts=reply.get('attempts',1)
+        if hasattr(d,'stats'):
+            d.stats['detail_post_attempts' if endpoint=='detay' else 'search_post_attempts']+=max(0,attempts-1)
         if reply['status']==0:
-            raise self.t.SessionExpired('Modern directory request failed; checkpoint retained')
+            kind=reply.get('error','unknown')
+            kind=kind if kind in {'MissingForm','UnexpectedRedirect','TypeError','NetworkError','AbortError','RequestError'} else 'unknown'
+            raise self.t.SessionExpired(f'Modern request transport interrupted ({kind}, attempts={attempts}); browser expiry not established; checkpoint retained')
         data=reply.get('data')
         if (endpoint=='sorgula' and reply['status']==400 and isinstance(data,dict)
                 and 'Güvenlik doğrulaması başarısız' in str(data.get('error',''))
@@ -82,10 +102,10 @@ class ModernDirectory:
             d.solve_turnstile(d.args._solver)
             body={**body,'turnstile':d.page.locator('[name="cf-turnstile-response"]').first.input_value()}
             return self.request(endpoint,body)
-        if reply['status']!=200 or not isinstance(data,dict):
+        if reply.get('managed') or reply['status']!=200 or not isinstance(data,dict):
             # Never interpret rejection, HTML challenge or a malformed reply as zero results.
             reason=self.t.redact(str(data.get('error','')) if isinstance(data,dict) else '')[:300]
-            raise self.t.VerificationRequired(f'Modern directory rejected {endpoint}: HTTP {reply["status"]} {reason}')
+            raise self.t.VerificationRequired(f'Modern directory rejected {endpoint}: HTTP {reply["status"]}, kind={reply.get("response_kind","unknown")}, managed={bool(reply.get("managed"))}, attempts={attempts} {reason}')
         self.authorized=True
         if hasattr(d,"event"):d.event("modern_directory_response",endpoint+" accepted")
         return data

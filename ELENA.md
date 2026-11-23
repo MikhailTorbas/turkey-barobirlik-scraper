@@ -58,6 +58,18 @@ These bars are not part of the 29-bar new-work split. Do not initialize them aga
 
 Michael covered all 21 earlier Elena bars. Hatay retains 400 stranded details; İzmir has review records and a dated-baseline gap. Muğla also has separate direct-parser evidence. Preserve these sources and coordinate recovery separately.
 
+## Transport recovery update — 23 November 2026
+
+Elena's 19 November log shows the redesigned adapter working: 1,149 checked profiles (535 with email, 611 explicitly blank, 3 invalid), 1,532 identities discovered, 1,997 searches and 383 details still pending. This is not full coverage against the 3,979-profile December 2025 baseline. The 383 details remain in stopped workers 1/2, not lost. Do not initialize replacement queues or reset their history.
+
+The JSON request path previously turned every fetch failure into a session-expiry signal. It now retries a transient network failure or non-challenge HTTP 522 once in the **same unchanged, online browser document**, under the original request deadline. It does not retry challenges, 429 rate limits, validation failures, disconnected documents or an exhausted deadline this way. Request attempts remain counted. HTTP 200 with non-JSON content is reported with response kind and challenge detection; it is never accepted as a successful empty search. Runtime/solver budgets and outer-challenge stops are unchanged.
+
+Live validation on 23 November: one injected transient search failure recovered in the same session, 84 listings were read over five pages (six network attempts including the retry), and two completed profiles with two emails were saved in an isolated SQLite checkpoint. Integrity check passed. Regression suite: 202 tests run, 33 skipped. No production queue was modified.
+
+The launcher requests `--session-ttl 900` (15 minutes); the elapsed timing of generic request-failure warnings is not proof of a five-minute TTL. The revised warning distinguishes a transport interruption from proven expiry. A 522 is an origin timeout, not a reason to purchase credits. Missing shared-account telemetry is still unknown usage, not exhaustion. Invalid source emails/KEPs remain auditable invalid values; do not fabricate replacements.
+
+Before resuming: stop controllers/workers, verify released leases, back up the full queue, pull the update while preserving local changes, and verify queue quality. Preserve `elena-istanbul2-342-01`, remaining runtime, all solver/runtime ledgers and completed records. `elena-pagination-fix-20261118` is consumed. A new recovery must be coordinated once; no repeated IDs, reset budgets, changed ownership or automatic retries of persistent outer blocks. Healthy access on Michael's Mac does not establish every future session on Elena's Mac will clear Cloudflare.
+
 ## Verified redesigned-directory fix — 18 November 2026
 
 This section supersedes the earlier "access not yet validated" diagnostic below. A live ZenRows + CapSolver session successfully searched bar 342, traversed both pagination formats, retrieved details and saved **9 distinct completed profiles / 4 unique professional emails** to an isolated SQLite checkpoint. There were 166 distinct listing observations; these are not 166 checked profiles. The sample does not establish bar coverage.
