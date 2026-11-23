@@ -132,8 +132,10 @@ def command(root,role,worker,bar,seconds,args):
          '--session-restarts','1','--access-retries','2','--access-cooldown','10','--startup-timeout','120',
          '--navigation-timeout','60','--retries','1','--retry-failed','--export-every','10']
     if not getattr(args,'uncapped',False):cmd+=['--provider-credit-cap',str(args.credit_cap)]
-    if role=='discovery':cmd+=['--no-details','--primary-field','both','--max-searches','30']
-    else:cmd+=['--resume-details-only','--max-details','240']
+    # Keep a verified browser until work drains or the existing phase deadline.
+    # Arbitrary item caps used to force another Cloudflare startup mid-queue.
+    if role=='discovery':cmd+=['--no-details','--primary-field','both']
+    else:cmd+=['--resume-details-only']
     if role=='discovery' and getattr(args,'roster_lookups',0):cmd+=['--max-roster-lookups',str(args.roster_lookups)]
     return cmd,folder
 
@@ -275,7 +277,8 @@ def supervise(root,registry,plan,args,endpoint):
     if recover_stopped(state,getattr(args,'recover_stopped','')):
         # Persist authorization/history before any paid child can be launched.
         atomic(state_path,state)
-    policy={'version':'2026-11-05-yield-guard','roster_lookups':getattr(args,'roster_lookups',0),'browser_slots':browser_slots,'discovery_idle_seconds':discovery_idle_seconds}
+    policy={'version':'2026-11-05-yield-guard','roster_lookups':getattr(args,'roster_lookups',0),'browser_slots':browser_slots,'discovery_idle_seconds':discovery_idle_seconds,
+            'phase_policy':'reuse_verified_session_until_work_or_runtime_limit'}
     if state.get('operating_policy')!=policy:
         state.setdefault('operating_policy_changes',[]).append({'at_unix':time.time(),'before':state.get('operating_policy'),'after':policy})
         state['operating_policy']=policy

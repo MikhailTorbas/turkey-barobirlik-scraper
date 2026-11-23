@@ -143,4 +143,16 @@ class RefillTests(unittest.TestCase):
             try:self.assertEqual(r.validate(root,registry,plan)['materialized'],21)
             finally:registry.close()
 
+    def test_verified_session_is_not_closed_at_artificial_item_cap(self):
+        args=SimpleNamespace(connection_file='c.json',solver_file='s.json',credit_cap=600000,solver_tasks=50,discovery_solver_tasks=30)
+        for role in ('discovery','1'):
+            cmd,_=r.command(Path('/tmp/refill'),role,1,'342',217,args)
+            self.assertNotIn('--max-searches',cmd)
+            self.assertNotIn('--max-details',cmd)
+            self.assertEqual(cmd[cmd.index('--max-runtime')+1],'217')
+            self.assertEqual(cmd[cmd.index('--session-ttl')+1],'900')
+            self.assertEqual(cmd[cmd.index('--session-restarts')+1],'1')
+            self.assertEqual(cmd[cmd.index('--provider-credit-cap')+1],'600000')
+            self.assertEqual(cmd[cmd.index('--max-captcha-tasks')+1], '30' if role=='discovery' else '50')
+
 if __name__=='__main__':unittest.main()
