@@ -58,6 +58,16 @@ These bars are not part of the 29-bar new-work split. Do not initialize them aga
 
 Michael covered all 21 earlier Elena bars. Hatay retains 400 stranded details; İzmir has review records and a dated-baseline gap. Muğla also has separate direct-parser evidence. Preserve these sources and coordinate recovery separately.
 
+## Verified-session reuse update — 23 November 2026
+
+Elena's subsequent report: 1,478 completed profiles, 694 with email / 691 unique addresses, 498 pending details and 1,968 pending searches. Approximately 6h10m remains in the same run. The December 2025 target is approximately 3,979; coverage is incomplete. `elena-transport-fix-20261123` is now consumed and must not be reused.
+
+A further avoidable startup source was found: refill phases closed a working browser after 30 searches or 240 detail attempts. The controller now keeps it until the assigned work drains or the **existing** phase runtime ends (at most 900 seconds, shortened to the remaining run allowance). This does not increase the overall allowance, session TTL, solver budgets, browser-slot limit or provider caps. The 900-second low-yield guard and managed-challenge stops remain. The controller records this phase-policy change without clearing prior stops, recovery history or ownership. Standalone scraper item-limit options still work when explicitly supplied.
+
+Validation: 203 tests run, 170 passed, 33 skipped, including retained runtime/cap/stop behavior. Separate live startup comparisons reached the real form in all three cases: Turkey/direct, Turkey/homepage-first, and default routing. Both Turkey sessions completed an 84-row/five-page search and a profile with an email; the default route was not tested through search because the two-task diagnostic solver budget was exhausted. Homepage-first was slower and is not adopted. No routing change is justified by this small sample. These checks are not a four-worker or eight-hour soak test, and do not establish that fresh sessions can never be blocked.
+
+Keep the saved queue and original run ID. Before any coordinated one-time resume, stop and verify all processes/leases, back up the full queue, then pull current main. Do not initialize again, edit the 498 pending detail identities, reset ledgers, silently clear a stop or invent repeated recovery IDs. This update reduces avoidable starts; a persistent initial Cloudflare block still requires provider/site diagnosis.
+
 ## Transport recovery update — 23 November 2026
 
 Elena's 19 November log shows the redesigned adapter working: 1,149 checked profiles (535 with email, 611 explicitly blank, 3 invalid), 1,532 identities discovered, 1,997 searches and 383 details still pending. This is not full coverage against the 3,979-profile December 2025 baseline. The 383 details remain in stopped workers 1/2, not lost. Do not initialize replacement queues or reset their history.

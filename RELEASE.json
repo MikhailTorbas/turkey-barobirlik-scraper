@@ -1,7 +1,7 @@
 {
   "release_date": "2026-11-23",
   "core_sha256": "324d6461741898020934a94f93b777aecff3e76509d8d89ecfab7c00ef2b8ef4",
-  "tests_expected": 202,
+  "tests_expected": 203,
   "fixtures": "synthetic names, contacts and identifiers",
   "runtime_data_included": false,
   "national_completeness_claim": false,
@@ -12,9 +12,9 @@
   "closure_audit": "Verified absences count as progress; isolated roster-only lookup mode preserves ordinary queries",
   "browser_slots": "Configurable 1..4 live children including discovery; retains all four durable worker queues and records policy changes. Two-bar performance remains experimental.",
   "discovery_yield_guard": "Pause after 900 active seconds without new identities or verified roster checks once known detail work is drained; pending queries remain saved; pause persists across ordinary resumes and requires recorded operator recovery.",
-  "tests_passed": 169,
+  "tests_passed": 170,
   "tests_skipped": 33,
-  "validated_code_commit": "cdb3a24",
+  "validated_code_commit": "d1af388d7ddd9b8ac15b62d256a822e3b4b70448",
   "modern_transport": "Redesigned JSON directory; fixed and incremental pagination; durable detail jobs; one same-document transient retry within original deadline; no blind challenge retries",
   "live_validation": {
     "date": "2026-11-23",
@@ -31,7 +31,8 @@
     "turkey_scraper.py": "324d6461741898020934a94f93b777aecff3e76509d8d89ecfab7c00ef2b8ef4",
     "modern_transport.py": "498b2c086c18ad2f2bcbb9c5e9d24b7d4cc63e94286bbcfc2a4d3ef868bac350",
     "retained_transport.py": "dd825a76cc90ea0fd7387f43d74b54dc662b97890a5da9514f9ff30a5a8c4545",
-    "refill_runner.py": "bfb979db2bb952c84ee11b6a72a787c74db5c60462bc0f0b8b5421ca02b27ba3",
+    "refill_runner.py": "0bee7ff85fbc058f595eac5322bda6fe416c318eaa787088ed91de7e20799ae6",
     "turnstile_solver.py": "0c9cbd887fc33adbabd032249c5b291a136edf4132ce9aa6796121f82867d5b9"
-  }
+  },
+  "phase_policy": "Reuse verified browser until work drains or existing phase/runtime limit; no artificial 30-search/240-detail restart; persistent stops unchanged"
 }

@@ -9,6 +9,12 @@ Current validation: **23 November 2026**, code commit `cdb3a24`.
 - All actual profiles, credentials and diagnostic queues remain outside Git. No production checkpoint, run ID, remaining allowance or provider cap was changed by these checks.
 - `RELEASE.json` hashes identify the current runtime source files. Test counts above supersede the historical entries below.
 
+## Verified-session reuse follow-up
+
+Controller commit `d1af388`: **203 tests run, 170 passed, 33 skipped**. The new regression verifies that phase item caps no longer force fresh starts, while the remaining runtime, session TTL, solver limits and provider cap remain enforced. Existing tests retain stopped-role and idempotent recovery behavior.
+
+Three isolated live startup comparisons reached the directory. Two Turkey-routed sessions (direct and homepage-first) each traversed 84 rows and a detail with an email. Default routing reached the form but was not searched after the separate diagnostic solver budget was exhausted. This is not proof of sustained access, reduced production block rates or a four-worker soak test. No production queue or stop was changed.
+
 ## Historical validation
 
 Version: 2026-11-02 production fixes.
